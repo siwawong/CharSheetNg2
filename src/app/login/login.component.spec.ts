@@ -2,6 +2,7 @@
 
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Router } from '@angular/router';
 
 import {
   beforeEach, beforeEachProviders,
@@ -14,7 +15,7 @@ import { LoginComponent } from './login.component';
 
 describe('Component: Login', () => {
   it('should create an instance', () => {
-    let component = new LoginComponent();
+    let component = new LoginComponent(new Router());
     expect(component).toBeTruthy();
   });
 });
