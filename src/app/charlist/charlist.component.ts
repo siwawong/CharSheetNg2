@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+export interface Character {
+  url: string;
+  id: string;
+  name: string;
+}
+
 @Component({
   moduleId: module.id,
   selector: 'app-charlist',
@@ -8,6 +14,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CharlistComponent implements OnInit {
 
+  characters: Array<Character> = [
+  ];
+  
   constructor() {}
 
   ngOnInit() {
