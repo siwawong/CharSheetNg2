@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+export interface Stat {
+  name:string;
+  value:number;
+  maximum:number;
+  type:string;
+}
 
 @Component({
   moduleId: module.id,
@@ -7,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['stat.component.css']
 })
 export class StatComponent implements OnInit {
+
+  @Input() stat: Stat;
 
   constructor() {}
 
