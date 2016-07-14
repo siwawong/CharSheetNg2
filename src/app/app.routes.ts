@@ -7,8 +7,17 @@ import { LoginComponent } from "./login"
 
 export const routes: RouterConfig = [
     { path: "",                  component: LoginComponent },
-    { path: "characterSelect",   component: CharlistComponent },
-    { path: "resourceList", component: CharsheetComponent },
+    { path: "characterSelect",   
+      component: CharlistComponent
+    //   children: [
+    //       {path: ':name', component: CharsheetComponent}
+    //   ] 
+    },
+    {
+        path: "characterSelect/:name",
+        component: CharsheetComponent
+    },
+    // { path: "resourceList", component: CharsheetComponent },
     { path: "addStat", component: AddstatComponent}
 ];
 

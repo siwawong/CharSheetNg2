@@ -1,3 +1,7 @@
-<p>
-  charlist works!
-</p>
+<ul> 
+  <li class="character" *ngFor="let character of characters">
+    <a [routerLink]="[character.url]">
+      {{character.name}}
+    </a>
+  </li>
+</ul>
