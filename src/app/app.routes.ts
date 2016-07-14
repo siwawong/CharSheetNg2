@@ -18,7 +18,8 @@ export const routes: RouterConfig = [
         component: CharsheetComponent
     },
     // { path: "resourceList", component: CharsheetComponent },
-    { path: "addStat", component: AddstatComponent}
+    {   path: "addStat", 
+        component: AddstatComponent}
 ];
 
 export const APP_ROUTER_PROVIDERS = [
