@@ -20,6 +20,8 @@ export class StatComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    console.log("Stat: ");
+    console.log(this.stat);
   }
 
 }

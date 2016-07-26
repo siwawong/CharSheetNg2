@@ -11,5 +11,5 @@ import { HttpService } from './http.service'
   providers: [HttpService]
 })
 export class AppComponent {
-  title = 'app works!';
+  title = 'Ng2 CharSheet';
 }
