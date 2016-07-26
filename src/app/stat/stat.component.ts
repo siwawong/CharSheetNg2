@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 export interface Stat {
   name:string;
@@ -16,12 +16,20 @@ export interface Stat {
 export class StatComponent implements OnInit {
 
   @Input() stat: Stat;
+  @Output() statUpdated = new EventEmitter();
+  editing: boolean = false;
 
   constructor() {}
 
   ngOnInit() {
-    console.log("Stat: ");
-    console.log(this.stat);
   }
+  // updates need to be separated if doing the ng Store approach. Which I think I do want to do
+  FinishEdit() {
+    this.editing = false;
+    // TODO: add step to check for any change
+    // could use form 'dirty' attribute
 
+    // always output a new object
+    this.statUpdated.next(Object.assign({}, this.stat))
+  }
 }

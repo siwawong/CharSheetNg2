@@ -1,16 +1,33 @@
-<span>
-  <span>{{stat?.name}}: </span>
+<div *ngIf="!editing">
   <span>
-    <span *ngIf="stat?.maximum > 0">
-      <span>{{stat?.value}} /</span>
-      <span> {{stat?.maximum}}</span>
-    </span>
-    <span *ngIf="stat?.maximum == 0">
-      <span>{{stat?.value}}</span>
-    </span>
+    <span>{{stat?.name}}: </span>
     <span>
-      {{stat?.type}}
+      <span *ngIf="stat?.maximum > 0">
+        <span>{{stat?.value}} /</span>
+        <span> {{stat?.maximum}}</span>
+      </span>
+      <span *ngIf="stat?.maximum == 0">
+        <span>{{stat?.value}}</span>
+      </span>
+      <span>
+        {{stat?.type}}
+      </span>
     </span>
-  </span>
-  <button></button>
+    <button (click)="editing = !editing">Edit</button>
 </span>
+</div>
+<div *ngIf="editing">
+  <span>
+    <span>{{stat?.name}}: </span>
+    <span>
+      <input [(ngModel)]="stat.value" type="number">
+      <span *ngIf="stat.maximum > 0">
+        <span> / <input [(ngModel)]="stat.maximum" type="number"></span>
+      </span>
+      <span>
+        {{stat?.type}}
+      </span>
+    </span>
+    <button (click)="FinishEdit()">Done</button>
+  </span>
+</div>

@@ -3,6 +3,6 @@
 </h1>
 <ul>
   <li *ngFor="let stat of (stats | async)">
-    <app-stat [stat]="stat"></app-stat>
+    <app-stat [stat]="stat" (statUpdated)="updateStat($event)"></app-stat>
   </li>
 </ul>
