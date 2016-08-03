@@ -3,8 +3,8 @@
     Login
   </h2>
 </div>
-<form>
-  <p>User: <input></p>
-  <p>Password: <input></p>
-  <button type="button" (click)="login()">Login</button>
+<form (ngSubmit)="login()" [ngFormModel]="userForm">
+  <p><label>User: </label><input ngControl="username" placeholder="{{suggestedUsername}}" type="text"></p>
+  <p><label>Password: </label><input ngControl="password" type="text"></p>
+  <button type="submit">Login</button>
 </form>
