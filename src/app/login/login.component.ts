@@ -46,10 +46,10 @@ export class LoginComponent implements OnInit {
     }
     else {
       this.loginService.getUserName(this.username.value).then(username => this.validUserName = username)
-        .then(username => {
-            if (username != "Invalid") {
+        .then(user => {
+            if (user != "Invalid") {
               //route to next area
-              this.router.navigateByUrl('characterSelect');
+              this.router.navigateByUrl(user);
             }
             else {
               this.reset("Invalid Username");
