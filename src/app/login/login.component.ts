@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormBuilder, Control, ControlGroup, Validators } from '@angular/common'
 import { LoginService } from '../login.service'
-import { User } from '../User';
 
 @Component({
   moduleId: module.id,
