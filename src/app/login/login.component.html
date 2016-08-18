@@ -3,8 +3,8 @@
     Login
   </h2>
 </div>
-<form (ngSubmit)="login()" [formGroup]="userForm">
-  <p><label>User: </label><input formControlName="username" placeholder="{{suggestedUsername}}" type="text"></p>
-  <p><label>Password: </label><input formControlName="password" type="text"></p>
+<form (ngSubmit)="login()" #userForm="ngForm">
+  <p><label>User: </label><input for="username" placeholder="{{suggestedUsername}}" type="text"></p>
+  <p><label>Password: </label><input for="password" type="text"></p>
   <button type="submit">Login</button>
 </form>
