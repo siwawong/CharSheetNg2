@@ -8,7 +8,6 @@ export interface Stat {
 }
 
 @Component({
-  moduleId: module.id,
   selector: 'app-stat',
   templateUrl: 'stat.component.html',
   styleUrls: ['stat.component.css']

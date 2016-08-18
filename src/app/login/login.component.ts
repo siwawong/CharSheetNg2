@@ -4,7 +4,6 @@ import { FormBuilder, Control, ControlGroup, Validators } from '@angular/common'
 import { LoginService } from '../login.service'
 
 @Component({
-  moduleId: module.id,
   selector: 'app-login',
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.css'],

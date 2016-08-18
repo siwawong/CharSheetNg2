@@ -5,7 +5,6 @@ import { Subscription, Observable } from 'rxjs/Rx';
 import { StatComponent, Stat } from '../stat'
 
 @Component({
-  moduleId: module.id,
   selector: 'app-charsheet',
   templateUrl: 'charsheet.component.html',
   directives: [StatComponent],

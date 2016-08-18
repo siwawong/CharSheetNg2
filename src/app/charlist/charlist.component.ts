@@ -6,7 +6,6 @@ import { Character } from '../character';
 import { CharacterListService } from '../character-list.service';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-charlist',
   directives: [ROUTER_DIRECTIVES],
   templateUrl: 'charlist.component.html',
