@@ -20,9 +20,9 @@
   <span>
     <span>{{stat?.name}}: </span>
     <span>
-      <input [(ngModel)]="stat.value" type="number">
+      <input name="stat.value" type="number">
       <span *ngIf="stat.maximum > 0">
-        <span> / <input [(ngModel)]="stat.maximum" type="number"></span>
+        <span> / <input name="stat.maximum" type="number"></span>
       </span>
       <span>
         {{stat?.type}}

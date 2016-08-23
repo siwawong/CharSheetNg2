@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { routing, APP_ROUTER_PROVIDERS } from './app.routes';
 
@@ -12,7 +12,7 @@ import { routing, APP_ROUTER_PROVIDERS } from './app.routes';
   imports: [
     BrowserModule,
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     routing,
   ],
   providers: [

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { FormBuilder, Control, ControlGroup, Validators } from '@angular/common'
+import { FormBuilder } from '@angular/common'
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../login.service'
 
 @Component({
@@ -11,9 +12,9 @@ import { LoginService } from '../login.service'
 })
 export class LoginComponent implements OnInit {
   
-   username: Control;
-   password: Control;
-   userForm: ControlGroup;
+   username: FormControl;
+   password: FormControl;
+   loginForm: FormGroup;
 
    defaultName: string = "";
    defaultPassword: string = "No Password Required";
@@ -23,13 +24,13 @@ export class LoginComponent implements OnInit {
    suggestedUsername: string = this.defaultSuggested;
     
   constructor(private router:Router, private loginService:LoginService, fb:FormBuilder) {
-      this.username = fb.control(this.defaultName, Validators.required);
-      this.password = fb.control(this.defaultPassword); //Server has no password check yet, so no validation
-      
-      this.userForm = fb.group({
-          username: this.username,
-          password: this.password
-      });
+      this.username = new FormControl(this.defaultName, Validators.required);
+      this.password = new FormControl(this.defaultPassword);
+
+      this.loginForm = new FormGroup({
+        username: this.username,
+        password: this.password
+      })
   }
 
   reset(usernameString: string) {
