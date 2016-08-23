@@ -1,24 +1,27 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ROUTER_DIRECTIVES, ActivatedRoute, Router } from '@angular/router'
+import { ROUTER_DIRECTIVES, ActivatedRoute, Router } from '@angular/router';
+
 import { HttpService } from '../http.service';
 import { Subscription } from 'rxjs/Rx';
 import { Character } from '../character';
 import { CharacterListService } from '../character-list.service';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-charlist',
   directives: [ROUTER_DIRECTIVES],
   templateUrl: 'charlist.component.html',
   styleUrls: ['charlist.component.css'],
-  providers: [CharacterListService]
+  //providers: [CharacterListService]
 })
 export class CharlistComponent implements OnInit {
   userSubscription: Subscription;
   userName: string;
   characters: Character[];
   
-  constructor(private _http: HttpService, private _router: Router, private characterListService: CharacterListService, private _activatedRouter: ActivatedRoute) {
+  constructor(private _http: HttpService, 
+              private _router: Router,  
+              private characterListService: CharacterListService, 
+              private _activatedRouter: ActivatedRoute) {
     // when this class is created, set the user name
   }
 // g3fv, name: Erin Mageton, url: erin
