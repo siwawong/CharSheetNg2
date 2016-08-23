@@ -23,8 +23,8 @@ export class CharsheetComponent implements OnInit {
     });
         // for now using a dummy list    
     let dummyStats:Array<Stat> = [
-      {name: 'shield', value: 70, maximum: 100, type: 'health'},
-      {name: 'sword', value: 60, maximum: 100, type: 'weapon'}
+      {name: 'shield', value: 70, max: 100, type: 'health'},
+      {name: 'sword', value: 60, max: 100, type: 'weapon'}
     ];
 
     this.stats = Observable.create(observer => {
