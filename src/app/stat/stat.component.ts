@@ -36,13 +36,13 @@ export class StatComponent implements OnInit {
       max:    this.max
     })
   }
-  // updates need to be separated if doing the ng Store approach. Which I think I do want to do
+
+  // updates need to be separated if doing the ng Store approach
   FinishEdit() {
     this.editing = false;
-    // // TODO: add step to check for any change
-    // // could use form 'dirty' attr
-    // // always output a new object
-    this.statUpdated.next(Object.assign({}, this.stat, 
-      {value: this.value.value, max: this.max.value}));
+    // always output a new object
+    this.stat = Object.assign({}, this.stat, {value: this.value.value, max: this.max.value});
+    // TODO: add step to check for any change
+    this.statUpdated.next(this.stat);
   }
 }
