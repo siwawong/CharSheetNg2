@@ -2,49 +2,49 @@ import { CharacterStat } from './character-stat'
 
 export const CHARACTERSTATS: { [id: string] : CharacterStat[] } = {
     'brahl': [
-        new CharacterStat('r0c6', 'Health', 242, 300, 'MDC'),
-        new CharacterStat('dr60', 'Attacks', 6, 6, 'Action'),
-        new CharacterStat('xn7t', 'PPE', 65, 235, 'PPE'),
-        new CharacterStat('icr8', 'Experience', 12000, 0, 'XP'),
-        new CharacterStat('lo5m', 'Savings', 4803951, 0, 'Credit'),
-        new CharacterStat('nn93', 'Belofski', 50, 50, 'Ammo'),
-        new CharacterStat('b0vq', 'Dragon Fire', 5, 5, 'Ammo')
+        {id: 'r0c6', name: 'Health', value: 242, maximum: 300, type: 'MDC'},
+        {id: 'dr60', name: 'Attacks', value: 6, maximum: 6, type: 'Action'},
+        {id: 'xn7t', name: 'PPE', value: 65, maximum: 235, type: 'PPE'},
+        {id: 'icr8', name: 'Experience', value: 12000, maximum: 0, type: 'XP'},
+        {id: 'lo5m', name: 'Savings', value: 4803951, maximum: 0, type: 'Credit'},
+        {id: 'nn93', name: 'Belofski', value: 50, maximum: 50, type: 'Ammo'},
+        {id: 'b0vq', name: 'Dragon Fire', value: 5, maximum: 5, type: 'Ammo'}
     ],
     'daren': [
-        new CharacterStat('845j', 'Health', 29, 90, 'MDC')
+        {id: '845j', name: 'Health', value: 29, maximum: 90, type: 'MDC'}
     ],
     'erin': [
-        new CharacterStat('5zt0', 'PPE', 160, 272, 'PPE'),
-        new CharacterStat('58a0', 'Battery', 500, 500, 'PPE'),
-        new CharacterStat('fhia', 'ISP', 191, 191, 'ISP'),
-        new CharacterStat('h203', 'Attacks', 3, 6, 'Attacks'),
-        new CharacterStat('2x1f', 'Lightning Strikes', 37, 40, 'Charge'),
-        new CharacterStat('x7wq', 'Experience', 29005, 0, 'XP'),
-        new CharacterStat('bizf', 'Savings', 155300, 0, 'Credit'),
-        new CharacterStat('i758', 'Spell Armor', 80, 80, 'MDC'),
-        new CharacterStat('ggtt', 'Barrier', 8, 60, 'MDC')
+        {id: '5zt0', name: 'PPE', value: 160, maximum: 272, type: 'PPE'},
+        {id: '58a0', name: 'Battery', value: 500, maximum: 500, type: 'PPE'},
+        {id: 'fhia', name: 'ISP', value: 191, maximum: 191, type: 'ISP'},
+        {id: 'h203', name: 'Attacks', value: 3, maximum: 6, type: 'Attacks'},
+        {id: '2x1f', name: 'Lightning Strikes', value: 37, maximum: 40, type: 'Charge'},
+        {id: 'x7wq', name: 'Experience', value: 29005, maximum: 0, type: 'XP'},
+        {id: 'bizf', name: 'Savings', value: 155300, maximum: 0, type: 'Credit'},
+        {id: 'i758', name: 'Spell Armor', value: 80, maximum: 80, type: 'MDC'},
+        {id: 'ggtt', name: 'Barrier',value:  8, maximum: 60, type: 'MDC'}
     ],
     'thom': [
-        new CharacterStat('9g5r', 'MDC', 213, 213, '!'),
-        new CharacterStat('edqu', 'ISP', 172, 172, '?'),
-        new CharacterStat('vst8', 'E Clip', 29, 30, '*'),
-        new CharacterStat('kmwd', 'Current Clip', 37, 40, ')')
+        {id: '9g5r', name: 'MDC', value: 213, maximum: 213, type: '!'},
+        {id: 'edqu', name: 'ISP', value: 172, maximum: 172, type: '?'},
+        {id: 'vst8', name: 'E Clip', value: 29, maximum: 30, type: '*'},
+        {id: 'kmwd', name: 'Current Clip', value: 37, maximum: 40, type: ')'}
     ],
     'onyx': [
-        new CharacterStat('3d9j', 'Rifle 2D4*10+20', 0, 0, 'Wronng1'),
-        new CharacterStat('4lgf', 'Tx-46 Rifle 1D4*10+8', 0, 0, 'Wrong2'),
-        new CharacterStat('n94k', 'Pistol 5D6', 0, 0, 'Wrong3'),
-        new CharacterStat('yvyf', 'Force Field', 50, 0, 'Wrong4'),
-        new CharacterStat('2fy1', 'Armor', 100, 100, 'MDC'),
-        new CharacterStat('pgos', 'HP', 141, 141, 'MDC')
+        {id: '3d9j', name: 'Rifle 2D4*10+20', value: 0, maximum: 0, type: 'Wronng1'},
+        {id: '4lgf', name: 'Tx-46 Rifle 1D4*10+8', value: 0, maximum: 0, type: 'Wrong2'},
+        {id: 'n94k', name: 'Pistol 5D6',value:  0, maximum: 0, type: 'Wrong3'},
+        {id: 'yvyf', name: 'Force Field', value: 50, maximum: 0, type: 'Wrong4'},
+        {id: '2fy1', name: 'Armor', value: 100, maximum: 100, type: 'MDC'},
+        {id: 'pgos', name: 'HP', value: 141, maximum: 141, type: 'MDC'}
     ],
     'ura': [
-        new CharacterStat('m6nh', 'Health', 165, 165, 'MDC'),
-        new CharacterStat('u598', 'PPE', 414, 414, 'PPE'),
-        new CharacterStat('quuk', 'ISP', 18, 18, 'ISP'),
-        new CharacterStat('7kre', 'Attacks', 5, 5, 'Actions'),
-        new CharacterStat('qvl3', 'Experience', 15000, 0, 'XP'),
-        new CharacterStat('cocz', 'Savings', 15000, 0, 'Credit'),
-        new CharacterStat('mjkd', 'NE4', 11, 0, 'Round')
+        {id: 'm6nh', name: 'Health', value: 165, maximum: 165, type: 'MDC'},
+        {id: 'u598', name: 'PPE', value: 414, maximum: 414, type: 'PPE'},
+        {id: 'quuk', name: 'ISP', value: 18, maximum: 18, type: 'ISP'},
+        {id: '7kre', name: 'Attacks', value: 5, maximum: 5, type: 'Actions'},
+        {id: 'qvl3', name: 'Experience', value: 15000, maximum: 0, type: 'XP'},
+        {id: 'cocz', name: 'Savings', value: 15000, maximum: 0, type: 'Credit'},
+        {id: 'mjkd', name: 'NE4', value: 11, maximum: 0, type: 'Round'}
     ]
 }

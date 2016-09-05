@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs/Rx';
 
-import { StatComponent, Stat } from '../stat'
+import { CHARACTERSTATS } from '../mock-characterstats';
+import { CharacterStat } from '../character-stat'
+import { StatComponent } from '../stat';
 
 @Component({
   selector: 'app-charsheet',
@@ -13,30 +15,23 @@ import { StatComponent, Stat } from '../stat'
 export class CharsheetComponent implements OnInit {
   idSubscription: Subscription;
   name: string;
-  stats: Observable<Array<Stat>>;
+  stats: Observable<CharacterStat[]>;
   
   constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.idSubscription = this.activatedRoute.params.subscribe(params => {
-      this.name = params['name']
-    });
-        // for now using a dummy list    
-    let dummyStats:Array<Stat> = [
-      {name: 'shield', value: 70, max: 100, type: 'health'},
-      {name: 'sword', value: 60, max: 100, type: 'weapon'}
-    ];
-
-    this.stats = Observable.create(observer => {
-      // emit dummy data
-      // this will be fetched from an http request eventually
-      observer.next(dummyStats);
+      this.name = params['name'];
+      this.stats = Observable.create(observer => {
+        observer.next(CHARACTERSTATS[params['user']]);  
+      });
     });
   }
   
-  updateStat(newStat: Stat) {
+  updateStat(newStat: CharacterStat) {
     // TODO: update store with new stat
-    console.log(newStat);
+    // do 'ADD_STAT' type action
+    // console.log(newStat);
   }
 
   ngOnDestroy() {

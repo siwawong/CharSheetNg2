@@ -2,11 +2,11 @@
   <span>
     <span>{{stat?.name}}: </span>
     <span>
-      <span *ngIf="stat?.max > 0">
+      <span *ngIf="stat?.maximum > 0">
         <span>{{stat?.value}} /</span>
-        <span> {{stat?.max}}</span>
+        <span> {{stat?.maximum}}</span>
       </span>
-      <span *ngIf="stat?.max == 0">
+      <span *ngIf="stat?.maximum == 0">
         <span>{{stat?.value}}</span>
       </span>
       <span>
@@ -22,7 +22,7 @@
       <span>{{stat?.name}}: </span>
       <span>
         <input formControlName="value" type="number">
-        <span *ngIf="stat.max > 0">
+        <span *ngIf="stat.maximum > 0">
           <span> / <input formControlName="max" type="number"></span>
         </span>
         <span>

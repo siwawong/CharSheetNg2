@@ -1,13 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
-
-export interface Stat {
-  name:   string;
-  value:  number;
-  max:    number;
-  type:   string;
-}
+import { CharacterStat } from '../character-stat';
 
 @Component({
   selector: 'app-stat',
@@ -16,12 +10,12 @@ export interface Stat {
 })
 export class StatComponent implements OnInit {
 
-  @Input()  stat: Stat;
+  @Input()  stat: CharacterStat;
   @Output() statUpdated = new EventEmitter();
   editing:  boolean = false;
   statForm: FormGroup;
   value:    FormControl;
-  max:      FormControl;
+  maximum:      FormControl;
 
 
   constructor(private formBuilder: FormBuilder) {
@@ -29,11 +23,11 @@ export class StatComponent implements OnInit {
 
   ngOnInit() {
     this.value = new FormControl(this.stat.value);
-    this.max = new FormControl(this.stat.max);
+    this.maximum = new FormControl(this.stat.maximum);
 
     this.statForm = this.formBuilder.group({
       value:  this.value,
-      max:    this.max
+      max:    this.maximum
     })
   }
 
@@ -41,7 +35,7 @@ export class StatComponent implements OnInit {
   FinishEdit() {
     this.editing = false;
     // always output a new object
-    this.stat = Object.assign({}, this.stat, {value: this.value.value, max: this.max.value});
+    this.stat = Object.assign({}, this.stat, {value: this.value.value, maximum: this.maximum.value});
     // TODO: add step to check for any change
     this.statUpdated.next(this.stat);
   }
