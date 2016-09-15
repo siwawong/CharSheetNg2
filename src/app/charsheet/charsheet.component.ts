@@ -27,13 +27,10 @@ export class CharsheetComponent implements OnInit {
   }
   
   updateStat(newStat: CharacterStat) {
-    // TODO: update store with new stat
-    // do 'ADD_STAT' action
-    // console.log(newStat);
+    this.characterStats.updateStat(this.name, newStat);
   }
 
   ngOnDestroy() {
     this.idSubscription.unsubscribe();
   }
-
 }

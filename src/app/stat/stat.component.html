@@ -2,11 +2,11 @@
   <span>
     <span>{{stat?.name}}: </span>
     <span>
-      <span *ngIf="stat?.maximum > 0">
+      <span *ngIf="stat.maximum > 0">
         <span>{{stat?.value}} /</span>
         <span> {{stat?.maximum}}</span>
       </span>
-      <span *ngIf="stat?.maximum == 0">
+      <span *ngIf="stat.maximum == 0">
         <span>{{stat?.value}}</span>
       </span>
       <span>

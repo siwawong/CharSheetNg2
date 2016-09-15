@@ -1,6 +1,6 @@
 import { CharacterStat } from './character-stat'
 
-export const CHARACTERSTATS: { [id: string] : CharacterStat[] } = {
+export var CHARACTERSTATS: { [id: string] : CharacterStat[] } = {
     'brahl': [
         {id: 'r0c6', name: 'Health', value: 242, maximum: 300, type: 'MDC'},
         {id: 'dr60', name: 'Attacks', value: 6, maximum: 6, type: 'Action'},

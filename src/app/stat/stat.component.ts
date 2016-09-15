@@ -34,9 +34,7 @@ export class StatComponent implements OnInit {
   // updates need to be separated if doing the ng Store approach
   FinishEdit() {
     this.editing = false;
-    // always output a new object
-    // TODO: remove this assignment - allow Observable updates to flow in and make updates
-    this.stat = Object.assign({}, this.stat, {value: this.value.value, maximum: this.maximum.value});
-    this.statUpdated.next(this.stat);
+    // emit new object
+    this.statUpdated.next(Object.assign({}, this.stat, {value: this.value.value, maximum: this.maximum.value}));
   }
 }
