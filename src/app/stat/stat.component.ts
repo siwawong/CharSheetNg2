@@ -28,15 +28,15 @@ export class StatComponent implements OnInit {
     this.statForm = this.formBuilder.group({
       value:  this.value,
       max:    this.maximum
-    })
+    });
   }
 
   // updates need to be separated if doing the ng Store approach
   FinishEdit() {
     this.editing = false;
     // always output a new object
+    // TODO: remove this assignment - allow Observable updates to flow in and make updates
     this.stat = Object.assign({}, this.stat, {value: this.value.value, maximum: this.maximum.value});
-    // TODO: add step to check for any change
     this.statUpdated.next(this.stat);
   }
 }

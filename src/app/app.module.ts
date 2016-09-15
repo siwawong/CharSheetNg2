@@ -6,6 +6,9 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { routing, APP_ROUTER_PROVIDERS } from './app.routes';
+import { CharacterListService } from './character-list.service';
+import { CharacterStatsService } from './character-stats.service';
+import { LoginService} from './login.service';
 import { HttpService } from './http.service'
 
 
@@ -22,7 +25,10 @@ import { HttpService } from './http.service'
   ],
   providers: [
     APP_ROUTER_PROVIDERS,
-    HttpService
+    HttpService,
+    CharacterListService,
+    CharacterStatsService,
+    LoginService
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

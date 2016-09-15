@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs/Rx';
 
-import { CHARACTERSTATS } from '../mock-characterstats';
+import { CharacterStatsService } from '../character-stats.service';
 import { CharacterStat } from '../character-stat'
 import { StatComponent } from '../stat';
 
@@ -17,20 +17,18 @@ export class CharsheetComponent implements OnInit {
   name: string;
   stats: Observable<CharacterStat[]>;
   
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute, private characterStats: CharacterStatsService) {}
 
   ngOnInit() {
     this.idSubscription = this.activatedRoute.params.subscribe(params => {
-      this.name = params['name'];
-      this.stats = Observable.create(observer => {
-        observer.next(CHARACTERSTATS[params['user']]);  
-      });
+      this.name = params['user']; // switch to name at some point
+      this.stats = this.characterStats.getCharacterStats(this.name);
     });
   }
   
   updateStat(newStat: CharacterStat) {
     // TODO: update store with new stat
-    // do 'ADD_STAT' type action
+    // do 'ADD_STAT' action
     // console.log(newStat);
   }
 
