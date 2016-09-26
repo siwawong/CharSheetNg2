@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 import { HttpService } from '../http.service';
 import { Subscription } from 'rxjs/Rx';
@@ -16,7 +17,7 @@ import { CharacterListService } from '../character-list.service';
 export class CharlistComponent implements OnInit {
   userSubscription: Subscription;
   userName: string;
-  characters: Character[];
+  characters: Observable<Character[]>;
   
   constructor(private _http: HttpService, 
               private _router: Router,  
@@ -28,10 +29,9 @@ export class CharlistComponent implements OnInit {
 
   ngOnInit() {
     this.userSubscription = this._activatedRouter.params.subscribe(params => {
-      this.userName = params['user'];
+      // this.userName = params['user'];
+      this.characters = this.characterListService.getUserCharacters(params['users']);
     });
-    this.characterListService.getUserCharacters(this.userName)
-      .then(userCharacters => this.characters = userCharacters);
   }
   
   onClick(name: string) {
