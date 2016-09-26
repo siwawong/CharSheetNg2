@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Character } from './character';
 import { CHARACTERS } from './mock-characters';
 
 @Injectable()
-export class CharacterListService {
+export class CharacterListService {  
+  characters: BehaviorSubject<Character[]>;
+
+  constructor() {
+    this.characters = new BehaviorSubject<Character[]>(CHARACTERS);
+  }
 
   getCharacters() {
-    return Promise.resolve(CHARACTERS);
+    return this.characters.asObservable();
   }
   
   getUserCharacters(username: string) {
-    return this.getCharacters()
-      .then(allCharacters => allCharacters[username])
-      .catch(usersCharacter => usersCharacter = new Array<Character>());
+    // at the moment, username is not actually being used to fetch the correct set of characters.
+    // for now assuming one character
+    return this.getCharacters();
   }  
 }
