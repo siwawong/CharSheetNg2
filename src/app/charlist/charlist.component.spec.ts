@@ -5,6 +5,7 @@ import { DebugElement } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Router }      from '@angular/router';
 import { CharacterListService } from '../character-list.service';
+import { ActivatedRoute } from '@angular/router'
 
 
 import {
@@ -20,6 +21,7 @@ describe('Component: Charlist', () => {
   let _router: Router;
   let _httpService: HttpService;
   let characterListService: CharacterListService;
+  let activateRoute: ActivatedRoute;
   
   beforeEachProviders(()=> [HttpService, Router])
   
@@ -29,7 +31,7 @@ describe('Component: Charlist', () => {
   }))
   
   it('should create an instance', () => {
-    let component = new CharlistComponent(_httpService, _router, characterListService);
+    let component = new CharlistComponent(_httpService, _router, characterListService, activateRoute);
     expect(component).toBeTruthy();
   });
 });
