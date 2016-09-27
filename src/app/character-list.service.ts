@@ -21,5 +21,5 @@ export class CharacterListService {
     // at the moment, username is not actually being used to fetch the correct set of characters.
     // for now assuming one character
     return this.getCharacters();
-  }  
+  } 
 }

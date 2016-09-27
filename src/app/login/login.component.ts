@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormBuilder } from '@angular/common'
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
+
 import { LoginService } from '../login.service'
 
 @Component({
@@ -45,16 +47,14 @@ export class LoginComponent implements OnInit {
       this.reset("Please Enter A Username");
     }
     else {
-      this.loginService.getUserName(this.username.value).then(username => this.validUserName = username)
-        .then(user => {
-            if (user != "Invalid") {
-              //route to next area
-              this.router.navigateByUrl(user);
-            }
-            else {
-              this.reset("Invalid Username");
-            }
-        });
+      this.loginService.getUserName(this.username.value).subscribe( username => {
+        if (username !== undefined) {
+          this.router.navigateByUrl(username);
+        } else {
+          // error - this could be an observable error?
+          this.reset("Invalid Username");
+        }
+      });
     }
   }
 
