@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         if (username !== undefined) {
           this.router.navigateByUrl(username);
         } else {
-          // error - this could be an observable error?
+          // error - this could be an observable error instead of a static string?
           this.reset("Invalid Username");
         }
       });

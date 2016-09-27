@@ -43,7 +43,6 @@ export class CharlistComponent implements OnInit {
     // :name = erin
     // 
     // route to the next page
-    //this._router.navigateByUrl('characterSelect/' + name)
     this._router.navigateByUrl(this.userName + '/' + name)
   }
 
