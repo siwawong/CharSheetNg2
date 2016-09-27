@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { CharlistComponent } from './charlist/charlist.component';
 import { CharsheetComponent } from './charsheet/charsheet.component';
 import { AddstatComponent } from './addstat/addstat.component';
+import { StatComponent } from './stat/stat.component';
 
 import { routing, APP_ROUTER_PROVIDERS } from './app.routes';
 import { CharacterListService } from './character-list.service';
@@ -23,7 +24,8 @@ import { HttpService } from './http.service'
     LoginComponent,
     CharlistComponent,
     CharsheetComponent,
-    AddstatComponent
+    AddstatComponent,
+    StatComponent
   ],
   imports: [
     BrowserModule,

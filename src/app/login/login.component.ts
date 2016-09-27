@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { FormBuilder } from '@angular/common'
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
 import { LoginService } from '../login.service'
@@ -36,8 +35,8 @@ export class LoginComponent implements OnInit {
   }
 
   reset(usernameString: string) {
-    this.username.updateValue(this.defaultName);
-    this.password.updateValue(this.defaultPassword);
+    this.username.setValue(this.defaultName);
+    this.password.setValue(this.defaultPassword);
     this.suggestedUsername = usernameString;
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs/Rx';
 
 import { CharacterStatsService } from '../character-stats.service';
@@ -9,7 +9,6 @@ import { StatComponent } from '../stat';
 @Component({
   selector: 'app-charsheet',
   templateUrl: 'charsheet.component.html',
-  directives: [StatComponent],
   styleUrls: ['charsheet.component.css'],
 })
 export class CharsheetComponent implements OnInit {

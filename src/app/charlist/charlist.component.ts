@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ROUTER_DIRECTIVES, ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { HttpService } from '../http.service';
@@ -9,7 +9,6 @@ import { CharacterListService } from '../character-list.service';
 
 @Component({
   selector: 'app-charlist',
-  directives: [ROUTER_DIRECTIVES],
   templateUrl: 'charlist.component.html',
   styleUrls: ['charlist.component.css'],
   //providers: [CharacterListService]
