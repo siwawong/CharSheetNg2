@@ -8,18 +8,49 @@ import { CHARACTERS } from './mock-characters';
 @Injectable()
 export class CharacterListService {  
   characters: BehaviorSubject<Character[]>;
-
+  _mutable_characters: Character[];
+  
   constructor() {
-    this.characters = new BehaviorSubject<Character[]>(CHARACTERS);
-  }
-
-  getCharacters() {
-    return this.characters.asObservable();
+    this._mutable_characters = CHARACTERS;
+    this.characters = new BehaviorSubject<Character[]>(this._mutable_characters);
   }
   
+  getCharacter(character: Character) {
+    return this._mutable_characters.find(char => char.id === character.id);
+  }
+
   getUserCharacters(username: string) {
     // at the moment, username is not actually being used to fetch the correct set of characters.
+    // TODO: implement filter on server side 
     // for now assuming one character
-    return this.getCharacters();
-  } 
+    return this.characters.asObservable();
+  }
+
+  addCharacter(character: Character) {
+    this._mutable_characters = [
+      ...this._mutable_characters,
+      character
+    ];
+
+    this.characters.next(this._mutable_characters);
+  }
+
+  updateCharacter(character: Character) {
+    this._mutable_characters = this._mutable_characters.map(char => {
+      if(char.id === character.id) {
+        return character;
+      } else {
+        return char;
+      }
+    });
+
+    this.characters.next(this._mutable_characters);
+  }
+
+  removeCharacter(character: Character) {
+    this._mutable_characters = 
+      this._mutable_characters.filter(char => char.id !== character.id);
+
+    this.characters.next(this._mutable_characters);
+  }
 }
