@@ -49,4 +49,9 @@ export class CharlistComponent implements OnInit {
     this.userSubscription.unsubscribe();
   }
 
+  addCharacter() {
+    console.log('add character');    
+    this._router.navigate(['addCharacter']);
+  }
+
 }

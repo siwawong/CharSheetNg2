@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs/Subscription';
+
+import { CharacterListService } from '../character-list.service';
 
 @Component({
   selector: 'app-add-character',
@@ -9,18 +11,23 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./add-character.component.css']
 })
 export class AddCharacterComponent implements OnInit {
-  charName: FormControl;
+  charName: FormControl = new FormControl('', Validators.required);
   addCharForm: FormGroup;
 
-  constructor(private router: Router) {
-    this.charName = new FormControl(Validators.required);
+  constructor(private formBuilder: FormBuilder, 
+              private router: Router, 
+              private characterListService: CharacterListService) {
+  }
 
-    this.addCharForm = new FormGroup({
+  ngOnInit() {
+    this.addCharForm = this.formBuilder.group({
       name: this.charName
     });
   }
 
-  ngOnInit() {
+  addCharacter() {
+    console.log(this.charName.value);
+    this.characterListService.addCharacter(this.charName.value);
+    this.router.navigate(['character-list']);
   }
-
 }

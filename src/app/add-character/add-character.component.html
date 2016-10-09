@@ -1,3 +1,5 @@
-<p>
-  add-character works!
-</p>
+<h2> Add Character </h2>
+<form (ngSubmit)="addCharacter()" [formGroup]="addCharForm">
+  <p><label>Character:</label><input formControlName="name" type="text"/></p>
+  <button type="submit">Create Account</button>
+</form>
