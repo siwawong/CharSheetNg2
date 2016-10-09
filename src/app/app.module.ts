@@ -15,7 +15,8 @@ import { routing, APP_ROUTER_PROVIDERS } from './app.routes';
 import { CharacterListService } from './character-list.service';
 import { CharacterStatsService } from './character-stats.service';
 import { LoginService} from './login.service';
-import { HttpService } from './http.service'
+import { HttpService } from './http.service';
+import { AddCharacterComponent } from './add-character/add-character.component'
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { HttpService } from './http.service'
     CharlistComponent,
     CharsheetComponent,
     AddstatComponent,
-    StatComponent
+    StatComponent,
+    AddCharacterComponent
   ],
   imports: [
     BrowserModule,
