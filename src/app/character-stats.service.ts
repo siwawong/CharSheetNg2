@@ -25,9 +25,7 @@ export class CharacterStatsService {
 
   updateStat(characterName: string, newStat: CharacterStat) {
     CHARACTERSTATS[characterName] = CHARACTERSTATS[characterName].map(stat => {
-      if (stat.id === newStat.id) {
-        return newStat;
-      }
+      return (stat.id === newStat.id) ? newStat : stat;
     });
 
     this.stats.next(CHARACTERSTATS[characterName]);

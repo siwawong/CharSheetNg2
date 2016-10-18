@@ -9,7 +9,8 @@ import { CHARACTERS } from './mock-characters';
 export class CharacterListService {  
   characters: BehaviorSubject<Character[]>;
   _mutable_characters: Character[];
-  
+  _temp_id_count: number = 0;
+
   constructor() {
     this._mutable_characters = CHARACTERS;
     this.characters = new BehaviorSubject<Character[]>(this._mutable_characters);
@@ -26,13 +27,20 @@ export class CharacterListService {
     return this.characters.asObservable();
   }
 
-  addCharacter(character: Character) {
+  addCharacter(characterName: string) {
+    let character = {
+      id: this._temp_id_count.toString(),
+      name: characterName,
+      url: '',
+    }
+
     this._mutable_characters = [
       ...this._mutable_characters,
       character
     ];
 
     this.characters.next(this._mutable_characters);
+    this._temp_id_count += 1;
   }
 
   updateCharacter(character: Character) {
