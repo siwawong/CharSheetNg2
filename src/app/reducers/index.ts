@@ -12,10 +12,15 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import { combineReducers } from '@ngrx/store';
 
+// models
+import { User } from '../models/user';
+import { Character } from '../models/character';
+import { CharacterStat} from '../models/character-stat';
+
 // child reducers
 import * as fromUsers from './users';
 import * as fromChars from './characters';
-import * as fromStats from './stats';
+import * as fromStats from './character-stats';
 
 // Notes taken from this repo: https://github.com/ngrx/example-app
 
@@ -54,7 +59,7 @@ export const getUserIds = compose(fromUsers.getIds, getUsersState);
 
 // return array of current users
 export function getUsers(state$: Observable<State>) {
-    return combineLatest<{[id: string]: UserModel}, string[]> (
+    return combineLatest<{[id: string]: User}, string[]> (
         state$.let(getUserEntities),
         state$.let(getUserIds)
     )
@@ -70,7 +75,7 @@ export const getCharIds = compose(fromChars.getIds, getCharState);
 
 // return array of current users
 export function getChars(state$: Observable<State>) {
-    return combineLatest<{[id: string]: CharModel}, string[]> (
+    return combineLatest<{[id: string]: Character}, string[]> (
         state$.let(getCharEntities),
         state$.let(getCharIds)
     )
@@ -82,14 +87,14 @@ export function getStatState(state$: Observable<State>) {
     return state$.select(state => state.stats);
 }
 
-export const getStatEntities = compose(fromStats.getEntites, getStatState);
+export const getStatEntities = compose(fromStats.getEntities, getStatState);
 export const getStatIds = compose(fromStats.getIds, getStatState);
 
 // return array of current users
 export function getStats(state$: Observable<State>) {
-    return combineLatest<{[id: string]: UserModel}, string[]> (
-        state$.let(getUserEntities),
-        state$.let(getUserIds)
+    return combineLatest<{[id: string]: CharacterStat}, string[]> (
+        state$.let(getStatEntities),
+        state$.let(getStatIds)
     )
     .map(([ entities, ids ]) => ids.map(id => entities[id]));
 }

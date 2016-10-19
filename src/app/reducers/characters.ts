@@ -4,50 +4,50 @@ import 'rxjs/add/operator/let';
 import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 
-import * as user from '../actions/users';
-import { User } from '../models/user';
+import * as character from '../actions/character';
+import { Character } from '../models/character';
 
 export interface State {
     ids: string[];
-    entities: { [id: string]: User};
-    selectedUserId: string | null;
+    entities: { [id: string]: Character};
+    selectedCharId: string | null;
 };
 
 const initialState: State = {
     ids: [],
     entities: {},
-    selectedUserId: null,
+    selectedCharId: null,
 };
 
-export function reducer(state = initialState, action: user.Actions): State {
+export function reducer(state = initialState, action: character.Actions): State {
     switch (action.type) {
-        case user.ActionTypes.ADD: {
-            const newUser = action.payload;
+        case character.ActionTypes.ADD: {
+            const newChar = action.payload;
 
             return {
-                ids: [...state.ids, newUser.id],
-                entities: Object.assign({}, state.entities, {[newUser.id]: newUser}),
-                selectedUserId: state.selectedUserId,
+                ids: [...state.ids, newChar.id],
+                entities: Object.assign({}, state.entities, {[newChar.id]: newChar}),
+                selectedCharId: state.selectedCharId,
             }
         }
-        case user.ActionTypes.UPDATE: {
+        case character.ActionTypes.UPDATE: {
             const updatedChar = action.payload;
 
             return {
                 ids: [...state.ids],
                 entities: Object.assign({}, state.entities, {[updatedChar.id]: updatedChar}),
-                selectedUserId: state.selectedUserId
+                selectedCharId: state.selectedCharId
             }
         }
 
-        case user.ActionTypes.REMOVE: {
+        case character.ActionTypes.REMOVE: {
             const id = action.id;
-            const selectedUserId = (action.id === state.selectedUserId) ? null : state.selectedUserId;
+            const selectedCharId = (action.id === state.selectedCharId) ? null : state.selectedCharId;
 
             return {
                 ids: state.ids.filter(id => id !== id),
                 entities: Object.assign({}, state.entities, {[id]: undefined}),
-                selectedUserId: selectedUserId
+                selectedCharId: selectedCharId
             }
         }
     }
