@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { CHARACTERSTATS } from './mock-characterstats';
-import { CharacterStat } from './character-stat';
+import { CharacterStat } from './models/character-stat';
 
 @Injectable()
 export class CharacterStatsService {

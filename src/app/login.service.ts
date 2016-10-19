@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { User } from './User';
+import { User } from './models/user';
 import { USERS } from './mock-users';
 
 @Injectable()

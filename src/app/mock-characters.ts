@@ -1,4 +1,4 @@
-import { Character } from './character'
+import { Character } from './models/character'
 
 // export const CHARACTERS: { [id: string] : Character[] } = {
 //     "andy"  : [{id: 'gr4b', name: "B'Rahl",              url: 'brahl'}],

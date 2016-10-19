@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { HttpService } from '../http.service';
 import { Subscription } from 'rxjs/Rx';
-import { Character } from '../character';
+import { Character } from '../models/character';
 import { CharacterListService } from '../character-list.service';
 
 @Component({
