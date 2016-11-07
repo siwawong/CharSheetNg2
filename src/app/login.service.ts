@@ -21,6 +21,7 @@ export class LoginService {
     this.users = store$.let(fromRoot.getUsers);
     this.users.subscribe(users => {
       this.usersArr = users;
+      console.log(this.usersArr);
     });
 
     USERS.map(user => {

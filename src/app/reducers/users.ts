@@ -58,6 +58,8 @@ export function reducer(state = initialState, action: user.Actions): State {
                 selectedUserId: action.payload
             }
         }
+        default:
+            return state;
     }
 }
 

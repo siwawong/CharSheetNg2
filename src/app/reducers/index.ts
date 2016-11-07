@@ -70,26 +70,27 @@ export function reducer(state: any, action: any) {
 /**
  * Start User accessors and selectors 
  */
+
 export function getUsersState(state$: Observable<State>) {
     return state$.select(state => state.users);
 }
 
-// returns an array of all current users
 export const getUserEntities = compose(fromUsers.getEntities, getUsersState);
-export const getUserIds = compose(fromUsers.getIds, getUsersState);
-export const getUsers = compose(fromUsers.getUsers, getUsersState);
-export const getUser = compose(fromUsers.getSelectedUser, getUsersState);
+export const getUserIds      = compose(fromUsers.getIds, getUsersState);
+export const getUsers        = compose(fromUsers.getUsers, getUsersState);
+export const getUser         = compose(fromUsers.getSelectedUser, getUsersState);
 
 /**
  * Start Character accessors and selectors
  */
+
 export function getCharState(state$: Observable<State>) {
     return state$.select(state => state.characters);
 }
 
 export const getCharEntities = compose(fromChars.getEntities, getCharState);
-export const getCharIds = compose(fromChars.getIds, getCharState);
-export const getChars = compose(fromChars.getCharacters, getCharState);
+export const getCharIds      = compose(fromChars.getIds, getCharState);
+export const getChars        = compose(fromChars.getCharacters, getCharState);
 
 /**
  * Start CharacterStat accessors and selectors
@@ -99,5 +100,5 @@ export function getStatState(state$: Observable<State>) {
 }
 
 export const getStatEntities = compose(fromStats.getEntities, getStatState);
-export const getStatIds = compose(fromStats.getIds, getStatState);
-export const getStats = compose(fromStats.getStats, getStatState);
+export const getStatIds      = compose(fromStats.getIds, getStatState);
+export const getStats        = compose(fromStats.getStats, getStatState);

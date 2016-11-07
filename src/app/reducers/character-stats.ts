@@ -50,6 +50,8 @@ export function reducer(state = initialState, action: stat.Actions): State {
                 selectedStatId: selectedStatId
             }
         }
+        default:
+            return state;
     }
 }
 

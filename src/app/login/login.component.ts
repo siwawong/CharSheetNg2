@@ -12,7 +12,6 @@ import { LoginService } from '../login.service'
   providers: [LoginService, FormBuilder]
 })
 export class LoginComponent implements OnInit {
-  
    username: FormControl;
    password: FormControl;
    loginForm: FormGroup;
