@@ -1,15 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Store } from '@ngrx/store';
 
 import { User } from './models/user';
 import { USERS } from './mock-users';
+import * as fromRoot from './reducers';
+import * as users from './actions/users';
 
 @Injectable()
 export class LoginService {
   // TODO - might make sense to move into it's own service a sort of 
   // 'user.service' that contains accessors to user information
-  user: BehaviorSubject<string>;
+  // user: BehaviorSubject<string>;
+  users: Observable<User[]>;
+  usersArr: User[];
+  _id: number = 0;
+
+  constructor(private store$: Store<fromRoot.State>) {
+    this.users = store$.let(fromRoot.getUsers);
+    this.users.subscribe(users => {
+      this.usersArr = users;
+    });
+
+    USERS.map(user => {
+      this.store$.dispatch(new users.UserAdd(user));
+    });
+  }
 
   // TODO: Handle invalid usernames
   getUsers() {
@@ -22,16 +39,23 @@ export class LoginService {
   }
   
   getUserName(name: string) {
-    let currentLogin: string;
+    let currentLogin: User;
 
-    if(this.user !== undefined) {
-      this.user.unsubscribe();
-    }
+    currentLogin = this.usersArr.find(user => user.login === name);
+    
+    // return observable stream
+    return this.store$.let(fromRoot.getUser);
+    // or... return Observable
+    // have a current user field in table
 
-    let userName = USERS.filter(user => user.login === name);
+    // if(this.user !== undefined) {
+    //   this.user.unsubscribe();
+    // }
 
-    // hard coding - might break if multiple subscriptions
-    this.user = new BehaviorSubject<string>('daren');
-    return this.user.asObservable();
+    // let userName = USERS.filter(user => user.login === name);
+
+    // // hard coding - might break if multiple subscriptions
+    // this.user = new BehaviorSubject<string>('daren');
+    // return this.user.asObservable();
   }
 }

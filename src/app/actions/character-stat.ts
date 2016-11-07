@@ -11,9 +11,9 @@ import { type } from '../util';
  * action types in the application are unique. 
  */
 export const ActionTypes = {
-  ADD:           type('[Character] Add'),
-  REMOVE:        type('[Character] Remove'),
-  UPDATE:        type('[Character] Update'),
+  ADD:           type('[Character-Stat] Add'),
+  REMOVE:        type('[Character-Stat] Remove'),
+  UPDATE:        type('[Character-Stat] Update'),
 };
 
 export class StatAdd implements Action {

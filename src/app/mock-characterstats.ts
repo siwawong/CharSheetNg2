@@ -1,4 +1,4 @@
-import { CharacterStat } from './character-stat'
+import { CharacterStat } from './models/character-stat'
 
 export var CHARACTERSTATS: { [id: string] : CharacterStat[] } = {
     'brahl': [

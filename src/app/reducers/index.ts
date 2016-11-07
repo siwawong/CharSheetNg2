@@ -3,6 +3,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/let';
 import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { ActionReducer } from '@ngrx/store';
 
 import { compose } from '@ngrx/core/compose';
 
@@ -11,6 +12,9 @@ import { storeLogger} from 'ngrx-store-logger';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 import { combineReducers } from '@ngrx/store';
+
+// environment
+import { environment } from '../../environments/environment';
 
 // models
 import { User } from '../models/user';
@@ -48,58 +52,52 @@ const reducers = {
     stats: fromStats.reducer
 }
 
-// wrapper functions for users
+// have a separate development and production reducer
+// development prevents mutation
 
+const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
+const productionReducer: ActionReducer<State> = combineReducers(reducers);
+
+export function reducer(state: any, action: any) {
+  if (environment.production) {
+    return productionReducer(state, action);
+  }
+  else {
+    return developmentReducer(state, action);
+  }
+}
+
+/**
+ * Start User accessors and selectors 
+ */
 export function getUsersState(state$: Observable<State>) {
     return state$.select(state => state.users);
 }
 
+// returns an array of all current users
 export const getUserEntities = compose(fromUsers.getEntities, getUsersState);
 export const getUserIds = compose(fromUsers.getIds, getUsersState);
+export const getUsers = compose(fromUsers.getUsers, getUsersState);
+export const getUser = compose(fromUsers.getSelectedUser, getUsersState);
 
-// return array of current users
-export function getUsers(state$: Observable<State>) {
-    return combineLatest<{[id: string]: User}, string[]> (
-        state$.let(getUserEntities),
-        state$.let(getUserIds)
-    )
-    .map(([ entities, ids ]) => ids.map(id => entities[id]));
-}
-
+/**
+ * Start Character accessors and selectors
+ */
 export function getCharState(state$: Observable<State>) {
     return state$.select(state => state.characters);
 }
 
 export const getCharEntities = compose(fromChars.getEntities, getCharState);
 export const getCharIds = compose(fromChars.getIds, getCharState);
+export const getChars = compose(fromChars.getCharacters, getCharState);
 
-// return array of current users
-export function getChars(state$: Observable<State>) {
-    return combineLatest<{[id: string]: Character}, string[]> (
-        state$.let(getCharEntities),
-        state$.let(getCharIds)
-    )
-    .map(([ entities, ids ]) => ids.map(id => entities[id]));
-}
-
-
+/**
+ * Start CharacterStat accessors and selectors
+ */
 export function getStatState(state$: Observable<State>) {
     return state$.select(state => state.stats);
 }
 
 export const getStatEntities = compose(fromStats.getEntities, getStatState);
 export const getStatIds = compose(fromStats.getIds, getStatState);
-
-// return array of current users
-export function getStats(state$: Observable<State>) {
-    return combineLatest<{[id: string]: CharacterStat}, string[]> (
-        state$.let(getStatEntities),
-        state$.let(getStatIds)
-    )
-    .map(([ entities, ids ]) => ids.map(id => entities[id]));
-}
-
-// how do I provide an argument... perhaps done in the service
-export function getCharacterStats(state$: Observable<State>) {
-
-}
+export const getStats = compose(fromStats.getStats, getStatState);

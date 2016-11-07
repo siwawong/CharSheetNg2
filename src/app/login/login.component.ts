@@ -46,9 +46,9 @@ export class LoginComponent implements OnInit {
       this.reset("Please Enter A Username");
     }
     else {
-      this.loginService.getUserName(this.username.value).subscribe( username => {
-        if (username !== undefined) {
-          this.router.navigateByUrl(username);
+      this.loginService.getUserName(this.username.value).subscribe( user => {
+        if (user !== undefined) {
+          this.router.navigateByUrl(user.login);
         } else {
           // error - this could be an observable error instead of a static string?
           this.reset("Invalid Username");

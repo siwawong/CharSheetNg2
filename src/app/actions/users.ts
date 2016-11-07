@@ -14,6 +14,7 @@ export const ActionTypes = {
   ADD:           type('[User] Add'),
   REMOVE:        type('[User] Remove'),
   UPDATE:        type('[User] Update'),
+  SELECT:        type('[User] Select'),
 };
 
 export class UserAdd implements Action {
@@ -34,7 +35,14 @@ export class UserUpdate implements Action {
     constructor(public payload: User) { }
 }
 
+export class UserSelect implements Action {
+    type = ActionTypes.SELECT;
+
+    constructor(public payload: string) { }
+}
+
 export type Actions
  = UserAdd
  | UserRemove
  | UserUpdate
+ | UserSelect

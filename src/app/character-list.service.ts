@@ -34,10 +34,10 @@ export class CharacterListService {
       url: '',
     }
 
-    this._mutable_characters = [
-      ...this._mutable_characters,
-      character
-    ];
+    // this._mutable_characters = [
+    //   ...this._mutable_characters,
+    //   character
+    // ];
 
     this.characters.next(this._mutable_characters);
     this._temp_id_count += 1;

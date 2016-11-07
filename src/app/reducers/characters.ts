@@ -60,3 +60,11 @@ export function getEntities(state$: Observable<State>) {
 export function getIds(state$: Observable<State>) {
     return state$.select(s => s.ids);
 }
+
+export function getCharacters(state$: Observable<State>) {
+    return combineLatest< string[], {[id: string]: Character} >(
+            state$.let(getIds),
+            state$.let(getEntities)
+        )
+        .map(([ ids, entities ]) => ids.map(id => entities[id]));
+}

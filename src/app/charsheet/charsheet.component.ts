@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs/Rx';
 
 import { CharacterStatsService } from '../character-stats.service';
-import { CharacterStat } from '../character-stat'
+import { CharacterStat } from '../models/character-stat'
 import { StatComponent } from '../stat';
 
 @Component({

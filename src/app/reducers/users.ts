@@ -50,7 +50,20 @@ export function reducer(state = initialState, action: user.Actions): State {
                 selectedUserId: selectedUserId
             }
         }
+
+        case user.ActionTypes.SELECT: {
+            return {
+                ids: state.ids,
+                entities: state.entities,
+                selectedUserId: action.payload
+            }
+        }
     }
+}
+
+// selectors
+export function getSelectedUserId(state$: Observable<State>) {
+    return state$.select(s => s.selectedUserId);
 }
 
 export function getEntities(state$: Observable<State>) {
@@ -59,4 +72,20 @@ export function getEntities(state$: Observable<State>) {
 
 export function getIds(state$: Observable<State>) {
     return state$.select(s => s.ids);
+}
+
+export function getUsers(state$: Observable<State>) {
+    return combineLatest< string[], {[id: string]: User} > (
+            state$.let(getIds),
+            state$.let(getEntities)
+        )
+        .map(([ids, entities]) => ids.map(id => entities[id]))
+}
+
+export function getSelectedUser(state$: Observable<State>) {
+    return combineLatest< string, {[id: string]: User}> (
+            state$.let(getSelectedUserId),
+            state$.let(getEntities)
+        )
+        .map(([id, entities]) => entities[id]);
 }
