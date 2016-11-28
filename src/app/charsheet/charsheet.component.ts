@@ -30,7 +30,7 @@ export class CharsheetComponent implements OnInit {
   }
   
   updateStat(newStat: CharacterStat) {
-    this.characterStats.updateStat(this.name, newStat);
+    this.characterStats.updateStat(newStat);
   }
 
   ngOnDestroy() {

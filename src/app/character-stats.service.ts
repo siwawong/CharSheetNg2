@@ -41,7 +41,7 @@ export class CharacterStatsService {
   //   return this.stats.asObservable();
   // }
 
-  updateStat(characterName: string, newStat: CharacterStat) {
+  updateStat(newStat: CharacterStat) {
     this.store$.dispatch(new characterStat.StatUpdate(newStat));
   }
 }
