@@ -23,6 +23,8 @@ export class LoginService {
       this.usersArr = users;
     });
 
+    store$.let(fromRoot.getSelectedUser).subscribe(user => console.log(`selected user: ${user}`));
+
     USERS.map(user => {
       this.store$.dispatch(new users.UserAdd(user));
     });

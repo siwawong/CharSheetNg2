@@ -9,4 +9,4 @@ import { Character } from './models/character'
 //     "ryan"  : [{id: '0wa4', name: 'Ursa Jax',            url: 'ursa'}]
 // };
 
-export var CHARACTERS: Character[] = [{id: 't619', name: 'Tester Testerson', url: 'test', statIds: []}];
+export var CHARACTERS: Character[] = [{id: 't619', name: 'test', url: 'test', statIds: ['r0c6', 'dr60', 'xn7t']}];

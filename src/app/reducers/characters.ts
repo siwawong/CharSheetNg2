@@ -50,6 +50,13 @@ export function reducer(state = initialState, action: character.Actions): State 
                 selectedCharId: selectedCharId
             }
         }
+        case character.ActionTypes.SELECT: {
+            return {
+                ids: state.ids,
+                entities: state.entities,
+                selectedCharId: action.payload
+            }
+        }
         default:
             return state;
     }

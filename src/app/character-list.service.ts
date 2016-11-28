@@ -9,17 +9,21 @@ import * as fromRoot from './reducers';
 import * as character from './actions/character';
 
 @Injectable()
-export class CharacterListService {  
+export class CharacterListService {
+  _characters: Character[];
   characters: Observable<Character[]>;
   selectedCharacter: Observable<Character>;
   _temp_id_count: number = 0;
 
   constructor(private store$: Store<fromRoot.State>) {
-    // add characters
+    // add characters - temp
     CHARACTERS.map(char => {
       this.store$.dispatch(new character.CharAdd(char));
     });
-    this.characters = this.store$.let(fromRoot.getChars)
+    this.characters = this.store$.let(fromRoot.getChars);
+    this.characters.subscribe(chars => {
+      this._characters = chars;
+    });
   }
 
   getCharacter(charId: string): Observable<Character> {
@@ -45,6 +49,14 @@ export class CharacterListService {
       statIds: []
     }    
     this.store$.dispatch(new character.CharAdd(newCharacter));
+  }
+
+  validateCurrentCharacter(name: string) {
+    let char = this._characters.find(char => char.name === name);
+
+    if (char) {
+      this.store$.dispatch(new character.CharSelect(char.id));
+    }
   }
 
   updateCharacter(char: Character) {

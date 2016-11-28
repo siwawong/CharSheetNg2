@@ -27,7 +27,7 @@ export class CharlistComponent implements OnInit {
   constructor(private _http: HttpService, 
               private _router: Router,
               private loginService: LoginService,
-              private store: Store<fromRoot.State>,  
+              private store: Store<fromRoot.State>,
               private characterListService: CharacterListService, 
               private _activatedRouter: ActivatedRoute) {
     // when this class is created, set the user name
@@ -57,7 +57,9 @@ export class CharlistComponent implements OnInit {
     // :name = erin
     // 
     // route to the next page
-    this._router.navigateByUrl(this.userName + '/' + name)
+    // set active character
+    this.characterListService.validateCurrentCharacter(name);
+    this._router.navigateByUrl(this.userName + '/' + name);
   }
 
   ngOnDestroy() {

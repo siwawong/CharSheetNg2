@@ -124,6 +124,8 @@ export const getCharStats = function (state$: Observable<State>) {
         state$.let(getSelectedChar),
         state$.let(getStatEntities))
         .map(([char, stats]) => {
-            if (char) return char.statIds.map(id => stats[id])
+            if (char !== undefined) {
+                return char.statIds.map(id => stats[id]);
+            }
         });
 }
