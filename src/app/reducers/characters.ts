@@ -53,15 +53,19 @@ export function reducer(state = initialState, action: character.Actions): State 
         default:
             return state;
     }
-}
+};
 
 export function getEntities(state$: Observable<State>) {
     return state$.select(s => s.entities);
-}
+};
 
 export function getIds(state$: Observable<State>) {
     return state$.select(s => s.ids);
-}
+};
+
+export function getSelectedCharacterId(state$: Observable<State>) {
+    return state$.select(s => s.selectedCharId);
+};
 
 export function getCharacters(state$: Observable<State>) {
     return combineLatest< string[], {[id: string]: Character} >(
@@ -69,4 +73,13 @@ export function getCharacters(state$: Observable<State>) {
             state$.let(getEntities)
         )
         .map(([ ids, entities ]) => ids.map(id => entities[id]));
+};
+
+
+export function getSelectedCharacter(state$: Observable<State>) {
+    return combineLatest<string, {[id: string]: Character}>(
+        state$.let(getSelectedCharacterId),
+        state$.let(getEntities)
+    )
+    .map(([id, characters]) => characters[id]);
 }

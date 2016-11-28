@@ -1,6 +1,6 @@
 <ul> 
-  <li class="character" *ngFor="let character of (characters | async)">
-    <a [routerLink]="[character.url]">
+  <li class="character" *ngFor="let character of (characters$ | async)">
+    <a [routerLink]="[character?.url]">
       {{character.name}}
     </a>
   </li>

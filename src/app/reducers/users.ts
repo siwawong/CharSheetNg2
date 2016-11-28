@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: user.Actions): State {
 
         case user.ActionTypes.REMOVE: {
             const id = action.id;
-            const selectedUserId = (action.id === state.selectedUserId) ? null : state.selectedUserId;
+            const selectedUserId = (action.id === state.selectedUserId) ? null : state.selectedUserId
 
             return {
                 ids: state.ids.filter(id => id !== id),
@@ -81,13 +81,15 @@ export function getUsers(state$: Observable<State>) {
             state$.let(getIds),
             state$.let(getEntities)
         )
-        .map(([ids, entities]) => ids.map(id => entities[id]))
+        .map(([ids, entities]) => ids.map(id => entities[id]));
 }
 
+// TODO: type coming out is not correct... I am getting an 'array' of things
+// from the do function, instead of a single result
 export function getSelectedUser(state$: Observable<State>) {
-    return combineLatest< string, {[id: string]: User}> (
+    return combineLatest<string, {[id: string]: User}> (
             state$.let(getSelectedUserId),
-            state$.let(getEntities)
+            state$.let(getEntities),
         )
         .map(([id, entities]) => entities[id]);
 }

@@ -1,64 +1,57 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Store }      from '@ngrx/store';
 
 import { Character } from './models/character';
 import { CHARACTERS } from './mock-characters';
+import * as fromRoot from './reducers';
+import * as character from './actions/character';
 
 @Injectable()
 export class CharacterListService {  
-  characters: BehaviorSubject<Character[]>;
-  _mutable_characters: Character[];
+  characters: Observable<Character[]>;
+  selectedCharacter: Observable<Character>;
   _temp_id_count: number = 0;
 
-  constructor() {
-    this._mutable_characters = CHARACTERS;
-    this.characters = new BehaviorSubject<Character[]>(this._mutable_characters);
-  }
-  
-  getCharacter(character: Character) {
-    return this._mutable_characters.find(char => char.id === character.id);
+  constructor(private store$: Store<fromRoot.State>) {
+    // add characters
+    CHARACTERS.map(char => {
+      this.store$.dispatch(new character.CharAdd(char));
+    });
+    this.characters = this.store$.let(fromRoot.getChars)
   }
 
-  getUserCharacters(username: string) {
-    // at the moment, username is not actually being used to fetch the correct set of characters.
-    // TODO: implement filter on server side 
-    // for now assuming one character
-    return this.characters.asObservable();
+  getCharacter(charId: string): Observable<Character> {
+    return this.store$.let(fromRoot.getCharEntities)
+                 .map(entities => entities[charId])
+  }
+
+  generateCharacterId(): number {
+    this._temp_id_count += 1;
+
+    return this._temp_id_count;
+  }
+
+  getUserCharacters() {
+    return this.store$.let(fromRoot.getUserCharacters);
   }
 
   addCharacter(characterName: string) {
-    let character = {
-      id: this._temp_id_count.toString(),
+    let newCharacter: Character = {
+      id: this.generateCharacterId.toString(),
       name: characterName,
       url: '',
-    }
-
-    // this._mutable_characters = [
-    //   ...this._mutable_characters,
-    //   character
-    // ];
-
-    this.characters.next(this._mutable_characters);
-    this._temp_id_count += 1;
+      statIds: []
+    }    
+    this.store$.dispatch(new character.CharAdd(newCharacter));
   }
 
-  updateCharacter(character: Character) {
-    this._mutable_characters = this._mutable_characters.map(char => {
-      if(char.id === character.id) {
-        return character;
-      } else {
-        return char;
-      }
-    });
-
-    this.characters.next(this._mutable_characters);
+  updateCharacter(char: Character) {
+    this.store$.dispatch(new character.CharUpdate(char));
   }
 
-  removeCharacter(character: Character) {
-    this._mutable_characters = 
-      this._mutable_characters.filter(char => char.id !== character.id);
-
-    this.characters.next(this._mutable_characters);
+  removeCharacter(char: Character) {
+    this.store$.dispatch(new character.CharRemove(char.id));
   }
 }

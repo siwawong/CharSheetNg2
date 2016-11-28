@@ -21,7 +21,6 @@ export class LoginService {
     this.users = store$.let(fromRoot.getUsers);
     this.users.subscribe(users => {
       this.usersArr = users;
-      console.log(this.usersArr);
     });
 
     USERS.map(user => {
@@ -39,24 +38,16 @@ export class LoginService {
     return this.getUsers().then(users => users.find(user => user.login === name));
   }
   
-  getUserName(name: string) {
+  validateUserName(name: string) {
     let currentLogin: User;
 
-    currentLogin = this.usersArr.find(user => user.login === name);
+    currentLogin = (this.usersArr) ? this.usersArr.find(user => user.login === name) : undefined;
     
+    if(currentLogin !== null) {
+      // select the current User
+      this.store$.dispatch(new users.UserSelect(currentLogin.id));
+    }
     // return observable stream
-    return this.store$.let(fromRoot.getUser);
-    // or... return Observable
-    // have a current user field in table
-
-    // if(this.user !== undefined) {
-    //   this.user.unsubscribe();
-    // }
-
-    // let userName = USERS.filter(user => user.login === name);
-
-    // // hard coding - might break if multiple subscriptions
-    // this.user = new BehaviorSubject<string>('daren');
-    // return this.user.asObservable();
+    return currentLogin;
   }
 }

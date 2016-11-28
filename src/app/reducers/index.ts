@@ -75,10 +75,11 @@ export function getUsersState(state$: Observable<State>) {
     return state$.select(state => state.users);
 }
 
-export const getUserEntities = compose(fromUsers.getEntities, getUsersState);
-export const getUserIds      = compose(fromUsers.getIds, getUsersState);
-export const getUsers        = compose(fromUsers.getUsers, getUsersState);
-export const getUser         = compose(fromUsers.getSelectedUser, getUsersState);
+export const getUserEntities    = compose(fromUsers.getEntities, getUsersState);
+export const getUserIds         = compose(fromUsers.getIds, getUsersState);
+export const getUsers           = compose(fromUsers.getUsers, getUsersState);
+export const getSelectedUser    = compose(fromUsers.getSelectedUser, getUsersState);
+export const getSelectedUserId  = compose(fromUsers.getSelectedUserId, getUsersState);
 
 /**
  * Start Character accessors and selectors
@@ -91,6 +92,20 @@ export function getCharState(state$: Observable<State>) {
 export const getCharEntities = compose(fromChars.getEntities, getCharState);
 export const getCharIds      = compose(fromChars.getIds, getCharState);
 export const getChars        = compose(fromChars.getCharacters, getCharState);
+export const getSelectedChar = compose(fromChars.getSelectedCharacter, getCharState);
+// gets the current user, fetches all character entities
+// returns: array of the current users characters
+export const getUserCharacters = function (state$: Observable<State>) {
+    return combineLatest<User, {[id: string]: Character}> (
+        state$.let(getSelectedUser),
+        state$.let(getCharEntities)
+    )
+    .map(([User, characters]) => {
+        if (User !== undefined) {
+            return User.charIds.map(id => characters[id]);
+        }
+    });
+};
 
 /**
  * Start CharacterStat accessors and selectors
@@ -102,3 +117,13 @@ export function getStatState(state$: Observable<State>) {
 export const getStatEntities = compose(fromStats.getEntities, getStatState);
 export const getStatIds      = compose(fromStats.getIds, getStatState);
 export const getStats        = compose(fromStats.getStats, getStatState);
+
+// get the selected characters stats
+export const getCharStats = function (state$: Observable<State>) {
+    return combineLatest<Character, {[id: string]: CharacterStat}> (
+        state$.let(getSelectedChar),
+        state$.let(getStatEntities))
+        .map(([char, stats]) => {
+            if (char) return char.statIds.map(id => stats[id])
+        });
+}
