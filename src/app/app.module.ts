@@ -4,6 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+// store import
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './reducers';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CharlistComponent } from './charlist/charlist.component';
@@ -34,6 +38,7 @@ import { AddCharacterComponent } from './add-character/add-character.component'
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.provideStore(reducer),
     routing,
     HttpModule
   ],

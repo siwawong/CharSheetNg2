@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { CharacterStat } from '../character-stat';
+import { CharacterStat } from '../models/character-stat';
 
 @Component({
   selector: 'app-stat',
