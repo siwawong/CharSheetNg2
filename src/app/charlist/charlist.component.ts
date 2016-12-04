@@ -47,20 +47,6 @@ export class CharlistComponent implements OnInit {
       }
     });
   }
-  
-  onClick(name: string) {
-    // get request for the url coming in from the event
-    // address is: url + .json
-    // example: maragorah.com/data/fritz/erin.json
-    // let fullUrl = 'margorah.com/data/' + this.userName + '/' + url + '.json';
-    // characterSheet/erin
-    // :name = erin
-    // 
-    // route to the next page
-    // set active character
-    this.characterListService.validateCurrentCharacter(name);
-    this._router.navigateByUrl(this.userName + '/' + name);
-  }
 
   ngOnDestroy() {
     this.userSubscription.unsubscribe();

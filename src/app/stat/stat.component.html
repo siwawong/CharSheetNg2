@@ -17,7 +17,7 @@
 </span>
 </div>
 <div *ngIf="editing">
-  <form [formGroup]="statForm">
+  <form [formGroup]="statForm" (ngSubmit)="FinishEdit()">
     <span>
       <span>{{stat?.name}}: </span>
       <span>
@@ -29,7 +29,7 @@
           {{stat?.type}}
         </span>
       </span>
-      <button type="button" (click)="FinishEdit()">Done</button>
+      <button type="submit">Done</button>
     </span>
   </form>
 </div>
