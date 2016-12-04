@@ -17,32 +17,32 @@ export const ActionTypes = {
   SELECT:        type('[Character] Select')
 };
 
-export class CharAdd implements Action {
+export class Add implements Action {
     type = ActionTypes.ADD;
 
     constructor(public payload: Character) { } 
 };
 
-export class CharRemove implements Action {
+export class Remove implements Action {
     type = ActionTypes.REMOVE;
 
     constructor(public id: string) { }
 };
 
-export class CharUpdate implements Action {
+export class Update implements Action {
     type = ActionTypes.UPDATE;
 
     constructor(public payload: Character) { }
 };
 
-export class CharSelect implements Action {
+export class Select implements Action {
     type = ActionTypes.SELECT;
 
     constructor(public payload: string) { }
 }
 
 export type Actions
- = CharAdd
- | CharRemove
- | CharUpdate
- | CharSelect
+ = Add
+ | Remove
+ | Update
+ | Select

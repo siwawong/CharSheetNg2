@@ -58,6 +58,38 @@ export function reducer(state = initialState, action: user.Actions): State {
                 selectedUserId: action.payload
             }
         }
+
+        case user.ActionTypes.LINKCHAR: {
+            let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
+
+            // add new link
+            updatedUser.charIds = [...updatedUser.charIds, action.payload.charKey];
+
+            let updatedEntities = Object.assign({}, state.entities);
+            updatedEntities[action.payload.userKey] = updatedUser;
+
+            return {
+                ids: state.ids,
+                entities: updatedEntities,
+                selectedUserId: state.selectedUserId
+            }
+        }
+
+        case user.ActionTypes.UNLINKCHAR: {
+            let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
+
+            updatedUser.charIds = updatedUser.charIds.filter(id => id !== action.payload.charKey);
+
+            let updatedEntities = Object.assign({}, state.entities);
+            updatedEntities[action.payload.userKey] = updatedUser;
+
+            return {
+                ids: state.ids,
+                entities: updatedEntities,
+                selectedUserId: state.selectedUserId
+            }
+        }
+
         default:
             return state;
     }
