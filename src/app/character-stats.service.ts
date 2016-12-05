@@ -12,7 +12,7 @@ import { CharacterStat } from './models/character-stat';
 @Injectable()
 export class CharacterStatsService {
   curCharStats: Observable<CharacterStat[]>;
-
+  _id: number = 0;
   constructor(private store$: Store<fromRoot.State>) {
     // add initial set of stats
     CHARACTERSTATS.map(stat => {
@@ -23,6 +23,26 @@ export class CharacterStatsService {
     this.curCharStats.subscribe(stats => {
       console.log(stats);
     });
+  }
+
+  addStat(charId: string, name: string, value: number, max: number, type: string) {
+    let newStat: CharacterStat = {
+      id: this.generateId(),
+      name: name,
+      value: value,
+      maximum: max,
+      type: type
+    }
+
+    this.store$.dispatch(new characterStat.StatAdd(newStat));
+
+    // link newStat
+    // this.store$.dispatch(new character.LinkStat(newStat.id)...)
+  }
+
+  generateId() {
+    this._id += 1;
+    return this._id.toString();
   }
 
   getCurrentCharacterStats() {
