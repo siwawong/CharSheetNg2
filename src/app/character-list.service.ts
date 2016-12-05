@@ -57,7 +57,7 @@ export class CharacterListService {
       let newCharacter: Character = {
         id: this.generateCharacterId.toString(),
         name: characterName,
-        url: '',
+        url: characterName,
         statIds: []
       };
 
