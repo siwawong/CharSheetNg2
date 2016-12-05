@@ -1,11 +1,10 @@
 <h2>
   Add Stat
 </h2>
-<form (ngSubmit)="submit()" [formGroup]="addStatForm">
+<form (ngSubmit)="submitForm()" [formGroup]="addStatForm">
   <p><label>Name:</label><input formControlName="name" type="text"/></p>
-  <p><label>Value:</label><input formControlName="name" type="text"/></p>
-  <p><label>Maximum:</label><input formControlName="name" type="text"/></p>
-  <p><label>Type:</label><input formControlName="name" type="text"/></p>
-  <button (click)="return()">Cancel</button>
+  <p><label>Value:</label><input formControlName="value" type="text"/></p>
+  <p><label>Maximum:</label><input formControlName="max" type="text"/></p>
+  <p><label>Type:</label><input formControlName="type" type="text"/></p>
   <button type="submit">Ok</button>
 </form>

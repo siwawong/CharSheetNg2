@@ -12,11 +12,11 @@ import { LoginService }         from '../login.service';
 })
 export class AddstatComponent implements OnInit {
   private charName: string;
-  private user: string;
-  private name: FormControl;
-  private value: FormControl;
-  private max: FormControl;
-  private type: FormControl;
+  private user:   string;
+  private name:   FormControl = new FormControl('', Validators.required);
+  private value:  FormControl = new FormControl('', Validators.required);
+  private max:    FormControl = new FormControl('');
+  private type:   FormControl = new FormControl('', Validators.required);
   private addStatForm: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -40,7 +40,7 @@ export class AddstatComponent implements OnInit {
     });
   }
 
-  submit() {
+  submitForm() {
     let max = -1;
 
     if(this.max.value !== undefined) {
@@ -53,7 +53,7 @@ export class AddstatComponent implements OnInit {
                               max,                              
                               this.type.value);
 
-    this.return();
+    // this.return();
   }
 
   return() {

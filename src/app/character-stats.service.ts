@@ -5,6 +5,7 @@ import { Store }      from '@ngrx/store';
 
 import * as fromRoot from './reducers';
 import * as characterStat from './actions/character-stat';
+import * as character from './actions/character';
 
 import { CHARACTERSTATS } from './mock-characterstats';
 import { CharacterStat } from './models/character-stat';
@@ -20,9 +21,6 @@ export class CharacterStatsService {
     });
 
     this.curCharStats = this.store$.let(fromRoot.getCharStats);
-    this.curCharStats.subscribe(stats => {
-      console.log(stats);
-    });
   }
 
   addStat(charId: string, name: string, value: number, max: number, type: string) {
@@ -37,7 +35,7 @@ export class CharacterStatsService {
     this.store$.dispatch(new characterStat.StatAdd(newStat));
 
     // link newStat
-    // this.store$.dispatch(new character.LinkStat(newStat.id)...)
+    this.store$.dispatch(new character.LinkStat({charId: charId, statId: newStat.id}));
   }
 
   generateId() {
