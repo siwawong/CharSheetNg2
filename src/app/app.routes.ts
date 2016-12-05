@@ -21,6 +21,10 @@ export const routes: Routes = [
     {
         path: ":user/:name",
         component: CharsheetComponent
+    },
+    {
+        path: ":user/:name/add-stat",
+        component: AddstatComponent
     }
 ];
 
