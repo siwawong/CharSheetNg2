@@ -14,7 +14,9 @@ export const ActionTypes = {
   ADD:           type('[Character] Add'),
   REMOVE:        type('[Character] Remove'),
   UPDATE:        type('[Character] Update'),
-  SELECT:        type('[Character] Select')
+  SELECT:        type('[Character] Select'),
+  LINKSTAT:      type('[Character] LinkStat'),
+  UNLINKSTAT:    type('[Character] UnlinkStat')
 };
 
 export class Add implements Action {
@@ -41,8 +43,22 @@ export class Select implements Action {
     constructor(public payload: string) { }
 }
 
+export class LinkStat implements Action {
+    type = ActionTypes.LINKSTAT;
+
+    constructor(public payload: {charId: string, statId: string}) {}
+}
+
+export class UnlinkStat implements Action {
+    type = ActionTypes.UNLINKSTAT;
+
+    constructor(public payload: {charId: string, statId: string}) {}
+}
+
 export type Actions
  = Add
  | Remove
  | Update
  | Select
+ | LinkStat
+ | UnlinkStat

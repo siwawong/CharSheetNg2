@@ -57,6 +57,34 @@ export function reducer(state = initialState, action: character.Actions): State 
                 selectedCharId: action.payload
             }
         }
+        case character.ActionTypes.LINKSTAT: {
+            let newChar = Object.assign({}, state.entities[action.payload.charId]);
+            let newEntities = Object.assign({}, state.entities);
+
+            newChar.statIds = [... newChar.statIds, action.payload.statId];
+            newEntities[action.payload.charId] = newChar;
+
+            return {
+                ids: state.ids,
+                entities: newEntities,
+                selectedCharId: state.selectedCharId
+            }
+        }
+
+        case character.ActionTypes.UNLINKSTAT: {
+            let newChar = Object.assign({}, state.entities[action.payload.charId]);
+            let newEntities = Object.assign({}, state.entities);
+
+            newChar.statIds = newChar.statIds.filter(id => id !== action.payload.statId);
+            newEntities[action.payload.charId] = newChar;
+
+            return {
+                ids: state.ids,
+                entities: newEntities,
+                selectedCharId: state.selectedCharId
+            }
+        }
+
         default:
             return state;
     }
