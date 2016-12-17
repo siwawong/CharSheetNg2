@@ -1,3 +1,4 @@
+import { createSelector }   from 'reselect';
 import '@ngrx/core/add/operator/select';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/let';
@@ -55,18 +56,12 @@ export function reducer(state = initialState, action: stat.Actions): State {
     }
 }
 
-export function getEntities(state$: Observable<State>) {
-    return state$.select(s => s.entities);
-}
+export const getEntities       = (s: State) => s.entities;
+export const getIds            = (s: State) => s.ids;
+export const getSelectedStatId = (s: State) => s.selectedStatId;
 
-export function getIds(state$: Observable<State>) {
-    return state$.select(s => s.ids);
-}
+export const getStats = createSelector(getIds, getEntities, 
+    (ids, entities) => ids.map(id => entities[id]));
 
-export function getStats(state$: Observable<State>) {
-    return combineLatest< string[], {[id: string]: CharacterStat} >(
-        state$.let(getIds),
-        state$.let(getEntities)
-    )
-    .map(([ids, entities]) => ids.map(id => entities[id]));
-}
+export const getSelectedStat = 
+    createSelector(getSelectedStatId, getEntities, (id, entities) => entities[id]);

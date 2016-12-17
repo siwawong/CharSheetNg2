@@ -20,7 +20,7 @@ export class CharacterStatsService {
       this.store$.dispatch(new characterStat.StatAdd(stat));
     });
 
-    this.curCharStats = this.store$.let(fromRoot.getCharStats);
+    this.curCharStats = this.store$.select(fromRoot.getCharStats);
   }
 
   addStat(charId: string, name: string, value: number, max: number, type: string) {

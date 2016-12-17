@@ -20,12 +20,12 @@ export class LoginService {
   _id: number = 0;
 
   constructor(private store$: Store<fromRoot.State>) {
-    this.users = store$.let(fromRoot.getUsers);
+    this.users = store$.select(fromRoot.getUsers);
     this.users.subscribe(users => {
       this.usersArr = users;
     });
 
-    this.currentUser$ = store$.let(fromRoot.getSelectedUser);
+    this.currentUser$ = store$.select(fromRoot.getSelectedUser);
     this.currentUser$.subscribe(user => this.currentUser = user);
 
     USERS.map(user => {

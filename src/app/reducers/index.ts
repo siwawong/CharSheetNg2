@@ -1,6 +1,8 @@
+import { createSelector }       from 'reselect';
 import '@ngrx/core/add/operator/select';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/let';
+
 import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { ActionReducer } from '@ngrx/store';
@@ -71,61 +73,43 @@ export function reducer(state: any, action: any) {
  * Start User accessors and selectors 
  */
 
-export function getUsersState(state$: Observable<State>) {
-    return state$.select(state => state.users);
-}
+// export function getUsersState(state$: Observable<State>):  {
+//     return state$.select(state => state.users);
+// }
 
-export const getUserEntities    = compose(fromUsers.getEntities, getUsersState);
-export const getUserIds         = compose(fromUsers.getIds, getUsersState);
-export const getUsers           = compose(fromUsers.getUsers, getUsersState);
-export const getSelectedUser    = compose(fromUsers.getSelectedUser, getUsersState);
-export const getSelectedUserId  = compose(fromUsers.getSelectedUserId, getUsersState);
+export const getUsersState = (state: State) => state.users;
+
+export const getUserEntities    = createSelector(getUsersState, fromUsers.getEntities);
+export const getUserIds         = createSelector(getUsersState, fromUsers.getIds);
+export const getUsers           = createSelector(getUsersState, fromUsers.getUsers);
+export const getSelectedUser    = createSelector(getUsersState, fromUsers.getSelectedUser);
+export const getSelectedUserId  = createSelector(getUsersState, fromUsers.getSelectedUserId);
 
 /**
  * Start Character accessors and selectors
  */
 
-export function getCharState(state$: Observable<State>) {
-    return state$.select(state => state.characters);
-}
-
-export const getCharEntities = compose(fromChars.getEntities, getCharState);
-export const getCharIds      = compose(fromChars.getIds, getCharState);
-export const getChars        = compose(fromChars.getCharacters, getCharState);
-export const getSelectedChar = compose(fromChars.getSelectedCharacter, getCharState);
+export const getCharState    = (state: State) => state.characters;
+export const getCharEntities = createSelector(getCharState, fromChars.getEntities)
+export const getCharIds      = createSelector(getCharState, fromChars.getIds );
+export const getChars        = createSelector(getCharState, fromChars.getCharacters);
+export const getSelectedChar = createSelector(getCharState, fromChars.getSelectedCharacter);
 // gets the current user, fetches all character entities
 // returns: array of the current users characters
-export const getUserCharacters = function (state$: Observable<State>) {
-    return combineLatest<User, {[id: string]: Character}> (
-        state$.let(getSelectedUser),
-        state$.let(getCharEntities)
-    )
-    .map(([User, characters]) => {
-        if (User !== undefined) {
-            return User.charIds.map(id => characters[id]);
-        }
-    });
-};
+
+export const getUserCharacters = createSelector(getSelectedUser, getCharEntities, 
+    (user, characters) => user.charIds.map(id => characters[id]));
+
 
 /**
  * Start CharacterStat accessors and selectors
  */
-export function getStatState(state$: Observable<State>) {
-    return state$.select(state => state.stats);
-}
+export const getStatState    = (state: State) => state.stats;
 
-export const getStatEntities = compose(fromStats.getEntities, getStatState);
-export const getStatIds      = compose(fromStats.getIds, getStatState);
-export const getStats        = compose(fromStats.getStats, getStatState);
+export const getStatEntities = createSelector(getStatState, fromStats.getEntities);
+export const getStatIds      = createSelector(getStatState, fromStats.getIds);
+export const getStats        = createSelector(getStatState, fromStats.getStats,);
 
-// get the selected characters stats
-export const getCharStats = function (state$: Observable<State>) {
-    return combineLatest<Character, {[id: string]: CharacterStat}> (
-        state$.let(getSelectedChar),
-        state$.let(getStatEntities))
-        .map(([char, stats]) => {
-            if (char !== undefined) {
-                return char.statIds.map(id => stats[id]);
-            }
-        });
-}
+export const getCharStats    = createSelector(getSelectedChar, getStatEntities, 
+   (char, stats) => char.statIds.map(id => stats[id]));
+

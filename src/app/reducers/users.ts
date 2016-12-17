@@ -1,3 +1,4 @@
+import { createSelector }       from 'reselect';
 import '@ngrx/core/add/operator/select';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/let';
@@ -95,33 +96,11 @@ export function reducer(state = initialState, action: user.Actions): State {
     }
 }
 
-// selectors
-export function getSelectedUserId(state$: Observable<State>) {
-    return state$.select(s => s.selectedUserId);
-}
+export const getSelectedUserId = (state: State) => state.selectedUserId;
+export const getEntities       = (state: State) => state.entities;
+export const getIds            = (state: State) => state.ids;
+export const getUsers          = createSelector(getIds, getEntities, (ids, entities) => {
+    return ids.map(id => entities[id]);
+});
 
-export function getEntities(state$: Observable<State>) {
-    return state$.select(s => s.entities);
-}
-
-export function getIds(state$: Observable<State>) {
-    return state$.select(s => s.ids);
-}
-
-export function getUsers(state$: Observable<State>) {
-    return combineLatest< string[], {[id: string]: User} > (
-            state$.let(getIds),
-            state$.let(getEntities)
-        )
-        .map(([ids, entities]) => ids.map(id => entities[id]));
-}
-
-// TODO: type coming out is not correct... I am getting an 'array' of things
-// from the do function, instead of a single result
-export function getSelectedUser(state$: Observable<State>) {
-    return combineLatest<string, {[id: string]: User}> (
-            state$.let(getSelectedUserId),
-            state$.let(getEntities),
-        )
-        .map(([id, entities]) => entities[id]);
-}
+export const getSelectedUser  = createSelector(getSelectedUserId, getEntities, (id, entities) => entities[id]);

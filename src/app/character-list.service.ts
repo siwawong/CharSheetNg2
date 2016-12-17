@@ -27,9 +27,9 @@ export class CharacterListService {
     });
 
     // keep the current user around
-    this.store$.let(fromRoot.getSelectedUserId).subscribe(id => this._selectedUserId = id);
+    this.store$.select(fromRoot.getSelectedUserId).subscribe(id => this._selectedUserId = id);
 
-    this.characters = this.store$.let(fromRoot.getChars);
+    this.characters = this.store$.select(fromRoot.getChars);
     this.characters.subscribe(chars => {
       this._characters = chars;
     });
@@ -38,7 +38,7 @@ export class CharacterListService {
   }
 
   getCharacter(charId: string): Observable<Character> {
-    return this.store$.let(fromRoot.getCharEntities)
+    return this.store$.select(fromRoot.getCharEntities)
                  .map(entities => entities[charId])
   }
 
@@ -49,7 +49,7 @@ export class CharacterListService {
   }
 
   getUserCharacters() {
-    return this.store$.let(fromRoot.getUserCharacters);
+    return this.store$.select(fromRoot.getUserCharacters);
   }
 
   addCharacter(characterName: string) {
