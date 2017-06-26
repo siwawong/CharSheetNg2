@@ -10,26 +10,24 @@ import { type } from '../util';
  * literal types and runs a simple check to guarantee all
  * action types in the application are unique. 
  */
-export const ActionTypes = {
-  ADD:           type('[Character-Stat] Add'),
-  REMOVE:        type('[Character-Stat] Remove'),
-  UPDATE:        type('[Character-Stat] Update'),
-};
+export const ADD =    '[Character-Stat] Add';
+export const REMOVE = '[Character-Stat] Remove';
+export const UPDATE = '[Character-Stat] Update';
 
 export class StatAdd implements Action {
-    type = ActionTypes.ADD;
+    readonly type = ADD;
 
     constructor(public payload: CharacterStat) { } 
 }
 
 export class StatRemove implements Action {
-    type = ActionTypes.REMOVE;
+    readonly type = REMOVE;
 
     constructor(public id: string) { }
 }
 
 export class StatUpdate implements Action {
-    type = ActionTypes.UPDATE;
+    readonly type = UPDATE;
 
     constructor(public payload: CharacterStat) { }
 }

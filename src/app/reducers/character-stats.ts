@@ -22,7 +22,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: stat.Actions): State {
     switch (action.type) {
-        case stat.ActionTypes.ADD: {
+        case stat.ADD: {
             const newStat = action.payload;
 
             return {
@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: stat.Actions): State {
                 selectedStatId: state.selectedStatId,
             }
         }
-        case stat.ActionTypes.UPDATE: {
+        case stat.UPDATE: {
             const updatedStat = action.payload;
 
             return {
@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: stat.Actions): State {
             }
         }
 
-        case stat.ActionTypes.REMOVE: {
+        case stat.REMOVE: {
             const id = action.id;
             const selectedStatId = (action.id === state.selectedStatId) ? null : state.selectedStatId;
 

@@ -22,7 +22,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: user.Actions): State {
     switch (action.type) {
-        case user.ActionTypes.ADD: {
+        case user.ADD: {
             const newUser = action.payload;
 
             return {
@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: user.Actions): State {
                 selectedUserId: state.selectedUserId,
             }
         }
-        case user.ActionTypes.UPDATE: {
+        case user.UPDATE: {
             const updatedChar = action.payload;
 
             return {
@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: user.Actions): State {
             }
         }
 
-        case user.ActionTypes.REMOVE: {
+        case user.REMOVE: {
             const id = action.id;
             const selectedUserId = (action.id === state.selectedUserId) ? null : state.selectedUserId
 
@@ -52,7 +52,7 @@ export function reducer(state = initialState, action: user.Actions): State {
             }
         }
 
-        case user.ActionTypes.SELECT: {
+        case user.SELECT: {
             return {
                 ids: state.ids,
                 entities: state.entities,
@@ -60,7 +60,7 @@ export function reducer(state = initialState, action: user.Actions): State {
             }
         }
 
-        case user.ActionTypes.LINKCHAR: {
+        case user.LINKCHAR: {
             let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
 
             // add new link
@@ -76,7 +76,7 @@ export function reducer(state = initialState, action: user.Actions): State {
             }
         }
 
-        case user.ActionTypes.UNLINKCHAR: {
+        case user.UNLINKCHAR: {
             let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
 
             updatedUser.charIds = updatedUser.charIds.filter(id => id !== action.payload.charKey);

@@ -10,47 +10,47 @@ import { type } from '../util';
  * literal types and runs a simple check to guarantee all
  * action types in the application are unique. 
  */
-export const ActionTypes = {
-  ADD:           type('[User] Add'),
-  REMOVE:        type('[User] Remove'),
-  UPDATE:        type('[User] Update'),
-  SELECT:        type('[User] Select'),
-  LINKCHAR:      type('[User] LinkChar'),
-  UNLINKCHAR:    type('[User] UnlinkChar')
-};
+
+export const ADD =        '[User] Add';
+export const REMOVE =     '[User] Remove';
+export const UPDATE =     '[User] Update';
+export const SELECT =     '[User] Select';
+export const LINKCHAR =   '[User] LinkChar';
+export const UNLINKCHAR = '[User] UnlinkChar';
+
 
 export class Add implements Action {
-    type = ActionTypes.ADD;
-
+    readonly type = ADD;
+    
     constructor(public payload: User) { } 
 }
 
 export class Remove implements Action {
-    type = ActionTypes.REMOVE;
+    readonly type = REMOVE;
 
     constructor(public id: string) { }
 }
 
 export class Update implements Action {
-    type = ActionTypes.UPDATE;
+    readonly type = UPDATE;
 
     constructor(public payload: User) { }
 }
 
 export class Select implements Action {
-    type = ActionTypes.SELECT;
+    readonly type = SELECT;
 
     constructor(public payload: string) { }
 }
 
 export class LinkChar implements Action {
-    type = ActionTypes.LINKCHAR;
+    readonly type = LINKCHAR;
 
     constructor(public payload: {userKey: string, charKey: string}) {}
 }
 
 export class UnlinkChar implements Action {
-    type = ActionTypes.UNLINKCHAR;
+    readonly type= UNLINKCHAR;
 
     constructor(public payload: {userKey: string, charKey: string}) {}
 }

@@ -22,7 +22,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: character.Actions): State {
     switch (action.type) {
-        case character.ActionTypes.ADD: {
+        case character.ADD: {
             const newChar = action.payload;
 
             return {
@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: character.Actions): State 
                 selectedCharId: state.selectedCharId,
             }
         }
-        case character.ActionTypes.UPDATE: {
+        case character.UPDATE: {
             const updatedChar = action.payload;
 
             return {
@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: character.Actions): State 
             }
         }
 
-        case character.ActionTypes.REMOVE: {
+        case character.REMOVE: {
             const id = action.id;
             const selectedCharId = (action.id === state.selectedCharId) ? null : state.selectedCharId;
 
@@ -51,14 +51,14 @@ export function reducer(state = initialState, action: character.Actions): State 
                 selectedCharId: selectedCharId
             }
         }
-        case character.ActionTypes.SELECT: {
+        case character.SELECT: {
             return {
                 ids: state.ids,
                 entities: state.entities,
                 selectedCharId: action.payload
             }
         }
-        case character.ActionTypes.LINKSTAT: {
+        case character.LINKSTAT: {
             let newChar = Object.assign({}, state.entities[action.payload.charId]);
             let newEntities = Object.assign({}, state.entities);
 
@@ -72,7 +72,7 @@ export function reducer(state = initialState, action: character.Actions): State 
             }
         }
 
-        case character.ActionTypes.UNLINKSTAT: {
+        case character.UNLINKSTAT: {
             let newChar = Object.assign({}, state.entities[action.payload.charId]);
             let newEntities = Object.assign({}, state.entities);
 
