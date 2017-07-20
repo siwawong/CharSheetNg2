@@ -44,27 +44,27 @@ Launch the server `node server/server.js` from the project root in your terminal
 
 If successful will return a new JSON containing the user: `id, name, and email`. It will also return a Javascript Web Token in the header field `x-auth` that **will be required for most API calls**. This considers the user logged in and currently only expires when the user logs out.
 
-### Login
+#### Login
 
 `POST` request to [localhost:3000/Users/Me](): Expects the users `email` and `password`. Should be called after a user has been created and logged out for the first time. Returns a new Javascript Web Token and the JSON containing the users `id`
 
-### Logout
+#### Logout
 
 `DELETE` request to [localhost:3000/Users/Me](): Deletes the currently stored Web Token and consider the user logged out.
 
-### Get User's Character List
+#### Get User's Character List
 
 `GET` request to [localhost:3000/Users/Characters](): Returns an array of JSON containing `_id` and `name` fields for each character they own. **Will later fix `_id` to `id` to maintain consistency with the rest of the API**.
 
-### Create New Character
+#### Create New Character
 
 `POST` request to [localhost:3000/Users/Characters](): Receives JSON containing just the character's `name` property. Will return the newly created characters id.
 
-### Get Character
+#### Get Character
 
 `GET` request to [localhost:3000/Users/Characters/:id](): Where :id represents the `id` of the character you wish. Returns JSON containing the character's `name` and `stats` which is an array of `stat` objects.
 
-### Add New Character Stat
+#### Add New Character Stat
 
 `POST` request to [localhost:3000/Users/Characters/Stats](): that expects JSON:
 
@@ -80,10 +80,10 @@ If successful will return a new JSON containing the user: `id, name, and email`.
 
 Will return an array containing all of the stats of the provided character id.
 
-### Change A Character's Stat
+#### Change A Character's Stat
 
 `PATCH` request to [localhost:3000/Characters/Stats](): Expects the exact same JSON structure as *Add New Character Stat*. Will only change the value of a stat whose `name` properties match the provided object. Returns the provided JSON.
 
-### Delete A Character's Stat
+#### Delete A Character's Stat
 
 `DELETE` request to [localhost:3000/Characters/Stats](): Expects JSON containing the character's `id` and the stat's `name`. Will remove the stat object whose name matchs the provided `name` property. Returns a JSON array containing the character's current stats.
