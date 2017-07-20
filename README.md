@@ -26,7 +26,7 @@ If you have not, install [MongoDB community edition](https://docs.mongodb.com/ma
 
 Unnecessary, but helpful, is [Robo 3T](https://robomongo.org/) for easy GUI inspection and editing of the local database
 
-Launch the server `node server/server.js` from the project root in your terminal.
+Navigate to the server folder in your terminal than run `npm install` to download all the servers dependencies. After it is finished launch the server with `node server.js`.
 
 ### API
 
