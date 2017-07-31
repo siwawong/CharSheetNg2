@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { Character } from '../models/character';
-import { type } from '../util';
 
 /**
  * For each action type in an action group, make a simple
@@ -20,7 +19,7 @@ export const UNLINKSTAT = '[Character] UnlinkStat';
 export class Add implements Action {
     readonly type = ADD;
 
-    constructor(public payload: Character) { } 
+    constructor(public payload: Character) { }
 };
 
 export class Remove implements Action {
@@ -41,22 +40,20 @@ export class Select implements Action {
     constructor(public payload: string) { }
 }
 
-export class LinkStat implements Action {
-    readonly type = LINKSTAT;
+// export class LinkStat implements Action {
+//     readonly type = LINKSTAT;
 
-    constructor(public payload: {charId: string, statId: string}) {}
-}
+//     constructor(public payload: {charId: string, statId: string}) {}
+// }
 
-export class UnlinkStat implements Action {
-    readonly type = UNLINKSTAT;
+// export class UnlinkStat implements Action {
+//     readonly type = UNLINKSTAT;
 
-    constructor(public payload: {charId: string, statId: string}) {}
-}
+//     constructor(public payload: {charId: string, statId: string}) {}
+// }
 
-export type Actions
+export type All
  = Add
  | Remove
  | Update
- | Select
- | LinkStat
- | UnlinkStat
+ | Select;

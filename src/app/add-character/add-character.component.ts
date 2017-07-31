@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
-import { CharacterListService } from '../character-list.service';
-import { LoginService }         from '../login.service';
+// import { CharacterListService } from '../services/character-list.service';
+// import { LoginService }         from '../services/login.service';
 
 @Component({
   selector: 'app-add-character',
@@ -15,10 +15,8 @@ export class AddCharacterComponent implements OnInit {
   charName: FormControl = new FormControl('', Validators.required);
   addCharForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, 
-              private router: Router, 
-              private characterListService: CharacterListService,
-              private loginService: LoginService) {
+  constructor(private formBuilder: FormBuilder,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -28,7 +26,7 @@ export class AddCharacterComponent implements OnInit {
   }
 
   addCharacter() {
-    this.characterListService.addCharacter(this.charName.value);
-    this.router.navigate([this.loginService.currentUserUrl()]);
+    // this.characterListService.addCharacter(this.charName.value);
+    // this.router.navigate([this.loginService.currentUserUrl()]);
   }
 }

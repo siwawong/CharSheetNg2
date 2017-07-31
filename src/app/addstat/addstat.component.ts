@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router }    from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { CharacterStatsService } from '../character-stats.service';
-import { LoginService }         from '../login.service';
+// import { CharacterStatsService } from '../services/character-stats.service';
+// import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-addstat',
@@ -20,9 +20,9 @@ export class AddstatComponent implements OnInit {
   private addStatForm: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private loginService: LoginService,
-              private statService: CharacterStatsService,
-              private formBuilder: FormBuilder, 
+              // private loginService: LoginService,
+              // private statService: CharacterStatsService,
+              private formBuilder: FormBuilder,
               private router: Router) {
   }
 
@@ -43,15 +43,15 @@ export class AddstatComponent implements OnInit {
   submitForm() {
     let max = -1;
 
-    if(this.max.value !== undefined) {
+    if (this.max.value !== undefined) {
       max = this.max.value;
     }
 
-    this.statService.addStat(this.loginService.currentUser.id,
-                              this.name.value,
-                              this.value.value,
-                              max,                              
-                              this.type.value);
+    // this.statService.addStat(this.loginService.currentUser.id,
+    //                           this.name.value,
+    //                           this.value.value,
+    //                           max,                              
+    //                           this.type.value);
 
     // this.return();
   }

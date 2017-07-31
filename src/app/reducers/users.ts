@@ -1,11 +1,11 @@
-import { createSelector }       from 'reselect';
-import '@ngrx/core/add/operator/select';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/let';
-import { Observable } from 'rxjs/Observable';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { createSelector } from 'reselect';
+// import '@ngrx/core/add/operator/select';
+// import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/let';
+// import { Observable } from 'rxjs/Observable';
+// import { combineLatest } from 'rxjs/observable/combineLatest';
 
-import * as user from '../actions/users';
+import * as UserActions from '../actions/users';
 import { User } from '../models/user';
 
 export interface State {
@@ -20,9 +20,9 @@ const initialState: State = {
     selectedUserId: null,
 };
 
-export function reducer(state = initialState, action: user.Actions): State {
+export function reducer(state = initialState, action: UserActions.All): State {
     switch (action.type) {
-        case user.ADD: {
+        case UserActions.ADD: {
             const newUser = action.payload;
 
             return {
@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: user.Actions): State {
                 selectedUserId: state.selectedUserId,
             }
         }
-        case user.UPDATE: {
+        case UserActions.UPDATE: {
             const updatedChar = action.payload;
 
             return {
@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: user.Actions): State {
             }
         }
 
-        case user.REMOVE: {
+        case UserActions.REMOVE: {
             const id = action.id;
             const selectedUserId = (action.id === state.selectedUserId) ? null : state.selectedUserId
 
@@ -52,7 +52,7 @@ export function reducer(state = initialState, action: user.Actions): State {
             }
         }
 
-        case user.SELECT: {
+        case UserActions.SELECT: {
             return {
                 ids: state.ids,
                 entities: state.entities,
@@ -60,36 +60,36 @@ export function reducer(state = initialState, action: user.Actions): State {
             }
         }
 
-        case user.LINKCHAR: {
-            let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
+        // case UserActions.LINKCHAR: {
+        //     let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
 
-            // add new link
-            updatedUser.charIds = [...updatedUser.charIds, action.payload.charKey];
+        //     // add new link
+        //     updatedUser.charIds = [...updatedUser.charIds, action.payload.charKey];
 
-            let updatedEntities = Object.assign({}, state.entities);
-            updatedEntities[action.payload.userKey] = updatedUser;
+        //     let updatedEntities = Object.assign({}, state.entities);
+        //     updatedEntities[action.payload.userKey] = updatedUser;
 
-            return {
-                ids: state.ids,
-                entities: updatedEntities,
-                selectedUserId: state.selectedUserId
-            }
-        }
+        //     return {
+        //         ids: state.ids,
+        //         entities: updatedEntities,
+        //         selectedUserId: state.selectedUserId
+        //     }
+        // }
 
-        case user.UNLINKCHAR: {
-            let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
+        // case UserActions.UNLINKCHAR: {
+        //     let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
 
-            updatedUser.charIds = updatedUser.charIds.filter(id => id !== action.payload.charKey);
+        //     updatedUser.charIds = updatedUser.charIds.filter(id => id !== action.payload.charKey);
 
-            let updatedEntities = Object.assign({}, state.entities);
-            updatedEntities[action.payload.userKey] = updatedUser;
+        //     let updatedEntities = Object.assign({}, state.entities);
+        //     updatedEntities[action.payload.userKey] = updatedUser;
 
-            return {
-                ids: state.ids,
-                entities: updatedEntities,
-                selectedUserId: state.selectedUserId
-            }
-        }
+        //     return {
+        //         ids: state.ids,
+        //         entities: updatedEntities,
+        //         selectedUserId: state.selectedUserId
+        //     }
+        // }
 
         default:
             return state;

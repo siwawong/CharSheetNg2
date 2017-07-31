@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Store }      from '@ngrx/store';
 
-import { Character }  from './models/character';
-import { CHARACTERS } from './mock-characters';
+import { Character }  from '../models/character';
 
-import * as fromRoot  from './reducers';
-import * as character from './actions/character';
-import * as user      from './actions/users';
+import * as fromRoot  from '../reducers';
+import * as character from '../actions/character';
+import * as user      from '../actions/users';
 
 import { LoginService } from './login.service';
 
@@ -22,9 +21,9 @@ export class CharacterListService {
 
   constructor(private store$: Store<fromRoot.State>, private loginService: LoginService) {
     // add characters - temp
-    CHARACTERS.map(char => {
-      this.store$.dispatch(new character.Add(char));
-    });
+    // CHARACTERS.map(char => {
+    //   this.store$.dispatch(new character.Add(char));
+    // });
 
     // keep the current user around
     this.store$.select(fromRoot.getSelectedUserId).subscribe(id => this._selectedUserId = id);
@@ -63,10 +62,9 @@ export class CharacterListService {
 
       this.store$.dispatch(new character.Add(newCharacter));
       // link the new character to the current user
-      this.store$.dispatch(new user.LinkChar({userKey: this._selectedUserId , charKey: newCharacter.id}));
+      // this.store$.dispatch(new user.LinkChar({userKey: this._selectedUserId , charKey: newCharacter.id}));
     }
 
-    
   }
 
   validateCurrentCharacter(name: string) {

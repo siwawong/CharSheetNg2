@@ -1,1 +1,1 @@
-export * from './charsheet.component';
+// export * from './charsheet.component';

@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { CharacterStat } from '../models/character-stat';
-import { type } from '../util';
 
 /**
  * For each action type in an action group, make a simple
@@ -17,7 +16,7 @@ export const UPDATE = '[Character-Stat] Update';
 export class StatAdd implements Action {
     readonly type = ADD;
 
-    constructor(public payload: CharacterStat) { } 
+    constructor(public payload: CharacterStat) { }
 }
 
 export class StatRemove implements Action {
@@ -32,7 +31,7 @@ export class StatUpdate implements Action {
     constructor(public payload: CharacterStat) { }
 }
 
-export type Actions
+export type All
  = StatAdd
  | StatRemove
- | StatUpdate
+ | StatUpdate;

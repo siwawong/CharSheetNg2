@@ -1,1 +1,1 @@
-export * from './charlist.component';
+// export * from './charlist.component';

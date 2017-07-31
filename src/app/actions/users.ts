@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { User } from '../models/user';
-import { type } from '../util';
 
 /**
  * For each action type in an action group, make a simple
@@ -21,8 +20,8 @@ export const UNLINKCHAR = '[User] UnlinkChar';
 
 export class Add implements Action {
     readonly type = ADD;
-    
-    constructor(public payload: User) { } 
+
+    constructor(public payload: User) { }
 }
 
 export class Remove implements Action {
@@ -43,22 +42,20 @@ export class Select implements Action {
     constructor(public payload: string) { }
 }
 
-export class LinkChar implements Action {
-    readonly type = LINKCHAR;
+// export class LinkChar implements Action {
+//     readonly type = LINKCHAR;
 
-    constructor(public payload: {userKey: string, charKey: string}) {}
-}
+//     constructor(public payload: {userKey: string, charKey: string}) {}
+// }
 
-export class UnlinkChar implements Action {
-    readonly type= UNLINKCHAR;
+// export class UnlinkChar implements Action {
+//     readonly type= UNLINKCHAR;
 
-    constructor(public payload: {userKey: string, charKey: string}) {}
-}
+//     constructor(public payload: {userKey: string, charKey: string}) {}
+// }
 
-export type Actions
+export type All
  = Add
  | Remove
  | Update
- | Select
- | LinkChar
- | UnlinkChar
+ | Select;

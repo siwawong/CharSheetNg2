@@ -1,5 +1,7 @@
 export class User {
-    login: string;
     id: string;
+    login: string;
+    email: string;
     charIds: string[];
-}
+    authToken: string;
+};

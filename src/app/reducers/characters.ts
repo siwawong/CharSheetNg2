@@ -1,11 +1,11 @@
-import { createSelector }   from 'reselect';
-import '@ngrx/core/add/operator/select';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/let';
-import { Observable } from 'rxjs/Observable';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { createSelector } from 'reselect';
+// import '@ngrx/core/add/operator/select';
+// import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/let';
+// import { Observable } from 'rxjs/Observable';
+// import { combineLatest } from 'rxjs/observable/combineLatest';
 
-import * as character from '../actions/character';
+import * as CharacterActions from '../actions/character';
 import { Character } from '../models/character';
 
 export interface State {
@@ -20,9 +20,9 @@ const initialState: State = {
     selectedCharId: null,
 };
 
-export function reducer(state = initialState, action: character.Actions): State {
+export function reducer(state = initialState, action: CharacterActions.All): State {
     switch (action.type) {
-        case character.ADD: {
+        case CharacterActions.ADD: {
             const newChar = action.payload;
 
             return {
@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: character.Actions): State 
                 selectedCharId: state.selectedCharId,
             }
         }
-        case character.UPDATE: {
+        case CharacterActions.UPDATE: {
             const updatedChar = action.payload;
 
             return {
@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: character.Actions): State 
             }
         }
 
-        case character.REMOVE: {
+        case CharacterActions.REMOVE: {
             const id = action.id;
             const selectedCharId = (action.id === state.selectedCharId) ? null : state.selectedCharId;
 
@@ -51,40 +51,40 @@ export function reducer(state = initialState, action: character.Actions): State 
                 selectedCharId: selectedCharId
             }
         }
-        case character.SELECT: {
+        case CharacterActions.SELECT: {
             return {
                 ids: state.ids,
                 entities: state.entities,
                 selectedCharId: action.payload
             }
         }
-        case character.LINKSTAT: {
-            let newChar = Object.assign({}, state.entities[action.payload.charId]);
-            let newEntities = Object.assign({}, state.entities);
+        // case CharacterActions.LINKSTAT: {
+        //     let newChar = Object.assign({}, state.entities[action.payload.charId]);
+        //     let newEntities = Object.assign({}, state.entities);
 
-            newChar.statIds = [... newChar.statIds, action.payload.statId];
-            newEntities[action.payload.charId] = newChar;
+        //     newChar.statIds = [... newChar.statIds, action.payload.statId];
+        //     newEntities[action.payload.charId] = newChar;
 
-            return {
-                ids: state.ids,
-                entities: newEntities,
-                selectedCharId: state.selectedCharId
-            }
-        }
+        //     return {
+        //         ids: state.ids,
+        //         entities: newEntities,
+        //         selectedCharId: state.selectedCharId
+        //     }
+        // }
 
-        case character.UNLINKSTAT: {
-            let newChar = Object.assign({}, state.entities[action.payload.charId]);
-            let newEntities = Object.assign({}, state.entities);
+        // case CharacterActions.UNLINKSTAT: {
+        //     let newChar = Object.assign({}, state.entities[action.payload.charId]);
+        //     let newEntities = Object.assign({}, state.entities);
 
-            newChar.statIds = newChar.statIds.filter(id => id !== action.payload.statId);
-            newEntities[action.payload.charId] = newChar;
+        //     newChar.statIds = newChar.statIds.filter(id => id !== action.payload.statId);
+        //     newEntities[action.payload.charId] = newChar;
 
-            return {
-                ids: state.ids,
-                entities: newEntities,
-                selectedCharId: state.selectedCharId
-            }
-        }
+        //     return {
+        //         ids: state.ids,
+        //         entities: newEntities,
+        //         selectedCharId: state.selectedCharId
+        //     }
+        // }
 
         default:
             return state;
@@ -98,7 +98,7 @@ export const getCharacters          = createSelector(getIds, getEntities, (ids, 
     return ids.map(id => entities[id]);
 });
 
-export const getSelectedCharacter   = createSelector(getSelectedCharacterId, 
-                                                     getEntities, 
+export const getSelectedCharacter   = createSelector(getSelectedCharacterId,
+                                                     getEntities,
                                                      (id, characters) => characters[id]);
 

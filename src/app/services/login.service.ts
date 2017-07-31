@@ -3,10 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Store } from '@ngrx/store';
 
-import { User } from './models/user';
-import { USERS } from './mock-users';
-import * as fromRoot from './reducers';
-import * as users from './actions/users';
+import { User } from '../models/user';
+import * as fromRoot from '../reducers';
+import * as users from '../actions/users';
 
 @Injectable()
 export class LoginService {
@@ -28,25 +27,25 @@ export class LoginService {
     this.currentUser$ = store$.select(fromRoot.getSelectedUser);
     this.currentUser$.subscribe(user => this.currentUser = user);
 
-    USERS.map(user => {
-      this.store$.dispatch(new users.Add(user));
-    });
+    // USERS.map(user => {
+    //   this.store$.dispatch(new users.Add(user));
+    // });
   }
 
   // TODO: Handle invalid usernames
   getUsers() {
-    return Promise.resolve(USERS);
+    // return Promise.resolve(USERS);
   }
 
   getCurrentUser() {
     return this.currentUser;
   }
-  
+
   validateUserName(name: string) {
     let currentLogin: User;
 
     currentLogin = (this.usersArr) ? this.usersArr.find(user => user.login === name) : undefined;
-    
+
     if(currentLogin !== undefined) {
       // select the current User
       this.store$.dispatch(new users.Select(currentLogin.id));

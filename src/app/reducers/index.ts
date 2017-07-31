@@ -1,27 +1,20 @@
-import { createSelector }       from 'reselect';
-import '@ngrx/core/add/operator/select';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/let';
+import { createSelector } from 'reselect';
+// import '@ngrx/core/add/operator/select';
+// import 'rxjs/add/operator/switchMap';
+// import 'rxjs/add/operator/let';
 
-import { Observable } from 'rxjs/Observable';
-import { combineLatest } from 'rxjs/observable/combineLatest';
-import { ActionReducer } from '@ngrx/store';
+// import { Observable } from 'rxjs/Observable';
+// import { combineLatest } from 'rxjs/observable/combineLatest';
+// import { ActionReducer } from '@ngrx/store';
+// import { combineReducers } from '@ngrx/store';
 
-import { compose } from '@ngrx/core/compose';
-
-import { storeLogger} from 'ngrx-store-logger';
-
-import { storeFreeze } from 'ngrx-store-freeze';
-
-import { combineReducers } from '@ngrx/store';
-
-// environment
-import { environment } from '../../environments/environment';
+// // environment
+// import { environment } from '../../environments/environment';
 
 // models
-import { User } from '../models/user';
-import { Character } from '../models/character';
-import { CharacterStat} from '../models/character-stat';
+// import { User } from '../models/user';
+// import { Character } from '../models/character';
+// import { CharacterStat} from '../models/character-stat';
 
 // child reducers
 import * as fromUsers from './users';
@@ -48,26 +41,26 @@ export interface State {
  * the result from right to left.
  */
 
-const reducers = {
+export const reducers = {
     users: fromUsers.reducer,
     characters: fromChars.reducer,
     stats: fromStats.reducer
-}
+};
 
 // have a separate development and production reducer
 // development prevents mutation
 
-const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
-const productionReducer: ActionReducer<State> = combineReducers(reducers);
+// const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
+// const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
-export function reducer(state: any, action: any) {
-  if (environment.production) {
-    return productionReducer(state, action);
-  }
-  else {
-    return developmentReducer(state, action);
-  }
-}
+// export function reducer(state: any, action: any) {
+//   if (environment.production) {
+//     return productionReducer(state, action);
+//   }
+//   else {
+//     return developmentReducer(state, action);
+//   }
+// }
 
 /**
  * Start User accessors and selectors 
@@ -90,14 +83,14 @@ export const getSelectedUserId  = createSelector(getUsersState, fromUsers.getSel
  */
 
 export const getCharState    = (state: State) => state.characters;
-export const getCharEntities = createSelector(getCharState, fromChars.getEntities)
+export const getCharEntities = createSelector(getCharState, fromChars.getEntities);
 export const getCharIds      = createSelector(getCharState, fromChars.getIds );
 export const getChars        = createSelector(getCharState, fromChars.getCharacters);
 export const getSelectedChar = createSelector(getCharState, fromChars.getSelectedCharacter);
 // gets the current user, fetches all character entities
 // returns: array of the current users characters
 
-export const getUserCharacters = createSelector(getSelectedUser, getCharEntities, 
+export const getUserCharacters = createSelector(getSelectedUser, getCharEntities,
     (user, characters) => user.charIds.map(id => characters[id]));
 
 
@@ -108,8 +101,8 @@ export const getStatState    = (state: State) => state.stats;
 
 export const getStatEntities = createSelector(getStatState, fromStats.getEntities);
 export const getStatIds      = createSelector(getStatState, fromStats.getIds);
-export const getStats        = createSelector(getStatState, fromStats.getStats,);
+export const getStats        = createSelector(getStatState, fromStats.getStats, );
 
-export const getCharStats    = createSelector(getSelectedChar, getStatEntities, 
+export const getCharStats    = createSelector(getSelectedChar, getStatEntities,
    (char, stats) => char.statIds.map(id => stats[id]));
 
