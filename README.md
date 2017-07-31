@@ -46,7 +46,7 @@ If successful will return a new JSON containing the user: `id, name, and email`.
 
 #### Login
 
-`POST` request to [localhost:3000/Users/Me](): Expects the users `email` and `password`. Should be called after a user has been created and logged out for the first time. Returns a new Javascript Web Token and the JSON containing the users `id`
+`POST` request to [localhost:3000/Users/Me](): Expects the users `email` and `password`. Should be called after a user has been created and logged out for the first time. Returns a new Javascript Web Token and the JSON containing the users `id, name, and email`
 
 #### Logout
 
