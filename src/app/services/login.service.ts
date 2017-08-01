@@ -44,7 +44,7 @@ export class LoginService {
   validateUserName(name: string) {
     let currentLogin: User;
 
-    currentLogin = (this.usersArr) ? this.usersArr.find(user => user.login === name) : undefined;
+    currentLogin = (this.usersArr) ? this.usersArr.find(user => user.name === name) : undefined;
 
     if(currentLogin !== undefined) {
       // select the current User
@@ -55,6 +55,6 @@ export class LoginService {
   }
 
   currentUserUrl(): string {
-    return this.currentUser.login;
+    return this.currentUser.name;
   }
 }

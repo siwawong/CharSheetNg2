@@ -1,14 +1,16 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+// import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 
 import { AddstatComponent } from './addstat/addstat.component';
 import { AddCharacterComponent} from './add-character/add-character.component';
 import { CharlistComponent } from './charlist/charlist.component';
 import { CharsheetComponent } from './charsheet/charsheet.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './user/login/login.component';
+import { CreateUserComponent } from './user/create/create.component';
 
-const appRoutes: Routes = [
+export const routes: Routes = [
     { path: '',                     component: LoginComponent },
+    { path: 'Create',               component: CreateUserComponent },
     { path: 'addStat',              component: AddstatComponent },
     { path: 'addCharacter',         component: AddCharacterComponent },
     { path: ':user',                component: CharlistComponent },
@@ -16,10 +18,10 @@ const appRoutes: Routes = [
     { path: ':user/:name/add-stat', component: AddstatComponent }
 ];
 
-@NgModule({
-    imports: [RouterModule.forRoot(appRoutes)],
-    exports: [RouterModule]
-})
-export class AppRoutingModule {
+// @NgModule({
+//     imports: [RouterModule.forRoot(appRoutes)],
+//     exports: [RouterModule]
+// })
+// export class AppRoutingModule {
 
-}
+// }

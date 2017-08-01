@@ -10,16 +10,25 @@ import { User } from '../models/user';
  * action types in the application are unique. 
  */
 
-export const ADD =        '[User] Add';
-export const REMOVE =     '[User] Remove';
-export const UPDATE =     '[User] Update';
-export const SELECT =     '[User] Select';
-export const LINKCHAR =   '[User] LinkChar';
-export const UNLINKCHAR = '[User] UnlinkChar';
+export const ADD =              '[User] Add';
+export const ADD_SUCCESS =      '[User] Add Success';
+export const REMOVE =           '[User] Remove';
+export const REMOVE_SUCCESS =   '[User] Remove Success';
+export const UPDATE =           '[User] Update';
+export const UPDATE_SUCCESS =   '[User] Update Success';
+export const SELECT =           '[User] Select';
+// export const LINKCHAR =   '[User] LinkChar';
+// export const UNLINKCHAR = '[User] UnlinkChar';
 
 
 export class Add implements Action {
     readonly type = ADD;
+
+    constructor(public payload: {name: string, email: string, password: string}) { }
+}
+
+export class AddSuccess implements Action {
+    readonly type = ADD_SUCCESS;
 
     constructor(public payload: User) { }
 }
@@ -30,8 +39,20 @@ export class Remove implements Action {
     constructor(public id: string) { }
 }
 
+export class RemoveSuccess implements Action {
+    readonly type = REMOVE_SUCCESS;
+
+    constructor(public id: string) { }
+}
+
 export class Update implements Action {
     readonly type = UPDATE;
+
+    constructor(public id: string) { }
+}
+
+export class UpdateSuccess implements Action {
+    readonly type = UPDATE_SUCCESS;
 
     constructor(public payload: User) { }
 }
@@ -56,6 +77,9 @@ export class Select implements Action {
 
 export type All
  = Add
+ | AddSuccess
  | Remove
+ | RemoveSuccess
  | Update
+ | UpdateSuccess
  | Select;

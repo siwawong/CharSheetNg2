@@ -1,17 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+// import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppRoutingModule } from './app.routes.module';
-
 // store import
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+
+import { routes } from './routes';
 import { reducers } from './reducers';
+import { effects } from './effects';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './user/login/login.component';
+import { CreateUserComponent } from './user/create/create.component';
 import { CharlistComponent } from './charlist/charlist.component';
 import { CharsheetComponent } from './charsheet/charsheet.component';
 import { AddstatComponent } from './addstat/addstat.component';
@@ -27,6 +32,7 @@ import { HttpService } from './services/http.service';
   declarations: [
     AppComponent,
     LoginComponent,
+    CreateUserComponent,
     CharlistComponent,
     CharsheetComponent,
     AddstatComponent,
@@ -35,19 +41,19 @@ import { HttpService } from './services/http.service';
   ],
   imports: [
     BrowserModule,
-    CommonModule,
     ReactiveFormsModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot({routerReducer: reducers}),
+    EffectsModule.forRoot(effects),
+    RouterModule.forRoot(routes),
+    StoreRouterConnectingModule,
     HttpModule
   ],
   providers: [
-    AppRoutingModule,
     HttpService,
     // CharacterListService,
     // CharacterStatsService,
     // LoginService
   ],
-  entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

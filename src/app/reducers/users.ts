@@ -1,9 +1,4 @@
 import { createSelector } from 'reselect';
-// import '@ngrx/core/add/operator/select';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/let';
-// import { Observable } from 'rxjs/Observable';
-// import { combineLatest } from 'rxjs/observable/combineLatest';
 
 import * as UserActions from '../actions/users';
 import { User } from '../models/user';
@@ -22,34 +17,34 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: UserActions.All): State {
     switch (action.type) {
-        case UserActions.ADD: {
+        case UserActions.ADD_SUCCESS: {
             const newUser = action.payload;
 
             return {
                 ids: [...state.ids, newUser.id],
                 entities: Object.assign({}, state.entities, {[newUser.id]: newUser}),
-                selectedUserId: state.selectedUserId,
-            }
+                selectedUserId: newUser.id,
+            };
         }
-        case UserActions.UPDATE: {
+        case UserActions.UPDATE_SUCCESS: {
             const updatedChar = action.payload;
 
             return {
                 ids: [...state.ids],
                 entities: Object.assign({}, state.entities, {[updatedChar.id]: updatedChar}),
                 selectedUserId: state.selectedUserId
-            }
+            };
         }
 
-        case UserActions.REMOVE: {
-            const id = action.id;
-            const selectedUserId = (action.id === state.selectedUserId) ? null : state.selectedUserId
+        case UserActions.REMOVE_SUCCESS: {
+            const toRemoveId = action.id;
+            const selectedUserId = (toRemoveId === state.selectedUserId) ? null : state.selectedUserId;
 
             return {
-                ids: state.ids.filter(id => id !== id),
-                entities: Object.assign({}, state.entities, {[id]: undefined}),
+                ids: state.ids.filter(id => id !== toRemoveId),
+                entities: Object.assign({}, state.entities, {[toRemoveId]: undefined}),
                 selectedUserId: selectedUserId
-            }
+            };
         }
 
         case UserActions.SELECT: {
@@ -57,8 +52,14 @@ export function reducer(state = initialState, action: UserActions.All): State {
                 ids: state.ids,
                 entities: state.entities,
                 selectedUserId: action.payload
-            }
+            };
         }
+
+        case UserActions.ADD:
+        case UserActions.REMOVE:
+        case UserActions.UPDATE:
+        default:
+            return state;
 
         // case UserActions.LINKCHAR: {
         //     let updatedUser = Object.assign({}, state.entities[action.payload.userKey]);
@@ -90,9 +91,6 @@ export function reducer(state = initialState, action: UserActions.All): State {
         //         selectedUserId: state.selectedUserId
         //     }
         // }
-
-        default:
-            return state;
     }
 }
 

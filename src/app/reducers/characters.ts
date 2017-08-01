@@ -22,42 +22,59 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: CharacterActions.All): State {
     switch (action.type) {
-        case CharacterActions.ADD: {
+        case CharacterActions.GET_SUCCESS:
+        case CharacterActions.UPDATE_SUCCESS:
+        case CharacterActions.CREATE_SUCCESS: {
             const newChar = action.payload;
 
             return {
                 ids: [...state.ids, newChar.id],
                 entities: Object.assign({}, state.entities, {[newChar.id]: newChar}),
                 selectedCharId: state.selectedCharId,
-            }
+            };
         }
-        case CharacterActions.UPDATE: {
-            const updatedChar = action.payload;
+        case CharacterActions.GET_ALL_SUCCESS: {
+            const newChars = action.payload;
+            let newState = {
+                ids: [],
+                entities: { }
+            };
+            newChars.map((char) => {
+                newState.ids.push(char.id);
+                newState.entities[char.id] = char;
+            });
 
             return {
-                ids: [...state.ids],
-                entities: Object.assign({}, state.entities, {[updatedChar.id]: updatedChar}),
+                ids: [...state.ids, ...newState.ids],
+                entities: Object.assign({}, state.entities, newState.entities),
                 selectedCharId: state.selectedCharId
-            }
+            };
         }
 
-        case CharacterActions.REMOVE: {
-            const id = action.id;
-            const selectedCharId = (action.id === state.selectedCharId) ? null : state.selectedCharId;
+        case CharacterActions.REMOVE_SUCCESS: {
+            const toRemoveId = action.id;
+            const selectedCharId = (toRemoveId === state.selectedCharId) ? null : state.selectedCharId;
 
             return {
-                ids: state.ids.filter(id => id !== id),
-                entities: Object.assign({}, state.entities, {[id]: undefined}),
+                ids: state.ids.filter(id => id !== toRemoveId),
+                entities: Object.assign({}, state.entities, {[toRemoveId]: undefined}),
                 selectedCharId: selectedCharId
-            }
+            };
         }
         case CharacterActions.SELECT: {
             return {
                 ids: state.ids,
                 entities: state.entities,
                 selectedCharId: action.payload
-            }
+            };
         }
+        case CharacterActions.REMOVE:
+        case CharacterActions.CREATE:
+        case CharacterActions.GET:
+        case CharacterActions.UPDATE:
+        case CharacterActions.GET_ALL:
+        default:
+            return state;
         // case CharacterActions.LINKSTAT: {
         //     let newChar = Object.assign({}, state.entities[action.payload.charId]);
         //     let newEntities = Object.assign({}, state.entities);
@@ -85,9 +102,6 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
         //         selectedCharId: state.selectedCharId
         //     }
         // }
-
-        default:
-            return state;
     }
 };
 

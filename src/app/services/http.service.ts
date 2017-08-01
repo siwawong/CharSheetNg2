@@ -29,8 +29,10 @@ export class HttpService {
   }
 
   login(email: string, password: string): Observable<User> {
+    console.log('Login');
     return this.http.post(`${environment.getUrl()}Users/Me`, { email, password })
       .map((response: Response) => {
+        console.log('response');
         let toReturn = response.json();
         toReturn.authToken = response.headers.get('x-auth');
         return toReturn;

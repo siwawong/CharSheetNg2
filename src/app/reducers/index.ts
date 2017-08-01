@@ -1,22 +1,7 @@
 import { createSelector } from 'reselect';
-// import '@ngrx/core/add/operator/select';
-// import 'rxjs/add/operator/switchMap';
-// import 'rxjs/add/operator/let';
-
-// import { Observable } from 'rxjs/Observable';
-// import { combineLatest } from 'rxjs/observable/combineLatest';
-// import { ActionReducer } from '@ngrx/store';
-// import { combineReducers } from '@ngrx/store';
-
-// // environment
-// import { environment } from '../../environments/environment';
-
-// models
-// import { User } from '../models/user';
-// import { Character } from '../models/character';
-// import { CharacterStat} from '../models/character-stat';
 
 // child reducers
+import * as fromAuth from './auth';
 import * as fromUsers from './users';
 import * as fromChars from './characters';
 import * as fromStats from './character-stats';
@@ -28,6 +13,7 @@ import * as fromStats from './character-stats';
  */
 
 export interface State {
+    auth: fromAuth.State;
     users: fromUsers.State;
     characters: fromChars.State;
     stats: fromStats.State;
@@ -42,6 +28,7 @@ export interface State {
  */
 
 export const reducers = {
+    auth: fromAuth.reducer,
     users: fromUsers.reducer,
     characters: fromChars.reducer,
     stats: fromStats.reducer
@@ -69,6 +56,10 @@ export const reducers = {
 // export function getUsersState(state$: Observable<State>):  {
 //     return state$.select(state => state.users);
 // }
+export const getAuthState = (state: State) => state.auth;
+
+export const getAuth = createSelector(getAuthState, fromAuth.getAuth);
+
 
 export const getUsersState = (state: State) => state.users;
 
