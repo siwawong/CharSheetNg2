@@ -1,24 +1,13 @@
 import { Action } from '@ngrx/store';
 
-export const LOGIN =            '[Auth] Login';
-export const LOGIN_SUCCESS =    '[Auth] Login Success';
 export const CREATE =           '[Auth] Create';
 export const CREATE_SUCCESS =   '[Auth] Create Success';
-export const LOGOUT =           '[Auth] Logout';
-
-export class Login implements Action {
-    readonly type = LOGIN;
-    constructor(public payload: {email: string, password: string}) { }
-}
+export const DELETE =           '[Auth] Delete';
+export const DELETE_SUCCESS =   '[Auth] Delete Success';
 
 export class Create implements Action {
-    readonly type = LOGIN;
+    readonly type = CREATE;
     constructor(public payload: {email: string, password: string}) { }
-}
-
-export class LoginSuccess implements Action {
-    readonly type = LOGIN_SUCCESS;
-    constructor(public auth: string) { }
 }
 
 export class CreateSuccess implements Action {
@@ -26,14 +15,18 @@ export class CreateSuccess implements Action {
     constructor(public auth: string) { }
 }
 
-export class Logout implements Action {
-    readonly type = LOGOUT;
+export class Delete implements Action {
+    readonly type = DELETE;
+    constructor() { }
+}
+
+export class DeleteSuccess implements Action {
+    readonly type = DELETE_SUCCESS;
     constructor() { }
 }
 
 export type All
     = Create
     | CreateSuccess
-    | Login
-    | LoginSuccess
-    | Logout;
+    | DeleteSuccess
+    | Delete;

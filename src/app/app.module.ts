@@ -8,7 +8,7 @@ import { HttpModule } from '@angular/http';
 // store import
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { routes } from './routes';
 import { reducers } from './reducers';
@@ -42,10 +42,10 @@ import { HttpService } from './services/http.service';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({routerReducer: reducers}),
-    EffectsModule.forRoot(effects),
     RouterModule.forRoot(routes),
+    StoreModule.forRoot(reducers),
     StoreRouterConnectingModule,
+    EffectsModule.forRoot(effects),
     HttpModule
   ],
   providers: [

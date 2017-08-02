@@ -16,7 +16,7 @@ export class HttpService {
   constructor(private http: Http) { }
 
   // Add Check Email Availability
-  createUser(name: string, email: string, password: string): Observable<User> {
+  createUser(name: string, email: string, password: string): Observable<any> {
     return this.http.post(`${environment.getUrl()}Users`, {name, email, password})
       .map((response: Response) => {
         let toReturn = response.json();
@@ -28,7 +28,7 @@ export class HttpService {
       });
   }
 
-  login(email: string, password: string): Observable<User> {
+  login(email: string, password: string): Observable<any> {
     console.log('Login');
     return this.http.post(`${environment.getUrl()}Users/Me`, { email, password })
       .map((response: Response) => {
@@ -108,29 +108,29 @@ export class HttpService {
         });
   }
 
-  patchCharacterStat(currUser: User, currCharacter: Character, currStat: CharacterStat) {
-    this.http.patch(
-      `${environment.getUrl()}Users/Characters/Stats/`,
-      { _id: currCharacter.id, ...currStat },
-      this.createAuthHeader(currUser.authToken))
-        .map((response: Response) => {
-          // return Character.[stats]
-        }).catch((error: Response) => {
-          return Observable.throw(error);
-        });
-  }
+  // patchCharacterStat(currUser: User, currCharacter: Character, currStat: CharacterStat) {
+  //   this.http.patch(
+  //     `${environment.getUrl()}Users/Characters/Stats/`,
+  //     { _id: currCharacter.id, ...currStat },
+  //     this.createAuthHeader(currUser.authToken))
+  //       .map((response: Response) => {
+  //         // return Character.[stats]
+  //       }).catch((error: Response) => {
+  //         return Observable.throw(error);
+  //       });
+  // }
 
-  deleteCharacterStat(currUser: User, currCharacter: Character, currStat: CharacterStat) {
-    // rewrite server api to not expect json object
-    this.http.delete(
-      `${environment.getUrl()}Users/Characters/${currCharacter.id}/Stats/${currStat.name}`,
-      this.createAuthHeader(currUser.authToken))
-        .map((response: Response) => {
-          // return Character.[stats]
-        }).catch((error: Response) => {
-          return Observable.throw(error);
-        });
-  }
+  // deleteCharacterStat(currUser: User, currCharacter: Character, currStat: CharacterStat) {
+  //   // rewrite server api to not expect json object
+  //   this.http.delete(
+  //     `${environment.getUrl()}Users/Characters/${currCharacter.id}/Stats/${currStat.name}`,
+  //     this.createAuthHeader(currUser.authToken))
+  //       .map((response: Response) => {
+  //         // return Character.[stats]
+  //       }).catch((error: Response) => {
+  //         return Observable.throw(error);
+  //       });
+  // }
 
   createAuthHeader(authToken: string) {
     const header = new Headers({'x-auth': authToken});

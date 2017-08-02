@@ -3,32 +3,32 @@ import { createSelector } from 'reselect';
 import * as AuthActions from '../actions/auth';
 
 export interface State {
-    auth: string;
+    authToken: string;
     persist: boolean;
 };
 
 const initialState: State = {
-    auth: null,
+    authToken: '',
     persist: false
 };
 
 export function reducer(state = initialState, action: AuthActions.All): State {
     switch (action.type) {
-        case AuthActions.LOGIN_SUCCESS:
         case AuthActions.CREATE_SUCCESS: {
             return {
-                auth: action.auth,
+                authToken: action.auth,
                 persist: state.persist
             };
         }
-        case AuthActions.LOGOUT: {
+        case AuthActions.DELETE_SUCCESS: {
             return initialState;
         }
-        case AuthActions.LOGIN:
+        case AuthActions.DELETE:
+        case AuthActions.CREATE:
         default: {
             return state;
         }
     }
 };
 
-export const getAuth = (state: State) => state.auth;
+export const selectAuth = (state: State) => state.authToken;

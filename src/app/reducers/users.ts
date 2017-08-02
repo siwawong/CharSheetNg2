@@ -3,56 +3,32 @@ import { createSelector } from 'reselect';
 import * as UserActions from '../actions/users';
 import { User } from '../models/user';
 
-export interface State {
-    ids: string[];
-    entities: { [id: string]: User};
-    selectedUserId: string | null;
+export interface State extends User {
+    id: string;
+    name: string;
+    email: string;
 };
 
 const initialState: State = {
-    ids: [],
-    entities: {},
-    selectedUserId: null,
+    id: '',
+    name: '',
+    email: '',
 };
 
 export function reducer(state = initialState, action: UserActions.All): State {
     switch (action.type) {
+        case UserActions.UPDATE_SUCCESS:
         case UserActions.ADD_SUCCESS: {
             const newUser = action.payload;
 
             return {
-                ids: [...state.ids, newUser.id],
-                entities: Object.assign({}, state.entities, {[newUser.id]: newUser}),
-                selectedUserId: newUser.id,
+                id: newUser.id,
+                name: newUser.name,
+                email: newUser.email
             };
         }
-        case UserActions.UPDATE_SUCCESS: {
-            const updatedChar = action.payload;
-
-            return {
-                ids: [...state.ids],
-                entities: Object.assign({}, state.entities, {[updatedChar.id]: updatedChar}),
-                selectedUserId: state.selectedUserId
-            };
-        }
-
         case UserActions.REMOVE_SUCCESS: {
-            const toRemoveId = action.id;
-            const selectedUserId = (toRemoveId === state.selectedUserId) ? null : state.selectedUserId;
-
-            return {
-                ids: state.ids.filter(id => id !== toRemoveId),
-                entities: Object.assign({}, state.entities, {[toRemoveId]: undefined}),
-                selectedUserId: selectedUserId
-            };
-        }
-
-        case UserActions.SELECT: {
-            return {
-                ids: state.ids,
-                entities: state.entities,
-                selectedUserId: action.payload
-            };
+            return initialState;
         }
 
         case UserActions.ADD:
@@ -94,11 +70,15 @@ export function reducer(state = initialState, action: UserActions.All): State {
     }
 }
 
-export const getSelectedUserId = (state: State) => state.selectedUserId;
-export const getEntities       = (state: State) => state.entities;
-export const getIds            = (state: State) => state.ids;
-export const getUsers          = createSelector(getIds, getEntities, (ids, entities) => {
-    return ids.map(id => entities[id]);
-});
+export const getUsername = (state: State) => state.name;
+export const getEmail = (state: State) => state.email;
+export const getUserId = (state: State) => state.id
 
-export const getSelectedUser  = createSelector(getSelectedUserId, getEntities, (id, entities) => entities[id]);
+// export const getSelectedUserId = (state: State) => state.selectedUserId;
+// export const getEntities       = (state: State) => state.entities;
+// export const getIds            = (state: State) => state.ids;
+// export const getUsers          = createSelector(getIds, getEntities, (ids, entities) => {
+//     return ids.map(id => entities[id]);
+// });
+
+// export const getSelectedUser  = createSelector(getSelectedUserId, getEntities, (id, entities) => entities[id]);

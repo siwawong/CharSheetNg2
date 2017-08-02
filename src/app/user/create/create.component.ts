@@ -23,14 +23,22 @@ export class CreateUserComponent implements OnInit {
     this.name = new FormControl('', Validators.required);
     this.email = new FormControl('', [Validators.required, Validators.email]);
     this.password1 = new FormControl('', Validators.required);
-    this.password2 = new FormControl('');
+    this.password2 = new FormControl('', Validators.required);
 
     this.createForm = new FormGroup({
       name: this.name,
       email: this.email,
-      password1: this.password1,
-      password2: this.password2
+      passwords: new FormGroup({
+        password1: this.password1,
+        password2: this.password2
+      }, this.areEqual.bind(this))
     });
+  }
+
+  areEqual(group: FormGroup): {[s: string]: boolean} {
+    if (this.password1.value !== this.password2.value) {
+      return {'passesNotSame': true};
+    }
   }
 
   create() {

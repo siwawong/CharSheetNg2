@@ -1,7 +1,6 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/withLatestFrom';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
@@ -14,25 +13,14 @@ import * as AuthActions from '../actions/auth';
 import * as fromRoot from '../reducers';
 
 @Injectable()
-export class AuthEffects {
+export class UserEffects {
     @Effect()
-    create$: Observable<Action> = this.actions$.ofType(AuthActions.CREATE)
+    $create: Observable<Action> = this.actions$.ofType(UserActions.ADD)
         .map(toPayload)
-        .switchMap(payload => this.http.login(payload.email, payload.password))
-        // .map((user) => new AuthActions.LoginSuccess(user.authToken));
+        .switchMap(payload => this.http.createUser(payload.name, payload.email, payload.password))
         .mergeMap((user) => {
             let mergeActions = [new AuthActions.CreateSuccess(user.authToken), new UserActions.AddSuccess(user)];
             this.router.navigateByUrl(user.name);
-            return mergeActions;
-        });
-
-    @Effect()
-    delete$: Observable<Action> = this.actions$.ofType(AuthActions.DELETE)
-        .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
-        .switchMap((authToken) => this.http.logout(authToken))
-        .mergeMap((response) => {
-            let mergeActions = [new AuthActions.DeleteSuccess(), new UserActions.RemoveSuccess('Test')];
-            this.router.navigateByUrl('');
             return mergeActions;
         });
 

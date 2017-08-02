@@ -9,59 +9,50 @@ import * as StatActions from '../actions/character-stat';
 import { CharacterStat } from '../models/character-stat';
 
 export interface State {
-    ids: string[];
-    entities: { [id: string]: CharacterStat};
-    selectedStatId: string | null;
+    stats: CharacterStat[];
+    selectedIndex: number
 };
 
 const initialState: State = {
-    ids: [],
-    entities: {},
-    selectedStatId: null,
+    stats: [],
+    selectedIndex: null,
 };
 
 export function reducer(state = initialState, action: StatActions.All): State {
     switch (action.type) {
-        case StatActions.ADD: {
-            const newStat = action.payload;
-
+        case StatActions.UPDATE_SUCCESS:
+        case StatActions.ADD_SUCCESS: {
             return {
-                ids: [...state.ids, newStat.id],
-                entities: Object.assign({}, state.entities, {[newStat.id]: newStat}),
-                selectedStatId: state.selectedStatId,
+                stats: Object.assign([], ...state.stats, action.payload),
+                selectedIndex: state.selectedIndex
             }
         }
-        case StatActions.UPDATE: {
-            const updatedStat = action.payload;
+        case StatActions.REMOVE_SUCCESS: {
+            const toRemove = action.payload
+            let newArray = state.stats.filter(stat => stat.name !== toRemove.name);
 
             return {
-                ids: [...state.ids],
-                entities: Object.assign({}, state.entities, {[updatedStat.id]: updatedStat}),
-                selectedStatId: state.selectedStatId
+                stats: Object.assign([], ...state.stats),
+                selectedIndex: null
             }
         }
-
-        case StatActions.REMOVE: {
-            const id = action.id;
-            const selectedStatId = (action.id === state.selectedStatId) ? null : state.selectedStatId;
-
+        case StatActions.ADD_MANY_SUCCESS: {
             return {
-                ids: state.ids.filter(id => id !== id),
-                entities: Object.assign({}, state.entities, {[id]: undefined}),
-                selectedStatId: selectedStatId
+                stats: Object.assign([], ...state.stats, ...action.payload),
+                selectedIndex: state.selectedIndex
             }
         }
+        case StatActions.ADD_MANY:
+        case StatActions.ADD:
+        case StatActions.UPDATE:
+        case StatActions.REMOVE:
         default:
             return state;
     }
 }
 
-export const getEntities       = (s: State) => s.entities;
-export const getIds            = (s: State) => s.ids;
-export const getSelectedStatId = (s: State) => s.selectedStatId;
-
-export const getStats = createSelector(getIds, getEntities,
-    (ids, entities) => ids.map(id => entities[id]));
+export const getStats       = (s: State) => s.stats;
+export const getSelectedStatId = (s: State) => s.selectedIndex;
 
 export const getSelectedStat =
-    createSelector(getSelectedStatId, getEntities, (id, entities) => entities[id]);
+    createSelector(getSelectedStatId, getStats, (id, stats) => stats[id]);

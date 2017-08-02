@@ -23,7 +23,6 @@ const initialState: State = {
 export function reducer(state = initialState, action: CharacterActions.All): State {
     switch (action.type) {
         case CharacterActions.GET_SUCCESS:
-        case CharacterActions.UPDATE_SUCCESS:
         case CharacterActions.CREATE_SUCCESS: {
             const newChar = action.payload;
 
@@ -32,6 +31,15 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
                 entities: Object.assign({}, state.entities, {[newChar.id]: newChar}),
                 selectedCharId: state.selectedCharId,
             };
+        }
+        case CharacterActions.UPDATE_SUCCESS: {
+            const updatedChar = action.payload;
+
+            return {
+                ids: [...state.ids],
+                entities: Object.assign({}, state.entities, {[updatedChar.id]: updatedChar}),
+                selectedCharId: state.selectedCharId
+            }
         }
         case CharacterActions.GET_ALL_SUCCESS: {
             const newChars = action.payload;
@@ -45,8 +53,8 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
             });
 
             return {
-                ids: [...state.ids, ...newState.ids],
-                entities: Object.assign({}, state.entities, newState.entities),
+                ids: [...newState.ids],
+                entities: newState.entities,
                 selectedCharId: state.selectedCharId
             };
         }

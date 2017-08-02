@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 // child reducers
+import * as fromRouter from '@ngrx/router-store';
 import * as fromAuth from './auth';
 import * as fromUsers from './users';
 import * as fromChars from './characters';
@@ -17,6 +18,7 @@ export interface State {
     users: fromUsers.State;
     characters: fromChars.State;
     stats: fromStats.State;
+    router: fromRouter.RouterReducerState;
 }
 
 /**
@@ -31,7 +33,8 @@ export const reducers = {
     auth: fromAuth.reducer,
     users: fromUsers.reducer,
     characters: fromChars.reducer,
-    stats: fromStats.reducer
+    stats: fromStats.reducer,
+    router: fromRouter.routerReducer
 };
 
 // have a separate development and production reducer
@@ -58,22 +61,20 @@ export const reducers = {
 // }
 export const getAuthState = (state: State) => state.auth;
 
-export const getAuth = createSelector(getAuthState, fromAuth.getAuth);
-
+export const getAuth = createSelector(getAuthState, fromAuth.selectAuth);
 
 export const getUsersState = (state: State) => state.users;
 
-export const getUserEntities    = createSelector(getUsersState, fromUsers.getEntities);
-export const getUserIds         = createSelector(getUsersState, fromUsers.getIds);
-export const getUsers           = createSelector(getUsersState, fromUsers.getUsers);
-export const getSelectedUser    = createSelector(getUsersState, fromUsers.getSelectedUser);
-export const getSelectedUserId  = createSelector(getUsersState, fromUsers.getSelectedUserId);
+export const getUsername =  createSelector(getUsersState, fromUsers.getUsername);
+export const getEmail =     createSelector(getUsersState, fromUsers.getEmail);
+export const getUserId =    createSelector(getUsersState, fromUsers.getUserId);
 
 /**
  * Start Character accessors and selectors
  */
 
 export const getCharState    = (state: State) => state.characters;
+
 export const getCharEntities = createSelector(getCharState, fromChars.getEntities);
 export const getCharIds      = createSelector(getCharState, fromChars.getIds );
 export const getChars        = createSelector(getCharState, fromChars.getCharacters);
@@ -81,19 +82,19 @@ export const getSelectedChar = createSelector(getCharState, fromChars.getSelecte
 // gets the current user, fetches all character entities
 // returns: array of the current users characters
 
-export const getUserCharacters = createSelector(getSelectedUser, getCharEntities,
-    (user, characters) => user.charIds.map(id => characters[id]));
+// export const getUserCharacters = createSelector(getSelectedUser, getCharEntities,
+//     (user, characters) => user.charIds.map(id => characters[id]));
 
 
 /**
  * Start CharacterStat accessors and selectors
  */
-export const getStatState    = (state: State) => state.stats;
+export const getStatState = (state: State) => state.stats;
 
-export const getStatEntities = createSelector(getStatState, fromStats.getEntities);
-export const getStatIds      = createSelector(getStatState, fromStats.getIds);
-export const getStats        = createSelector(getStatState, fromStats.getStats, );
+export const getStats =             createSelector(getStatState, fromStats.getStats);
+export const getSelectedStatId =    createSelector(getStatState, fromStats.getSelectedStatId);
+export const getCurrentStat =       createSelector(getStatState, fromStats.getSelectedStat, );
 
-export const getCharStats    = createSelector(getSelectedChar, getStatEntities,
-   (char, stats) => char.statIds.map(id => stats[id]));
+// export const getCharStats    = createSelector(getSelectedChar, getStatEntities,
+//    (char, stats) => char.statIds.map(id => stats[id]));
 
