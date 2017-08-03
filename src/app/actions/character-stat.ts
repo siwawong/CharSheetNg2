@@ -58,7 +58,7 @@ export class UpdateSuccess implements Action {
 export class Select implements Action {
     readonly type = SELECT;
 
-    constructor(public index: number) { }
+    constructor(public payload: number) { }
 }
 
 export class AddMany implements Action {

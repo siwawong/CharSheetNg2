@@ -53,14 +53,13 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
             });
 
             return {
-                ids: [...newState.ids],
+                ids: newState.ids,
                 entities: newState.entities,
                 selectedCharId: state.selectedCharId
             };
         }
-
         case CharacterActions.REMOVE_SUCCESS: {
-            const toRemoveId = action.id;
+            const toRemoveId = action.payload;
             const selectedCharId = (toRemoveId === state.selectedCharId) ? null : state.selectedCharId;
 
             return {
@@ -70,13 +69,20 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
             };
         }
         case CharacterActions.SELECT: {
+            const newSelectId = state.ids[action.payload];
+
             return {
-                ids: state.ids,
-                entities: state.entities,
-                selectedCharId: action.payload
+                ids: [...state.ids],
+                entities: Object.assign({}, state.entities),
+                selectedCharId: newSelectId
             };
         }
+        case CharacterActions.REMOVE_ALL_SUCCESS: {
+            return initialState;
+        }
+        case CharacterActions.SELECT_SUCCESS:
         case CharacterActions.REMOVE:
+        case CharacterActions.REMOVE_ALL:
         case CharacterActions.CREATE:
         case CharacterActions.GET:
         case CharacterActions.UPDATE:
@@ -115,12 +121,16 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
 
 export const getEntities            = (s: State) => s.entities;
 export const getIds                 = (s: State) => s.ids;
-export const getSelectedCharacterId = (s: State) => s.selectedCharId;
+export const getCharacterId = (s: State) => s.selectedCharId;
 export const getCharacters          = createSelector(getIds, getEntities, (ids, entities) => {
     return ids.map(id => entities[id]);
 });
 
-export const getSelectedCharacter   = createSelector(getSelectedCharacterId,
+export const getCharacter   = createSelector(getCharacterId,
                                                      getEntities,
                                                      (id, characters) => characters[id]);
+
+// export const getCharacterName   = createSelector(getCharacterId,
+//                                                      getEntities,
+//                                                      (id, characters) => characters[id].name);
 

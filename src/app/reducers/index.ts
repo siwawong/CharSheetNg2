@@ -68,33 +68,20 @@ export const getUsersState = (state: State) => state.users;
 export const getUsername =  createSelector(getUsersState, fromUsers.getUsername);
 export const getEmail =     createSelector(getUsersState, fromUsers.getEmail);
 export const getUserId =    createSelector(getUsersState, fromUsers.getUserId);
-
-/**
- * Start Character accessors and selectors
- */
+export const getUser =      createSelector(getUsersState, fromUsers.getUser);
 
 export const getCharState    = (state: State) => state.characters;
 
-export const getCharEntities = createSelector(getCharState, fromChars.getEntities);
-export const getCharIds      = createSelector(getCharState, fromChars.getIds );
-export const getChars        = createSelector(getCharState, fromChars.getCharacters);
-export const getSelectedChar = createSelector(getCharState, fromChars.getSelectedCharacter);
-// gets the current user, fetches all character entities
-// returns: array of the current users characters
+export const getCharacters       = createSelector(getCharState, fromChars.getCharacters);
+export const getCharacter = createSelector(getCharState, fromChars.getCharacter);
+export const getCharacterId = createSelector(getCharState, fromChars.getCharacterId);
 
-// export const getUserCharacters = createSelector(getSelectedUser, getCharEntities,
-//     (user, characters) => user.charIds.map(id => characters[id]));
-
-
-/**
- * Start CharacterStat accessors and selectors
- */
 export const getStatState = (state: State) => state.stats;
 
 export const getStats =             createSelector(getStatState, fromStats.getStats);
-export const getSelectedStatId =    createSelector(getStatState, fromStats.getSelectedStatId);
-export const getCurrentStat =       createSelector(getStatState, fromStats.getSelectedStat, );
+export const getStatIndex =    createSelector(getStatState, fromStats.getSelectedStatId);
+export const getCurrentStat =       createSelector(getStatState, fromStats.getSelectedStat);
 
-// export const getCharStats    = createSelector(getSelectedChar, getStatEntities,
-//    (char, stats) => char.statIds.map(id => stats[id]));
 
+export const getCharAuth = createSelector(getAuth, getCharacterId, (auth, charId) => { return {auth, charId}});
+export const getUsernameAndChar = createSelector(getUsername, getCharacter, (user, char) => { return {user, char}});

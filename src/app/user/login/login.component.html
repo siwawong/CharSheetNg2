@@ -4,6 +4,6 @@
         <li><input formControlName="email" placeholder="Email" type="email"></li>
         <li><input formControlName="password" placeholder="Password" type="password"></li>
     </ul>
-    <button type="submit">Login</button>
+    <button [disabled]="loginForm.invalid" type="submit">Login</button>
     <button type="button" routerLink="Create">Create New Account</button>
 </form>

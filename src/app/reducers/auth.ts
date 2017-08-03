@@ -16,7 +16,7 @@ export function reducer(state = initialState, action: AuthActions.All): State {
     switch (action.type) {
         case AuthActions.CREATE_SUCCESS: {
             return {
-                authToken: action.auth,
+                authToken: action.payload,
                 persist: state.persist
             };
         }

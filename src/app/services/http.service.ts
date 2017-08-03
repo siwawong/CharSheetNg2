@@ -17,6 +17,7 @@ export class HttpService {
 
   // Add Check Email Availability
   createUser(name: string, email: string, password: string): Observable<any> {
+    console.log(`${name}, ${email}, ${password}`);
     return this.http.post(`${environment.getUrl()}Users`, {name, email, password})
       .map((response: Response) => {
         let toReturn = response.json();
@@ -29,10 +30,8 @@ export class HttpService {
   }
 
   login(email: string, password: string): Observable<any> {
-    console.log('Login');
     return this.http.post(`${environment.getUrl()}Users/Me`, { email, password })
       .map((response: Response) => {
-        console.log('response');
         let toReturn = response.json();
         toReturn.authToken = response.headers.get('x-auth');
         return toReturn;
@@ -42,7 +41,6 @@ export class HttpService {
   }
 
   logout(authToken: string): Observable<boolean> {
-    console.log(authToken);
     return this.http.delete(`${environment.getUrl()}Users/Me`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         return true;
@@ -60,7 +58,7 @@ export class HttpService {
           return {
             id: resChar._id,
             name: resChar.name,
-            stats: []
+            // stats: []
           };
         });
       }).catch((error: Response) => {
@@ -69,39 +67,36 @@ export class HttpService {
   }
 
   createCharacter(authToken: string, characterName: string): Observable<Character> {
-    // returns character id
     return this.http.post(`${environment.getUrl()}Users/Characters`, { name: characterName }, this.createAuthHeader(authToken))
       .map((response: Response) => {
         let toReturn = response.json();
         return {
           id: toReturn,
           name: characterName,
-          stat: []
         };
       }).catch((error: Response) => {
         return Observable.throw(error);
       });
   }
 
-  getCharacterById(authToken: string, characterId: string): Observable<Character> {
+  getCharacterStats(authToken: string, characterId: string): Observable<any> {
     return this.http.get(`${environment.getUrl()}Users/Characters/${characterId}`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         // return Character
         let toReturn = response.json();
-        return {
-          id: toReturn._id,
-          name: toReturn.name,
-          stats: toReturn.stats
-        };
+        return toReturn;
       }).catch((error: Response) => {
         return Observable.throw(error);
       });
   }
 
-  createCharacterStat(authToken: string, characterId: string, newStat: CharacterStat) {
-    this.http.post(`${environment.getUrl()}Users/Characters/Stats/`, { _id: characterId, ...newStat }, this.createAuthHeader(authToken))
+  createCharacterStat(authToken: string, characterId: string, newStat: CharacterStat): Observable<any> {
+    // console.log(`${authToken}, ${characterId}, ${newStat}`);
+    return this.http.post(
+      `${environment.getUrl()}Users/Characters/Stats/`, { id: characterId, ...newStat }, this.createAuthHeader(authToken))
         .map((response: Response) => {
           // return Character.[stats]
+          // console.log(response.json());
           return response.json();
         }).catch((error: Response) => {
           return Observable.throw(error);

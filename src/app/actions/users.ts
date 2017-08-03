@@ -16,7 +16,7 @@ export const REMOVE =           '[User] Remove';
 export const REMOVE_SUCCESS =   '[User] Remove Success';
 export const UPDATE =           '[User] Update';
 export const UPDATE_SUCCESS =   '[User] Update Success';
-export const SELECT =           '[User] Select';
+// export const SELECT =           '[User] Select';
 // export const LINKCHAR =   '[User] LinkChar';
 // export const UNLINKCHAR = '[User] UnlinkChar';
 
@@ -36,31 +36,25 @@ export class AddSuccess implements Action {
 export class Remove implements Action {
     readonly type = REMOVE;
 
-    constructor(public id: string) { }
+    constructor(public payload: string) { }
 }
 
 export class RemoveSuccess implements Action {
     readonly type = REMOVE_SUCCESS;
 
-    constructor(public id: string) { }
+    constructor() { }
 }
 
 export class Update implements Action {
     readonly type = UPDATE;
 
-    constructor(public id: string) { }
+    constructor(public payload: {name: string, email: string, password: string}) { }
 }
 
 export class UpdateSuccess implements Action {
     readonly type = UPDATE_SUCCESS;
 
     constructor(public payload: User) { }
-}
-
-export class Select implements Action {
-    readonly type = SELECT;
-
-    constructor(public payload: string) { }
 }
 
 // export class LinkChar implements Action {
@@ -81,5 +75,4 @@ export type All
  | Remove
  | RemoveSuccess
  | Update
- | UpdateSuccess
- | Select;
+ | UpdateSuccess;

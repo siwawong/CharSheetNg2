@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/combineLatest';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Effect, Actions, toPayload } from '@ngrx/effects';
 
 import { HttpService } from '../services/http.service';
 import * as UserActions from '../actions/users';
+import * as CharacterActions from '../actions/Character';
 import * as AuthActions from '../actions/auth';
 import * as fromRoot from '../reducers';
 
@@ -18,8 +19,10 @@ export class AuthEffects {
     @Effect()
     create$: Observable<Action> = this.actions$.ofType(AuthActions.CREATE)
         .map(toPayload)
-        .switchMap(payload => this.http.login(payload.email, payload.password))
-        // .map((user) => new AuthActions.LoginSuccess(user.authToken));
+        .switchMap(payload => {
+            console.log('Inside SwitchMap');
+            return this.http.login(payload.email, payload.password);
+        })
         .mergeMap((user) => {
             let mergeActions = [new AuthActions.CreateSuccess(user.authToken), new UserActions.AddSuccess(user)];
             this.router.navigateByUrl(user.name);
@@ -28,10 +31,10 @@ export class AuthEffects {
 
     @Effect()
     delete$: Observable<Action> = this.actions$.ofType(AuthActions.DELETE)
-        .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
+        .combineLatest(this.store$.select(fromRoot.getAuth), (action, token) => token)
         .switchMap((authToken) => this.http.logout(authToken))
-        .mergeMap((response) => {
-            let mergeActions = [new AuthActions.DeleteSuccess(), new UserActions.RemoveSuccess('Test')];
+        .mergeMap((username) => {
+            let mergeActions = [new AuthActions.DeleteSuccess(), new UserActions.RemoveSuccess(), new CharacterActions.RemoveAllSuccess()];
             this.router.navigateByUrl('');
             return mergeActions;
         });

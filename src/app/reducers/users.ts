@@ -70,9 +70,16 @@ export function reducer(state = initialState, action: UserActions.All): State {
     }
 }
 
-export const getUsername = (state: State) => state.name;
-export const getEmail = (state: State) => state.email;
-export const getUserId = (state: State) => state.id
+export const getUsername    = (state: State) => state.name;
+export const getEmail       = (state: State) => state.email;
+export const getUserId      = (state: State) => state.id;
+export const getUser        = (state: State): User => {
+    return {
+        id: state.id,
+        name: state.name,
+        email: state.email
+    };
+}
 
 // export const getSelectedUserId = (state: State) => state.selectedUserId;
 // export const getEntities       = (state: State) => state.entities;
