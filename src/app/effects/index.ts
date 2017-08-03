@@ -1,7 +1,7 @@
-import { AuthEffects } from './auth';
-import { UserEffects } from './user';
-import { CharacterEffects } from './character';
-import { StatEffects } from './character-stat.effects';
+import { AuthEffects } from './auth-effects';
+import { UserEffects } from './user-effects';
+import { CharacterEffects } from './character-effects';
+import { StatEffects } from './stat-effects';
 
 export const effects = [
     AuthEffects,

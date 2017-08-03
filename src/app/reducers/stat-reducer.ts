@@ -5,8 +5,8 @@ import { createSelector } from 'reselect';
 // import { Observable } from 'rxjs/Observable';
 // import { combineLatest } from 'rxjs/observable/combineLatest';
 
-import * as StatActions from '../actions/character-stat';
-import { CharacterStat } from '../models/character-stat';
+import * as StatActions from '../actions/stat-actions';
+import { CharacterStat } from '../models/stat-model';
 
 export interface State {
     stats: CharacterStat[];

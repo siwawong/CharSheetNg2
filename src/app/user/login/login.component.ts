@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 
-import * as AuthActions from '../../actions/auth';
+import * as AuthActions from '../../actions/auth-actions';
 import * as fromRoot from '../../reducers';
 
 @Component({

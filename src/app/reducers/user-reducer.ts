@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-import * as UserActions from '../actions/users';
-import { User } from '../models/user';
+import * as UserActions from '../actions/user-actions';
+import { User } from '../models/user-model';
 
 export interface State extends User {
     id: string;

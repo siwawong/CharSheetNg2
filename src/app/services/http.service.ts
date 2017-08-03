@@ -6,9 +6,9 @@ import 'rxjs/add/operator/catch';
 
 import { environment } from '../../environments/environment';
 
-import { User } from '../models/user';
-import { Character } from '../models/character';
-import { CharacterStat } from '../models/character-stat';
+import { User } from '../models/user-model';
+import { Character } from '../models/character-model';
+import { CharacterStat } from '../models/stat-model';
 
 @Injectable()
 export class HttpService {

@@ -8,7 +8,7 @@ import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
 import { HttpService } from '../services/http.service';
-import * as StatActions from '../actions/character-stat';
+import * as StatActions from '../actions/stat-actions';
 import * as fromRoot from '../reducers';
 
 @Injectable()

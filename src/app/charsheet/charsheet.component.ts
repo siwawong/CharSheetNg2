@@ -8,10 +8,10 @@ import { Store } from '@ngrx/store';
 
 // import { CharacterListService } from '../services/character-list.service';
 // import { CharacterStatsService } from '../services/character-stats.service';
-import { Character } from '../models/character';
-import { CharacterStat } from '../models/character-stat';
+import { Character } from '../models/character-model';
+import { CharacterStat } from '../models/stat-model';
 import * as fromRoot from '../reducers';
-import * as StatActions from '../actions/character-stat';
+import * as StatActions from '../actions/stat-actions';
 // import { StatComponent } from '../stat';
 
 @Component({

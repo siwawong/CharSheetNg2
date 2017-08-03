@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CharacterStat } from '../models/character-stat';
+import { CharacterStat } from '../models/stat-model';
 
 /**
  * For each action type in an action group, make a simple

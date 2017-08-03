@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import * as AuthActions from '../actions/auth';
+import * as AuthActions from '../actions/auth-actions';
 
 export interface State {
     authToken: string;

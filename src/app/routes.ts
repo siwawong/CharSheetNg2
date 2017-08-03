@@ -1,4 +1,3 @@
-// import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
 
 import { AddstatComponent } from './addstat/addstat.component';
@@ -17,11 +16,3 @@ export const routes: Routes = [
     { path: ':user/:name',          component: CharsheetComponent },
     { path: ':user/:name/add-stat', component: AddstatComponent }
 ];
-
-// @NgModule({
-//     imports: [RouterModule.forRoot(appRoutes)],
-//     exports: [RouterModule]
-// })
-// export class AppRoutingModule {
-
-// }

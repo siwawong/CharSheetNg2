@@ -2,10 +2,10 @@ import { createSelector } from 'reselect';
 
 // child reducers
 import * as fromRouter from '@ngrx/router-store';
-import * as fromAuth from './auth';
-import * as fromUsers from './users';
-import * as fromChars from './characters';
-import * as fromStats from './character-stats';
+import * as fromAuth from './auth-reducer';
+import * as fromUsers from './user-reducer';
+import * as fromChars from './character-reducer';
+import * as fromStats from './stat-reducer';
 
 // Notes taken from this repo: https://github.com/ngrx/example-app
 

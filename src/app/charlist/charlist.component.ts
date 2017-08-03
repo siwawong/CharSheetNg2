@@ -4,10 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../reducers';
-import * as AuthActions from '../actions/auth';
-import * as CharacterActions from '../actions/character';
+import * as AuthActions from '../actions/auth-actions';
+import * as CharacterActions from '../actions/character-actions';
 
-import { Character } from '../models/character';
+import { Character } from '../models/character-model';
 
 @Component({
   selector: 'app-charlist',

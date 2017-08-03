@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Character } from '../models/character';
+import { Character } from '../models/character-model';
 
 /**
  * For each action type in an action group, make a simple

@@ -9,9 +9,10 @@ import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
 import { HttpService } from '../services/http.service';
-import * as UserActions from '../actions/users';
-import * as CharacterActions from '../actions/Character';
-import * as AuthActions from '../actions/auth';
+import * as UserActions from '../actions/user-actions';
+import * as CharacterActions from '../actions/character-actions';
+import * as AuthActions from '../actions/auth-actions';
+import * as StatActions from '../actions/stat-actions';
 import * as fromRoot from '../reducers';
 
 @Injectable()
@@ -34,7 +35,10 @@ export class AuthEffects {
         .combineLatest(this.store$.select(fromRoot.getAuth), (action, token) => token)
         .switchMap((authToken) => this.http.logout(authToken))
         .mergeMap((username) => {
-            let mergeActions = [new AuthActions.DeleteSuccess(), new UserActions.RemoveSuccess(), new CharacterActions.RemoveAllSuccess()];
+            let mergeActions = [
+                new AuthActions.DeleteSuccess(),
+                new UserActions.RemoveSuccess(),
+                new CharacterActions.RemoveAllSuccess()];
             this.router.navigateByUrl('');
             return mergeActions;
         });
