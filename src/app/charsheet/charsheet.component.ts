@@ -1,18 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-// import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 
-// import { CharacterListService } from '../services/character-list.service';
-// import { CharacterStatsService } from '../services/character-stats.service';
 import { Character } from '../models/character-model';
 import { CharacterStat } from '../models/stat-model';
 import * as fromRoot from '../reducers';
 import * as StatActions from '../actions/stat-actions';
-// import { StatComponent } from '../stat';
 
 @Component({
   selector: 'app-charsheet',
@@ -25,13 +20,13 @@ export class CharsheetComponent implements OnInit {
   private stats: Observable<CharacterStat[]>;
   private selectedStat: Observable<number>;
 
+  private editName: FormControl;
+  private editValue: FormControl;
+  private editMaximum: FormControl;
+  private editType: FormControl;
+
   private addStatForm: FormGroup;
   private editStatForm: FormGroup;
-
-  private name: FormControl;
-  private value: FormControl;
-  private maximum: FormControl;
-  private type: FormControl;
 
   constructor(private store: Store<fromRoot.State>) {
     this.store.dispatch(new StatActions.AddMany());
@@ -43,37 +38,55 @@ export class CharsheetComponent implements OnInit {
     this.stats = this.store.select(fromRoot.getStats);
     this.selectedStat = this.store.select(fromRoot.getStatIndex);
 
-    this.name = new FormControl('', Validators.required);
-    this.value = new FormControl('', Validators.required);
-    this.maximum = new FormControl('', Validators.required);
-    this.type = new FormControl('', Validators.required);
+    this.editName = new FormControl('', Validators.required);
+    this.editValue = new FormControl('', Validators.required);
+    this.editMaximum = new FormControl('', Validators.required);
+    this.editType = new FormControl('', Validators.required);
 
     this.addStatForm = new FormGroup({
-      name: this.name,
-      value: this.value,
-      maximum: this.maximum,
-      type: this.type,
+      name: new FormControl('', Validators.required),
+      value: new FormControl('', Validators.required),
+      maximum: new FormControl('', Validators.required),
+      type: new FormControl('', Validators.required),
     });
 
     this.editStatForm = new FormGroup({
-      name: new FormControl('')
+      name: this.editName,
+      value: this.editValue,
+      maximum: this.editMaximum,
+      type: this.editType,
     });
   }
 
-  selectStat(index: number) {
+  selectStat(stat: CharacterStat, index: number) {
+    this.editName.setValue(stat.name);
+    this.editValue.setValue(stat.value);
+    this.editMaximum.setValue(stat.maximum);
+    this.editType.setValue(stat.type);
+
     this.store.dispatch(new StatActions.Select(index));
   }
 
   addStat() {
-    const statToAdd = {
-      name: this.name.value,
-      value: this.value.value,
-      maximum: this.maximum.value,
-      type: this.type.value
-    };
-    this.store.dispatch(new StatActions.Add(statToAdd));
+    this.store.dispatch(new StatActions.Add(this.generateStat(this.addStatForm)));
+    this.addStatForm.reset();
   }
 
-  ngOnDestroy() {
+  removeStat() {
+    this.store.dispatch(new StatActions.Remove());
+  }
+
+  updateStat() {
+    this.store.dispatch(new StatActions.Update(this.generateStat(this.editStatForm)));
+    this.editStatForm.reset();
+  }
+
+  generateStat(group: FormGroup): CharacterStat {
+    return {
+      name: group.get('name').value,
+      value: group.get('value').value,
+      maximum: group.get('maximum').value,
+      type: group.get('type').value
+    };
   }
 }

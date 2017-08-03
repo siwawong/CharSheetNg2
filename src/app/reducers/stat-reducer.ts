@@ -21,8 +21,9 @@ const initialState: State = {
 export function reducer(state = initialState, action: StatActions.All): State {
     switch (action.type) {
         case StatActions.UPDATE_SUCCESS: {
+            state.stats[state.selectedIndex] = action.payload;
             return {
-                stats: Object.assign([], ...state.stats, state.stats[state.selectedIndex] = action.payload),
+                stats: Object.assign([], state.stats),
                 selectedIndex: null
             };
         }
@@ -34,8 +35,8 @@ export function reducer(state = initialState, action: StatActions.All): State {
             };
         }
         case StatActions.REMOVE_SUCCESS: {
-            const toRemove = action.payload
-            let newArray = state.stats.filter(stat => stat.name !== toRemove.name);
+            const toRemove = state.selectedIndex;
+            let newArray = state.stats.splice(toRemove); // pull(stat => stat.name !== toRemove.name);
 
             return {
                 stats: Object.assign([], newArray),

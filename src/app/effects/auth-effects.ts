@@ -21,7 +21,6 @@ export class AuthEffects {
     create$: Observable<Action> = this.actions$.ofType(AuthActions.CREATE)
         .map(toPayload)
         .switchMap(payload => {
-            console.log('Inside SwitchMap');
             return this.http.login(payload.email, payload.password);
         })
         .mergeMap((user) => {

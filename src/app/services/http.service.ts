@@ -103,29 +103,31 @@ export class HttpService {
         });
   }
 
-  // patchCharacterStat(currUser: User, currCharacter: Character, currStat: CharacterStat) {
-  //   this.http.patch(
-  //     `${environment.getUrl()}Users/Characters/Stats/`,
-  //     { _id: currCharacter.id, ...currStat },
-  //     this.createAuthHeader(currUser.authToken))
-  //       .map((response: Response) => {
-  //         // return Character.[stats]
-  //       }).catch((error: Response) => {
-  //         return Observable.throw(error);
-  //       });
-  // }
+  patchCharacterStat(auth: string, charId: string, stat: CharacterStat): Observable<CharacterStat> {
+    return this.http.patch(
+      `${environment.getUrl()}Users/Characters/Stats/`,
+      { id: charId, ...stat },
+      this.createAuthHeader(auth))
+        .map((response: Response) => {
+          // return Character.[stats]
+          return response.json();
+        }).catch((error: Response) => {
+          return Observable.throw(error);
+        });
+  }
 
-  // deleteCharacterStat(currUser: User, currCharacter: Character, currStat: CharacterStat) {
-  //   // rewrite server api to not expect json object
-  //   this.http.delete(
-  //     `${environment.getUrl()}Users/Characters/${currCharacter.id}/Stats/${currStat.name}`,
-  //     this.createAuthHeader(currUser.authToken))
-  //       .map((response: Response) => {
-  //         // return Character.[stats]
-  //       }).catch((error: Response) => {
-  //         return Observable.throw(error);
-  //       });
-  // }
+  deleteCharacterStat(auth: string, charId: string, statName: string): Observable<boolean> {
+    // rewrite server api to not expect json object
+    return this.http.delete(
+      `${environment.getUrl()}Users/Characters/${charId}/Stats/${statName}`,
+      this.createAuthHeader(auth))
+        .map((response: Response) => {
+          // return Character.[stats]
+          return true;
+        }).catch((error: Response) => {
+          return Observable.throw(error);
+        });
+  }
 
   createAuthHeader(authToken: string) {
     const header = new Headers({'x-auth': authToken});

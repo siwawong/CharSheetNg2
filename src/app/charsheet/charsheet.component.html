@@ -2,16 +2,21 @@
 <ul>
     <li *ngFor="let stat of (stats | async); let i = index">
         <!-- <app-stat [stat]="stat" (statUpdated)="updateStat($event)"></app-stat> -->
-        <div *ngIf="i === selectedStat; then editMode else viewMode"></div>
+        <div *ngIf="(selectedStat | async) === i; then editMode else viewMode"></div>
         <ng-template #editMode>
             <form [formGroup]="editStatForm">
                 <ul>
                     <li>EDIT MODE</li>
+                    <li><input type="text" name="editName" value="{{ stat.name }}" formControlName="name"></li>
+                    <li><input type="number" name="editValue" value="{{ stat.value }}" formControlName="value"></li>
+                    <li><input type="number" name="editMaximum" value="{{ stat.maximum }}" formControlName="maximum"></li>
+                    <li><input type="text" name="editType" value="{{ stat.type }}" formControlName="type"></li>
+                    <li><button type="button" (click)="removeStat()">Remove</button><button type="button" (click)="updateStat()">Update</button></li>
                 </ul>
             </form>
         </ng-template>
         <ng-template #viewMode>
-            <span (click)="selectStat(i)">Name: {{ stat.name }} Current: {{ stat.value }} Maximum: {{ stat.maximum }} Type: {{ stat.type }}</span>
+            <span (click)="selectStat(stat, i)">Name: {{ stat.name }} Current: {{ stat.value }} Maximum: {{ stat.maximum }} Type: {{ stat.type }}</span>
         </ng-template>
     </li>
 </ul>

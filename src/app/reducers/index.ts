@@ -82,6 +82,7 @@ export const getStats =             createSelector(getStatState, fromStats.getSt
 export const getStatIndex =    createSelector(getStatState, fromStats.getSelectedStatId);
 export const getCurrentStat =       createSelector(getStatState, fromStats.getSelectedStat);
 
-
 export const getCharAuth = createSelector(getAuth, getCharacterId, (auth, charId) => { return {auth, charId}});
 export const getUsernameAndChar = createSelector(getUsername, getCharacter, (user, char) => { return {user, char}});
+export const getStatToRemove =
+    createSelector(getAuth, getCharacterId, getCurrentStat, (auth, char, stat) => { return { auth, char, stat} });

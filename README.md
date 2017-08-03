@@ -82,8 +82,8 @@ Will return an array containing all of the stats of the provided character id.
 
 #### Change A Character's Stat
 
-`PATCH` request to [localhost:3000/Characters/Stats](): Expects the exact same JSON structure as *Add New Character Stat*. Will only change the value of a stat whose `name` properties match the provided object. Returns the provided JSON.
+`PATCH` request to [localhost:3000/Characters/Stats](): Expects the exact same JSON structure as *Add New Character Stat*. Will only change the value of a stat whose `name` properties match the object. Returns the provided JSON.
 
 #### Delete A Character's Stat
 
-`DELETE` request to [localhost:3000/Characters/Stats](): Expects JSON containing the character's `id` and the stat's `name`. Will remove the stat object whose name matchs the provided `name` property. Returns a JSON array containing the character's current stats.
+`DELETE` request to [localhost:3000/Characters/:cid/Stats:/name](): Where `cid` and `name` represent the characters Id and the Stat's name respectively. Will remove the stat object whose name matchs the provided `name` property. Returns true.

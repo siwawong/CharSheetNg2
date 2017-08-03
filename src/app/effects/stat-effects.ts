@@ -35,6 +35,24 @@ export class StatEffects {
             return new StatActions.AddSuccess(result);
         });
 
+    @Effect()
+    remove$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE)
+        .withLatestFrom(this.store$.select(fromRoot.getStatToRemove), (action, payload) => payload)
+        .switchMap((payload) => this.http.deleteCharacterStat(payload.auth, payload.char, payload.stat.name))
+        .map((res) => new StatActions.RemoveSuccess());
+
+    @Effect()
+    update$: Observable<Action> = this.actions$.ofType(StatActions.UPDATE)
+        .map(toPayload)
+        .combineLatest(this.store$.select(fromRoot.getCharAuth), (payload, charId) => {
+            return {
+                auth: charId.auth,
+                char: charId.charId,
+                stat: payload
+            };
+        })
+        .switchMap((payload) => this.http.patchCharacterStat(payload.auth, payload.char, payload.stat))
+        .map((res) => new StatActions.UpdateSuccess(res));
 
     constructor(private http: HttpService, private actions$: Actions, private store$: Store<fromRoot.State>) { }
 };

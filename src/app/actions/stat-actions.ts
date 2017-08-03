@@ -28,7 +28,7 @@ export class Add implements Action {
 export class Remove implements Action {
     readonly type = REMOVE;
 
-    constructor(public payload: CharacterStat) { }
+    constructor() { }
 }
 
 export class Update implements Action {
@@ -46,7 +46,7 @@ export class AddSuccess implements Action {
 export class RemoveSuccess implements Action {
     readonly type = REMOVE_SUCCESS;
 
-    constructor(public payload: CharacterStat) { }
+    constructor() { }
 }
 
 export class UpdateSuccess implements Action {
