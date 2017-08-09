@@ -1,0 +1,12 @@
+<h3>Create User</h3>
+<form [formGroup]="createForm" (ngSubmit)="create()">
+    <ul>
+        <li><input type="text" name="name" placeholder="Name" formControlName="name"></li>
+        <li><input type="email" name="email" placeholder="Email Address" formControlName="email"></li>
+    </ul>
+    <ul formGroupName="passwords">
+        <li><input type="password" name="password1" placeholder="Password" formControlName="password1"></li>
+        <li><input type="password" name="password2" placeholder="Please re enter password" formControlName="password2"></li>
+    </ul>
+    <button [disabled]="createForm.invalid" type="submit">Create</button>
+</form>

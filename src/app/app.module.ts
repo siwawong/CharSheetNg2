@@ -1,32 +1,38 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ApplicationRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // store import
 import { StoreModule } from '@ngrx/store';
-import { reducer } from './reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+
+import { routes } from './routes';
+import { reducers } from './reducers';
+import { effects } from './effects';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './user/login/login.component';
+import { CreateUserComponent } from './user/create/create.component';
 import { CharlistComponent } from './charlist/charlist.component';
 import { CharsheetComponent } from './charsheet/charsheet.component';
 import { AddstatComponent } from './addstat/addstat.component';
 import { StatComponent } from './stat/stat.component';
-
-import { routing, APP_ROUTER_PROVIDERS } from './app.routes';
-import { CharacterListService } from './character-list.service';
-import { CharacterStatsService } from './character-stats.service';
-import { LoginService} from './login.service';
-import { HttpService } from './http.service';
 import { AddCharacterComponent } from './add-character/add-character.component'
 
+// import { CharacterListService } from './services/character-list.service';
+// import { CharacterStatsService } from './services/character-stats.service';
+// import { LoginService} from './services/login.service';
+import { HttpService } from './services/http.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    CreateUserComponent,
     CharlistComponent,
     CharsheetComponent,
     AddstatComponent,
@@ -35,21 +41,19 @@ import { AddCharacterComponent } from './add-character/add-character.component'
   ],
   imports: [
     BrowserModule,
-    CommonModule,
-    FormsModule,
     ReactiveFormsModule,
-    StoreModule.provideStore(reducer),
-    routing,
+    RouterModule.forRoot(routes),
+    StoreModule.forRoot(reducers),
+    StoreRouterConnectingModule,
+    EffectsModule.forRoot(effects),
     HttpModule
   ],
   providers: [
-    APP_ROUTER_PROVIDERS,
     HttpService,
-    CharacterListService,
-    CharacterStatsService,
-    LoginService
+    // CharacterListService,
+    // CharacterStatsService,
+    // LoginService
   ],
-  entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,10 +1,11 @@
-<ul> 
-  <li class="character" *ngFor="let character of (characters$ | async)">
-    <a [routerLink]="[character?.url]">
-      {{character.name}}
-    </a>
-  </li>
-  <li class="character">
-    <button (click)="addCharacter()">Add Character</button>
-  </li>
+<h4>{{ username | async }}</h4>
+<button type="button" (click)="logout()">Logout</button>
+<ul>
+    <li class="character" *ngFor="let character of (characters$ | async); let i = index" (click)="selectCharacter(i)">
+        {{character.name}}
+    </li>
+    <form [formGroup]="addCharForm" (ngSubmit)="addCharacter()">
+        <input type="text" name="name" placeholder="name" formControlName="name">
+        <button [disabled]="addCharForm.invalid" type="submit">Add Character</button>
+    </form>
 </ul>

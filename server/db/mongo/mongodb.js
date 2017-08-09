@@ -31,7 +31,7 @@ module.exports = db = {
             User.findByCredentials(req.body.email.toLowerCase(), req.body.password)
                 .then((user) => {
                     return user.generateAuthToken().then((token) => {
-                        callback(undefined, { id: user._id }, token);
+                        callback(undefined, { id: user._id, name: user.name, email: user.email }, token);
                     });
                 }).catch(e => callback(e));
         },
@@ -93,9 +93,17 @@ module.exports = db = {
         getById: (req, callback) => {
             Character.findOne({ _id: req.params.id, owner: req.user._id })
                 .lean()
-                .select('name stats')
+                .select('stats')
                 .then((doc) => {
-                    callback(undefined, doc);
+                    let toReturn = doc.stats.map((stat) => {
+                        return {
+                            name: stat.name,
+                            value: stat.value,
+                            maximum: stat.maxValue,
+                            type: stat.statType
+                        }
+                    });
+                    callback(undefined, toReturn);
                 }).catch(e => callback(e));
         },
         postNewStat: (req, callback) => {
@@ -107,7 +115,7 @@ module.exports = db = {
             }
             Character.findOneAndUpdate({ _id: req.body.id, owner: req.user._id }, { $push: { stats: statObj } }, { safe: true, new: true, runValidators: true })
                 .then((doc) => {
-                    callback(undefined, doc.stats);
+                    callback(undefined, { name: req.body.name, value: req.body.value, maximum: req.body.maximum, type: req.body.type });
                 }).catch(e => callback(e));
         },
         patchStatByName: (req, callback) => {
@@ -117,15 +125,15 @@ module.exports = db = {
                 maxValue: req.body.maximum,
                 statType: req.body.type
             }
-            Character.findOneAndUpdate({ _id: req.body.id, owner: req.user._id, 'stats.name': req.body.name }, { $set: { "stats.$": statObj } }, { safe: true, new: true, runValidators: true })
+            Character.findOneAndUpdate({ _id: req.body.id, owner: req.user._id, 'stats.name': req.body.name }, { $set: { "stats.$": statObj } }, { safe: true, runValidators: true })
                 .then((doc) => {
                     callback(undefined, req.body);
                 }).catch(e => callback(e));
         },
         deleteStatByName: (req, callback) => {
-            Character.findOneAndUpdate({ _id: req.body.id, owner: req.user._id }, { $pull: { stats: { name: req.body.name } } }, { safe: true, new: true })
+            Character.findOneAndUpdate({ _id: req.params.cid, owner: req.user._id }, { $pull: { stats: { name: req.params.name } } }, { safe: true, new: true })
                 .then((doc) => {
-                    callback(undefined, doc.stats);
+                    callback(undefined, true);
                 }).catch(e => callback(e));
         }
     }

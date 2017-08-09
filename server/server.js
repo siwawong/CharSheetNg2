@@ -12,7 +12,8 @@ server.use(bodyParser.json());
 server.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-type, x-auth');
+    res.setHeader('Access-Control-Expose-Headers', 'x-auth');
     res.setHeader('Access-Control-Allow-Credentials', true);
 
     next();
@@ -88,7 +89,7 @@ server.patch('/Users/Characters/Stats', authenticate, (req, res) => {
     dbCallSimple(db.character.patchStatByName, 404, req, res);
 });
 
-server.delete('/Users/Characters/Stats', authenticate, (req, res) => {
+server.delete('/Users/Characters/:cid/Stats/:name', authenticate, (req, res) => {
     dbCallSimple(db.character.deleteStatByName, 404, req, res);
 });
 
@@ -96,3 +97,6 @@ server.delete('/Users/Characters/Stats', authenticate, (req, res) => {
 server.listen(process.env.PORT, process.env.HOSTNAME, () => {
     console.log(`Listening on ${process.env.HOSTNAME}:${process.env.PORT}`);
 });
+
+// Trying to find what is throwing that error
+process.on('unhandledRejection', r => console.log(r));

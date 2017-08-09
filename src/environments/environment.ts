@@ -4,5 +4,16 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  network: 'local',
+  database: {
+    url:  {
+      local: 'localhost',
+      broadcast: '192.168.200.100',
+    },
+    port: '3000'
+  },
+  getUrl: () => {
+    return `http://${environment.database.url[environment.network]}:${environment.database.port}/`;
+  }
 };
