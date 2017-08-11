@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the RootPage page.
+ * Generated class for the Login page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
@@ -10,16 +10,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-root',
-  templateUrl: 'root.html',
+  selector: 'login',
+  templateUrl: 'login.html',
 })
-export class RootPage {
+export class Login {
   title = 'Ng4 CharSheet Store';
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RootPage');
+    console.log('ionViewDidLoad Login');
   }
-
 }
