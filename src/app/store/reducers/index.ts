@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 // child reducers
-import * as fromRouter from '@ngrx/router-store';
+// import * as fromRouter from '@ngrx/router-store';
 import * as fromAuth from './auth-reducer';
 import * as fromUsers from './user-reducer';
 import * as fromChars from './character-reducer';
@@ -18,7 +18,7 @@ export interface State {
     users: fromUsers.State;
     characters: fromChars.State;
     stats: fromStats.State;
-    router: fromRouter.RouterReducerState;
+    // router: fromRouter.RouterReducerState;
 }
 
 /**
@@ -33,32 +33,10 @@ export const reducers = {
     auth: fromAuth.reducer,
     users: fromUsers.reducer,
     characters: fromChars.reducer,
-    stats: fromStats.reducer,
-    router: fromRouter.routerReducer
+    stats: fromStats.reducer
+    // router: fromRouter.routerReducer
 };
 
-// have a separate development and production reducer
-// development prevents mutation
-
-// const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
-// const productionReducer: ActionReducer<State> = combineReducers(reducers);
-
-// export function reducer(state: any, action: any) {
-//   if (environment.production) {
-//     return productionReducer(state, action);
-//   }
-//   else {
-//     return developmentReducer(state, action);
-//   }
-// }
-
-/**
- * Start User accessors and selectors 
- */
-
-// export function getUsersState(state$: Observable<State>):  {
-//     return state$.select(state => state.users);
-// }
 export const getAuthState = (state: State) => state.auth;
 
 export const getAuth = createSelector(getAuthState, fromAuth.selectAuth);

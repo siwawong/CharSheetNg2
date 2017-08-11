@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Character } from '../models/character-model';
+import { Character } from '../../models/character-model';
 
 /**
  * For each action type in an action group, make a simple
@@ -23,8 +23,6 @@ export const UPDATE =           '[Character] Update';
 export const UPDATE_SUCCESS =   '[Character] Update Success';
 export const SELECT =           '[Character] Select';
 export const SELECT_SUCCESS =           '[Character] Select Success';
-// export const LINKSTAT =     '[Character] LinkStat';
-// export const UNLINKSTAT =   '[Character] UnlinkStat';
 
 export class Create implements Action {
     readonly type = CREATE;
@@ -109,18 +107,6 @@ export class SelectSuccess implements Action {
 
     constructor() { }
 }
-
-// export class LinkStat implements Action {
-//     readonly type = LINKSTAT;
-
-//     constructor(public payload: {charId: string, statId: string}) {}
-// }
-
-// export class UnlinkStat implements Action {
-//     readonly type = UNLINKSTAT;
-
-//     constructor(public payload: {charId: string, statId: string}) {}
-// }
 
 export type All
  = Create

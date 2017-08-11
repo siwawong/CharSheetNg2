@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
-import { HttpService } from '../services/http.service';
+import { HttpService } from '../../services/http.service';
 import * as UserActions from '../actions/user-actions';
 import * as AuthActions from '../actions/auth-actions';
 import * as fromRoot from '../reducers';

@@ -3,16 +3,16 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../reducers';
-import * as AuthActions from '../actions/auth-actions';
-import * as CharacterActions from '../actions/character-actions';
+import * as fromRoot from '../store/reducers';
+import * as AuthActions from '../store/actions/auth-actions';
+import * as CharacterActions from '../store/actions/character-actions';
 
 import { Character } from '../models/character-model';
 
 @Component({
   selector: 'app-charlist',
   templateUrl: 'charlist.component.html',
-  styleUrls: ['charlist.component.css'],
+  styles: [``],
 })
 export class CharlistComponent implements OnInit {
   private characters$: Observable<Character[]>;

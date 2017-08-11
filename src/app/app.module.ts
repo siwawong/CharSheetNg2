@@ -12,20 +12,20 @@ import { HttpModule } from '@angular/http';
 // store import
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+// import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { routes } from './routes';
-import { reducers } from './reducers';
-import { effects } from './effects';
+import { reducers } from './store/reducers';
+import { effects } from './store/effects';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './user/login/login.component';
 import { CreateUserComponent } from './user/create/create.component';
 import { CharlistComponent } from './charlist/charlist.component';
 import { CharsheetComponent } from './charsheet/charsheet.component';
-import { AddstatComponent } from './addstat/addstat.component';
-import { StatComponent } from './stat/stat.component';
-import { AddCharacterComponent } from './add-character/add-character.component'
+// import { AddstatComponent } from './addstat/addstat.component';
+// import { StatComponent } from './stat/stat.component';
+// import { AddCharacterComponent } from './add-character/add-character.component'
 
 import { RootPage } from '../pages/root/root'
 
@@ -41,9 +41,9 @@ import { HttpService } from './services/http.service';
     CreateUserComponent,
     CharlistComponent,
     CharsheetComponent,
-    AddstatComponent,
-    StatComponent,
-    AddCharacterComponent,
+    // AddstatComponent,
+    // StatComponent,
+    // AddCharacterComponent,
     RootPage
   ],
   entryComponents: [
@@ -56,7 +56,7 @@ import { HttpService } from './services/http.service';
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot(reducers),
-    StoreRouterConnectingModule,
+    // StoreRouterConnectingModule,
     EffectsModule.forRoot(effects),
     HttpModule
   ],

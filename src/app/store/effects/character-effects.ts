@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
-import { HttpService } from '../services/http.service';
+import { HttpService } from '../../services/http.service';
 import * as CharacterActions from '../actions/character-actions';
 import * as fromRoot from '../reducers';
 

@@ -6,13 +6,13 @@ import { Store } from '@ngrx/store';
 
 import { Character } from '../models/character-model';
 import { CharacterStat } from '../models/stat-model';
-import * as fromRoot from '../reducers';
-import * as StatActions from '../actions/stat-actions';
+import * as fromRoot from '../store/reducers';
+import * as StatActions from '../store/actions/stat-actions';
 
 @Component({
   selector: 'app-charsheet',
   templateUrl: 'charsheet.component.html',
-  styleUrls: ['charsheet.component.css'],
+  styles: [``],
 })
 export class CharsheetComponent implements OnInit {
   private username: Observable<string>;

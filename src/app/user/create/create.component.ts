@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '../../reducers';
-import * as UserActions from '../../actions/user-actions';
+import * as fromRoot from '../../store/reducers';
+import * as UserActions from '../../store/actions/user-actions';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  styles: [``]
 })
 export class CreateUserComponent implements OnInit {
   private createForm: FormGroup;

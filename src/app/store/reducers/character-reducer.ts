@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 // import { combineLatest } from 'rxjs/observable/combineLatest';
 
 import * as CharacterActions from '../actions/character-actions';
-import { Character } from '../models/character-model';
+import { Character } from '../../models/character-model';
 
 export interface State {
     ids: string[];

@@ -1,12 +1,7 @@
 import { createSelector } from 'reselect';
-// import '@ngrx/core/add/operator/select';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/let';
-// import { Observable } from 'rxjs/Observable';
-// import { combineLatest } from 'rxjs/observable/combineLatest';
 
 import * as StatActions from '../actions/stat-actions';
-import { CharacterStat } from '../models/stat-model';
+import { CharacterStat } from '../../models/stat-model';
 
 export interface State {
     stats: CharacterStat[];
