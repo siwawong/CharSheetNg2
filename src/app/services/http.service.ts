@@ -4,11 +4,26 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { environment } from '../../environments/environment';
+// import { environment } from '../../environments/environment';
 
 import { User } from '../models/user-model';
 import { Character } from '../models/character-model';
 import { CharacterStat } from '../models/stat-model';
+
+export const environment = {
+  production: false,
+  network: 'local',
+  database: {
+    url:  {
+      local: 'localhost',
+      broadcast: '192.168.200.100',
+    },
+    port: '3000'
+  },
+  getUrl: () => {
+    return `http://${environment.database.url[environment.network]}:${environment.database.port}/`;
+  }
+};
 
 @Injectable()
 export class HttpService {
