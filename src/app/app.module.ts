@@ -27,6 +27,8 @@ import { AppComponent } from './app.component';
 
 import { LoginUserPage } from '../pages/login-user/login-user';
 import { CreateUserPage } from '../pages/create-user/create-user';
+import { CharacterListPage } from '../pages/character-list/character-list';
+import { CreateCharacterPage } from '../pages/create-character/create-character';
 
 import { HttpService } from './services/http.service';
 
@@ -38,12 +40,16 @@ import { HttpService } from './services/http.service';
     // CharlistComponent,
     // CharsheetComponent,
     LoginUserPage,
-    CreateUserPage
+    CreateUserPage,
+    CharacterListPage,
+    CreateCharacterPage
   ],
   entryComponents: [
     AppComponent,
     LoginUserPage,
-    CreateUserPage
+    CreateUserPage,
+    CharacterListPage,
+    CreateCharacterPage
   ],
   imports: [
     BrowserModule,

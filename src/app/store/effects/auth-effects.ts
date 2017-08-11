@@ -4,7 +4,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/combineLatest';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-// import { Router } from '@angular/router';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
@@ -42,5 +41,9 @@ export class AuthEffects {
             return mergeActions;
         });
 
-    constructor(private http: HttpService, private actions$: Actions, private store$: Store<fromRoot.State>) { }
+    constructor(
+        private http: HttpService,
+        private actions$: Actions,
+        private store$: Store<fromRoot.State>) {
+        }
 };

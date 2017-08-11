@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { CharacterListPage } from '../character-list/character-list';
+
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
@@ -52,7 +54,8 @@ export class CreateUserPage {
   }
 
   create() {
-    // this.store.dispatch(new UserActions.Add({name: this.name.value, email: this.email.value, password: this.password1.value}));
+    this.store.dispatch(new UserActions.Add({name: this.name.value, email: this.email.value, password: this.password1.value}));
+    this.navCtrl.setRoot(CharacterListPage);
   }
 
   ionViewDidLoad() {

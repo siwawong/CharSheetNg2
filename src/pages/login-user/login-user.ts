@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { CreateUserPage } from '../create-user/create-user';
+import { CharacterListPage } from '../character-list/character-list';
 
 import { Store } from '@ngrx/store';
 
@@ -40,7 +41,8 @@ export class LoginUserPage {
   }
 
   login() {
-    // this.store.dispatch(new AuthActions.Create({email: this.email.value, password: this.password.value}));
+    this.store.dispatch(new AuthActions.Create({email: this.email.value, password: this.password.value}));
+    this.navCtrl.setRoot(CharacterListPage);
   }
 
   create() {
