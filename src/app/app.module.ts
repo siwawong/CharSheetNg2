@@ -24,7 +24,9 @@ import { AppComponent } from './app.component';
 // import { CharlistComponent } from './charlist/charlist.component';
 // import { CharsheetComponent } from './charsheet/charsheet.component';
 
-import { Login } from '../pages/login/login'
+
+import { LoginUserPage } from '../pages/login-user/login-user';
+import { CreateUserPage } from '../pages/create-user/create-user';
 
 import { HttpService } from './services/http.service';
 
@@ -35,11 +37,13 @@ import { HttpService } from './services/http.service';
     // CreateUserComponent,
     // CharlistComponent,
     // CharsheetComponent,
-    Login
+    LoginUserPage,
+    CreateUserPage
   ],
   entryComponents: [
     AppComponent,
-    Login
+    LoginUserPage,
+    CreateUserPage
   ],
   imports: [
     BrowserModule,

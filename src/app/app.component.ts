@@ -5,13 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HttpService } from './services/http.service';
 
-import { Login } from '../pages/login/login';
+import { LoginUserPage } from '../pages/login-user/login-user';
 @Component({
   templateUrl: 'app.component.html',
 })
 export class AppComponent {
   title = 'Ng4 CharSheet Store';
-  rootPage:any = Login;
+  rootPage:any = LoginUserPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
