@@ -1,5 +1,9 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+
 // import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +27,8 @@ import { AddstatComponent } from './addstat/addstat.component';
 import { StatComponent } from './stat/stat.component';
 import { AddCharacterComponent } from './add-character/add-character.component'
 
+import { RootPage } from '../pages/root/root'
+
 // import { CharacterListService } from './services/character-list.service';
 // import { CharacterStatsService } from './services/character-stats.service';
 // import { LoginService} from './services/login.service';
@@ -37,10 +43,16 @@ import { HttpService } from './services/http.service';
     CharsheetComponent,
     AddstatComponent,
     StatComponent,
-    AddCharacterComponent
+    AddCharacterComponent,
+    RootPage
+  ],
+  entryComponents: [
+    AppComponent,
+    RootPage
   ],
   imports: [
     BrowserModule,
+    IonicModule.forRoot(AppComponent),
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot(reducers),
@@ -50,11 +62,14 @@ import { HttpService } from './services/http.service';
   ],
   providers: [
     HttpService,
+    StatusBar,
+    SplashScreen,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
     // CharacterListService,
     // CharacterStatsService,
     // LoginService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [IonicApp]
 })
 export class AppModule {
 

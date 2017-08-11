@@ -10,6 +10,8 @@ import { User } from '../models/user-model';
 import { Character } from '../models/character-model';
 import { CharacterStat } from '../models/stat-model';
 
+// TODO: move environment usage to the appropriate location for ionic
+// for now I put this here as http.service is the only service that uses it
 export const environment = {
   production: false,
   network: 'local',
