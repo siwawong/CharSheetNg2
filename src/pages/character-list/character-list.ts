@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+
+import { CreateCharacterPage } from '../create-character/create-character';
+import { CharacterSheetPage } from '../character-sheet/character-sheet';
+
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
@@ -35,7 +39,12 @@ export class CharacterListPage {
   }
 
   selectCharacter(index: number) {
-    // this.store.dispatch(new CharacterActions.Select(index));
+    this.store.dispatch(new CharacterActions.Select(index));
+    this.navCtrl.setRoot(CharacterSheetPage);
+  }
+  
+  addCharacter() {
+    this.navCtrl.push(CreateCharacterPage);
   }
 
   ionViewDidLoad() {

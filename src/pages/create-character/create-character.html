@@ -5,14 +5,19 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>createCharacter</ion-title>
-  </ion-navbar>
-
+    <ion-navbar>
+        <ion-title>{{ title }}</ion-title>
+    </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
-
+    <form [formGroup]="addCharForm" (ngSubmit)="addCharacter()">
+        <ion-list>
+            <ion-item>
+                <ion-label floating>Character Name</ion-label>
+                <ion-input type="text" formControlName="name"></ion-input>
+            </ion-item>
+        </ion-list>
+        <button ion-button full [disabled]="addCharForm.invalid" type="submit">Create</button>
+    </form>
 </ion-content>
