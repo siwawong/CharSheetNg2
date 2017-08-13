@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -30,6 +31,14 @@ export class CharacterSheetPage {
   private stats: Observable<CharacterStat[]>;
   private selectedStat: Observable<number>;
 
+  private editStatForm: FormGroup;
+
+  private name: FormControl;
+  private value: FormControl;
+  private maximum: FormControl;
+  private type: FormControl;
+  
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) {
     this.store.dispatch(new StatActions.AddMany());
   }
@@ -38,9 +47,27 @@ export class CharacterSheetPage {
     this.character = this.store.select(fromRoot.getCharacter);
     this.stats = this.store.select(fromRoot.getStats);
     this.selectedStat = this.store.select(fromRoot.getStatIndex);
+
+    this.name = new FormControl('', Validators.required);
+    this.value = new FormControl('', Validators.required);
+    this.maximum = new FormControl('');
+    this.type = new FormControl('', Validators.required);
+
+    this.editStatForm = new FormGroup({
+      name: this.name,
+      value: this.value,
+      maximum: this.maximum,
+      type: this.type
+    });
+    
   }
 
-  selectStat(index: number) {
+  selectStat(stat: CharacterStat, index: number) {
+    this.name.setValue(stat.name);
+    this.value.setValue(stat.value);
+    this.maximum.setValue(stat.maximum);
+    this.type.setValue(stat.type); 
+
     this.store.dispatch(new StatActions.Select(index));
   }
 
@@ -48,8 +75,27 @@ export class CharacterSheetPage {
     this.navCtrl.setRoot(CharacterListPage);
   }
 
+  removeStat() {
+    this.store.dispatch(new StatActions.Remove());
+  }
+
+  updateStat() {
+    this.store.dispatch(new StatActions.Update(this.generateStat()));
+    this.editStatForm.reset();
+  }
+
   createStat() {
     this.navCtrl.push(CreateStatPage);
+  }
+
+  generateStat(): CharacterStat {
+    const group = this.editStatForm;
+    return {
+      name: group.get('name').value,
+      value: group.get('value').value,
+      maximum: group.get('maximum').value,
+      type: group.get('type').value
+    };
   }
 
   ionViewDidLoad() {
