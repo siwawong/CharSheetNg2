@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { CharacterListPage } from '../character-list/character-list';
+import { CreateStatPage } from '../create-stat/create-stat';
 
 import { Store } from '@ngrx/store';
 
@@ -47,8 +48,8 @@ export class CharacterSheetPage {
     this.navCtrl.setRoot(CharacterListPage);
   }
 
-  addStat() {
-    
+  createStat() {
+    this.navCtrl.push(CreateStatPage);
   }
 
   ionViewDidLoad() {

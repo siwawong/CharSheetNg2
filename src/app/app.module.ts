@@ -30,6 +30,7 @@ import { CreateUserPage } from '../pages/create-user/create-user';
 import { CharacterListPage } from '../pages/character-list/character-list';
 import { CreateCharacterPage } from '../pages/create-character/create-character';
 import { CharacterSheetPage } from '../pages/character-sheet/character-sheet';
+import { CreateStatPage } from '../pages/create-stat/create-stat';
 
 import { HttpService } from './services/http.service';
 
@@ -44,7 +45,8 @@ import { HttpService } from './services/http.service';
     CreateUserPage,
     CharacterListPage,
     CreateCharacterPage,
-    CharacterSheetPage
+    CharacterSheetPage,
+    CreateStatPage
   ],
   entryComponents: [
     AppComponent,
@@ -52,7 +54,8 @@ import { HttpService } from './services/http.service';
     CreateUserPage,
     CharacterListPage,
     CreateCharacterPage,
-    CharacterSheetPage
+    CharacterSheetPage,
+    CreateStatPage
   ],
   imports: [
     BrowserModule,
