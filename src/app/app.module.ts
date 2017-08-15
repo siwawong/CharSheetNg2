@@ -16,6 +16,7 @@ import { reducers } from './store/reducers';
 import { effects } from './store/effects';
 
 import { AppComponent } from './app.component';
+import { AppMenuComponent } from '../components/app-menu/app-menu';
 
 import { LoginUserPage } from '../pages/login-user/login-user';
 import { CreateUserPage } from '../pages/create-user/create-user';
@@ -29,6 +30,7 @@ import { HttpService } from './services/http.service';
 @NgModule({
   declarations: [
     AppComponent,
+    AppMenuComponent,
     LoginUserPage,
     CreateUserPage,
     CharacterListPage,

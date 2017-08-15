@@ -3,9 +3,11 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HttpService } from './services/http.service';
+import { AppMenuComponent } from '../components/app-menu/app-menu';
 
 import { LoginUserPage } from '../pages/login-user/login-user';
+
+
 @Component({
   templateUrl: 'app.component.html',
 })
