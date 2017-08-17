@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { CreateUserPage } from '../create-user/create-user';
@@ -8,6 +8,7 @@ import { CharacterListPage } from '../character-list/character-list';
 import { Store } from '@ngrx/store';
 
 import * as AuthActions from '../../app/store/actions/auth-actions';
+import * as NavActions from '../../app/store/actions/nav-actions';
 import * as fromRoot from '../../app/store/reducers';
 
 /**
@@ -28,7 +29,7 @@ export class LoginUserPage {
   private password: FormControl;
   private loginForm: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
     this.email = new FormControl('', [Validators.required, Validators.email]);
@@ -42,14 +43,13 @@ export class LoginUserPage {
 
   login() {
     this.store.dispatch(new AuthActions.Create({email: this.email.value, password: this.password.value}));
-    this.navCtrl.setRoot(CharacterListPage);
   }
 
   create() {
-    this.navCtrl.push(CreateUserPage);
+    this.store.dispatch(new NavActions.CreateUser());
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Login');
+    // console.log('ionViewDidLoad Login');
   }
 }

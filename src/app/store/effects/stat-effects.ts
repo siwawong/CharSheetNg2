@@ -8,7 +8,9 @@ import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
 import { HttpService } from '../../services/http.service';
+
 import * as StatActions from '../actions/stat-actions';
+import * as NavActions from '../actions/nav-actions';
 import * as fromRoot from '../reducers';
 
 @Injectable()
@@ -31,8 +33,12 @@ export class StatEffects {
             return test;
         })
         .switchMap((result) => this.http.createCharacterStat(result.auth, result.charId, result.stat))
-        .map((result) => {
-            return new StatActions.AddSuccess(result);
+        .mergeMap((result) => {
+            let merge = [
+                new StatActions.AddSuccess(result),
+                new NavActions.Back()       
+            ];
+            return merge;
         });
 
     @Effect()

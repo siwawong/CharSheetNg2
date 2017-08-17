@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
 
 // child reducers
-// import * as fromRouter from '@ngrx/router-store';
 import * as fromAuth from './auth-reducer';
 import * as fromUsers from './user-reducer';
 import * as fromChars from './character-reducer';
 import * as fromStats from './stat-reducer';
+import * as fromNav from './nav-reducer';
 
 // Notes taken from this repo: https://github.com/ngrx/example-app
 
@@ -18,8 +18,8 @@ export interface State {
     users: fromUsers.State;
     characters: fromChars.State;
     stats: fromStats.State;
-    // router: fromRouter.RouterReducerState;
-}
+    nav: fromNav.State;
+};
 
 /**
  * Because metareducers take a reducer function and return a new reducer,
@@ -33,8 +33,8 @@ export const reducers = {
     auth: fromAuth.reducer,
     users: fromUsers.reducer,
     characters: fromChars.reducer,
-    stats: fromStats.reducer
-    // router: fromRouter.routerReducer
+    stats: fromStats.reducer,
+    nav: fromNav.reducer
 };
 
 export const getAuthState = (state: State) => state.auth;
@@ -60,7 +60,13 @@ export const getStats =             createSelector(getStatState, fromStats.getSt
 export const getStatIndex =    createSelector(getStatState, fromStats.getSelectedStatId);
 export const getCurrentStat =       createSelector(getStatState, fromStats.getSelectedStat);
 
-export const getCharAuth = createSelector(getAuth, getCharacterId, (auth, charId) => { return {auth, charId}});
-export const getUsernameAndChar = createSelector(getUsername, getCharacter, (user, char) => { return {user, char}});
+export const getCharAuth = createSelector(getAuth, getCharacterId, (auth, charId) => { return { auth, charId }});
+export const getUsernameAndChar = createSelector(getUsername, getCharacter, (user, char) => { return { user, char }});
 export const getStatToRemove =
     createSelector(getAuth, getCharacterId, getCurrentStat, (auth, char, stat) => { return { auth, char, stat} });
+
+export const getNavState = (state: State) => state.nav;
+
+export const getNavRootPage = createSelector(getNavState, fromNav.getRootPage);
+export const getNavStackPage = createSelector(getNavState, fromNav.getStackPage);
+export const getNav = createSelector(getNavRootPage, getNavStackPage, (root, stack) =>  { return { root, stack }});

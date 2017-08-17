@@ -1,9 +1,4 @@
 import { createSelector } from 'reselect';
-// import '@ngrx/core/add/operator/select';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/let';
-// import { Observable } from 'rxjs/Observable';
-// import { combineLatest } from 'rxjs/observable/combineLatest';
 
 import * as CharacterActions from '../actions/character-actions';
 import { Character } from '../../models/character-model';
@@ -89,33 +84,6 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
         case CharacterActions.GET_ALL:
         default:
             return state;
-        // case CharacterActions.LINKSTAT: {
-        //     let newChar = Object.assign({}, state.entities[action.payload.charId]);
-        //     let newEntities = Object.assign({}, state.entities);
-
-        //     newChar.statIds = [... newChar.statIds, action.payload.statId];
-        //     newEntities[action.payload.charId] = newChar;
-
-        //     return {
-        //         ids: state.ids,
-        //         entities: newEntities,
-        //         selectedCharId: state.selectedCharId
-        //     }
-        // }
-
-        // case CharacterActions.UNLINKSTAT: {
-        //     let newChar = Object.assign({}, state.entities[action.payload.charId]);
-        //     let newEntities = Object.assign({}, state.entities);
-
-        //     newChar.statIds = newChar.statIds.filter(id => id !== action.payload.statId);
-        //     newEntities[action.payload.charId] = newChar;
-
-        //     return {
-        //         ids: state.ids,
-        //         entities: newEntities,
-        //         selectedCharId: state.selectedCharId
-        //     }
-        // }
     }
 };
 

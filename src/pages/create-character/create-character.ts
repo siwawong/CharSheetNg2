@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, Navbar } from 'ionic-angular';
 
 import { Store } from '@ngrx/store';
+
 import * as fromRoot from '../../app/store/reducers';
 import * as CharacterActions from '../../app/store/actions/character-actions';
+import * as NavActions from '../../app/store/actions/nav-actions';
 
 /**
  * Generated class for the CreateCharacterPage page.
@@ -19,11 +21,13 @@ import * as CharacterActions from '../../app/store/actions/character-actions';
   templateUrl: 'create-character.html',
 })
 export class CreateCharacterPage {
+  @ViewChild(Navbar) navBar: Navbar;
+  
   private title = "Create A New Character";
   private addCharForm: FormGroup;
   private name: FormControl;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.State>) {
   }
 
   ngOnInit() {
@@ -34,12 +38,15 @@ export class CreateCharacterPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CreateCharacterPage');
+    // console.log('ionViewDidLoad CreateCharacterPage');
+    this.navBar.backButtonClick = (e: UIEvent) => {
+      this.store.dispatch(new NavActions.Back());
+    };
   }
 
   addCharacter() {
     this.store.dispatch(new CharacterActions.Create(this.name.value));
-    this.navCtrl.pop();
+    // this.navCtrl.pop();
   }
 
 }

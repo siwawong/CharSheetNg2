@@ -7,11 +7,16 @@ import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
+import { CharacterListPage } from '../../../pages/character-list/character-list';
+
 import { HttpService } from '../../services/http.service';
+
 import * as UserActions from '../actions/user-actions';
 import * as CharacterActions from '../actions/character-actions';
 import * as AuthActions from '../actions/auth-actions';
 import * as StatActions from '../actions/stat-actions';
+import * as NavActions from '../actions/nav-actions';
+
 import * as fromRoot from '../reducers';
 
 @Injectable()
@@ -23,8 +28,11 @@ export class AuthEffects {
             return this.http.login(payload.email, payload.password);
         })
         .mergeMap((user) => {
-            let mergeActions = [new AuthActions.CreateSuccess(user.authToken), new UserActions.AddSuccess(user)];
-            // this.router.navigateByUrl(user.name);
+            let mergeActions = [
+                new AuthActions.CreateSuccess(user.authToken),
+                new UserActions.AddSuccess(user),
+                new NavActions.CharacterList()
+            ];
             return mergeActions;
         });
 
@@ -36,14 +44,14 @@ export class AuthEffects {
             let mergeActions = [
                 new AuthActions.DeleteSuccess(),
                 new UserActions.RemoveSuccess(),
-                new CharacterActions.RemoveAllSuccess()];
-            // this.router.navigateByUrl('');
+                new CharacterActions.RemoveAllSuccess(),
+                new NavActions.Login()
+            ];
             return mergeActions;
         });
-
+  
     constructor(
         private http: HttpService,
         private actions$: Actions,
-        private store$: Store<fromRoot.State>) {
-        }
+        private store$: Store<fromRoot.State>) { }
 };

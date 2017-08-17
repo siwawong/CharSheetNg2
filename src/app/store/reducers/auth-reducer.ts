@@ -1,5 +1,3 @@
-import { createSelector } from 'reselect';
-
 import * as AuthActions from '../actions/auth-actions';
 
 export interface State {

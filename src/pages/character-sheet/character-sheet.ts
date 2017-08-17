@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 
 import { CharacterListPage } from '../character-list/character-list';
 import { CreateStatPage } from '../create-stat/create-stat';
@@ -13,6 +13,7 @@ import { Character } from '../../app/models/character-model';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
+import * as NavActions from '../../app/store/actions/nav-actions';
 
 /**
  * Generated class for the CharacterSheetPage page.
@@ -39,7 +40,7 @@ export class CharacterSheetPage {
   private type: FormControl;
   
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.State>) {
     this.store.dispatch(new StatActions.AddMany());
   }
 
@@ -71,9 +72,9 @@ export class CharacterSheetPage {
     this.store.dispatch(new StatActions.Select(index));
   }
 
-  navCharList() {
-    this.navCtrl.setRoot(CharacterListPage);
-  }
+  // navCharList() {
+  //   this.navCtrl.setRoot(CharacterListPage);
+  // }
 
   removeStat() {
     this.store.dispatch(new StatActions.Remove());
@@ -85,7 +86,8 @@ export class CharacterSheetPage {
   }
 
   createStat() {
-    this.navCtrl.push(CreateStatPage);
+    // this.navCtrl.push(CreateStatPage);
+    this.store.dispatch(new NavActions.CreateStat());
   }
 
   generateStat(): CharacterStat {
@@ -99,7 +101,7 @@ export class CharacterSheetPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CharacterSheetPage');
+    // console.log('ionViewDidLoad CharacterSheetPage');
   }
 
 }

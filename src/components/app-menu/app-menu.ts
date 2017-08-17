@@ -1,5 +1,11 @@
 import { Component, Input } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
+import * as fromRoot from '../../app/store/reducers';
+import * as AuthActions from '../../app/store/actions/auth-actions';
+import * as NavActions from '../../app/store/actions/nav-actions';
+
 /**
  * Generated class for the AppDrawComponent component.
  *
@@ -13,6 +19,13 @@ import { Component, Input } from '@angular/core';
 export class AppMenuComponent {
   @Input() content;
 
-  constructor() { }
+  constructor(private store: Store<fromRoot.State>) { }
 
+  logout() {
+    this.store.dispatch(new AuthActions.Delete());
+  }
+
+  charList() {
+    this.store.dispatch(new NavActions.CharacterList());
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import { CreateCharacterPage } from '../create-character/create-character';
@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../app/store/reducers';
 import * as AuthActions from '../../app/store/actions/auth-actions';
 import * as CharacterActions from '../../app/store/actions/character-actions';
+import * as NavActions from '../../app/store/actions/nav-actions';
 
 import { Character } from '../../app/models/character-model';
 
@@ -29,7 +30,7 @@ export class CharacterListPage {
   private characters: Observable<Character[]>
   private username: Observable<string>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) {
+  constructor(private store: Store<fromRoot.State>) {
     this.store.dispatch(new CharacterActions.GetAll());   
   }
 
@@ -40,15 +41,14 @@ export class CharacterListPage {
 
   selectCharacter(index: number) {
     this.store.dispatch(new CharacterActions.Select(index));
-    this.navCtrl.setRoot(CharacterSheetPage);
   }
   
   addCharacter() {
-    this.navCtrl.push(CreateCharacterPage);
+    this.store.dispatch(new NavActions.CreateCharacter());
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CharacterListPage');
+    // console.log('ionViewDidLoad CharacterListPage');
   }
 
 }

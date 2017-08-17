@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, Navbar } from 'ionic-angular';
 
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
+import * as NavActions from '../../app/store/actions/nav-actions';
 
 /**
  * Generated class for the CreateStatPage page.
@@ -20,6 +21,8 @@ import * as StatActions from '../../app/store/actions/stat-actions';
   templateUrl: 'create-stat.html',
 })
 export class CreateStatPage {
+  @ViewChild(Navbar) navBar: Navbar;
+
   private title = "Create A New Stat";
 
   private name: FormControl;
@@ -29,8 +32,7 @@ export class CreateStatPage {
 
   private addStatForm: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) {
-  }
+  constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
     this.name = new FormControl('', Validators.required);
@@ -54,11 +56,14 @@ export class CreateStatPage {
       type: this.type.value
     };
     this.store.dispatch(new StatActions.Add(newStat));
-    this.navCtrl.pop();
+    // this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CreateStatPage');
+    // console.log('ionViewDidLoad CreateStatPage');
+    this.navBar.backButtonClick = (e: UIEvent) => {
+      this.store.dispatch(new NavActions.Back());
+    };
   }
 
 }

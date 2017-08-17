@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, Navbar } from 'ionic-angular';
 
 import { CharacterListPage } from '../character-list/character-list';
 
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as UserActions from '../../app/store/actions/user-actions';
+import * as NavActions from '../../app/store/actions/nav-actions';
 
 /**
  * Generated class for the CreatePage page.
@@ -22,14 +23,16 @@ import * as UserActions from '../../app/store/actions/user-actions';
   templateUrl: 'create-user.html',
 })
 export class CreateUserPage {
+  @ViewChild(Navbar) navBar: Navbar; 
   private title = 'Create User';
+  
   private createForm: FormGroup;
   private name: FormControl;
   private email: FormControl;
   private password1: FormControl;
   private password2: FormControl;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
     this.name = new FormControl('', Validators.required);
@@ -55,11 +58,12 @@ export class CreateUserPage {
 
   create() {
     this.store.dispatch(new UserActions.Add({name: this.name.value, email: this.email.value, password: this.password1.value}));
-    this.navCtrl.setRoot(CharacterListPage);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CreatePage');
+    this.navBar.backButtonClick = (e: UIEvent) => {
+      this.store.dispatch(new NavActions.Back());
+    };
   }
 
 }
