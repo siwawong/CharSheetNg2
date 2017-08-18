@@ -1,3 +1,4 @@
-<h2>{{ title }}</h2>
-<!-- nav -->
-<router-outlet></router-outlet>
+<app-menu [content]="mycontent"></app-menu>
+
+<ion-nav [root]="rootPage" #mycontent>
+</ion-nav>

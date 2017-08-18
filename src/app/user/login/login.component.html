@@ -1,9 +1,0 @@
-<h3>Login</h3>
-<form (ngSubmit)="login()" [formGroup]="loginForm">
-    <ul>
-        <li><input formControlName="email" placeholder="Email" type="email"></li>
-        <li><input formControlName="password" placeholder="Password" type="password"></li>
-    </ul>
-    <button [disabled]="loginForm.invalid" type="submit">Login</button>
-    <button type="button" routerLink="Create">Create New Account</button>
-</form>
