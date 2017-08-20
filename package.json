@@ -9,7 +9,11 @@
         "build": "ionic-app-scripts build",
         "lint": "ionic-app-scripts lint",
         "ionic:build": "ionic-app-scripts build",
-        "ionic:serve": "ionic-app-scripts serve"
+        "ionic:serve": "ionic-app-scripts serve",
+        "ionic:personal": "cross-env NODE_ENV=personal npm run ionic:serve",
+        "ionic:build:personal": "cross-env NODE_ENV=personal npm run ionic:build",
+        "cordova:android": "cross-env NODE_ENV=personal ionic cordova run android --device",
+        "cordova:android:build": "cross-env NODE_ENV=personal ionic cordova build android"
     },
     "dependencies": {
         "@angular/common": "4.1.3",
@@ -25,6 +29,7 @@
         "@ionic-native/splash-screen": "3.12.1",
         "@ionic-native/status-bar": "3.12.1",
         "@ionic/storage": "2.0.1",
+        "deepmerge": "^1.5.1",
         "@ngrx/effects": "^4.0.1",
         "@ngrx/store": "^4.0.0",
         "cordova-android": "^6.2.3",
@@ -45,7 +50,9 @@
         "@ionic/app-scripts": "2.1.3",
         "@ionic/cli-plugin-ionic-angular": "1.4.1",
         "ionic": "3.8.1",
-        "typescript": "2.3.4"
+        "typescript": "2.3.4",
+        "webpack-merge": "^4.1.0",
+        "cross-env": "^5.0.5"
     },
     "cordova": {
         "plugins": {
@@ -59,5 +66,8 @@
         "platforms": [
             "android"
         ]
+    },
+    "config": {
+        "ionic_webpack": "./config/webpack.config.js"
     }
 }

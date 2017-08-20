@@ -4,28 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-// import { environment } from '../../environments/environment';
-
 import { User } from '../models/user-model';
 import { Character } from '../models/character-model';
 import { CharacterStat } from '../models/stat-model';
-
-// TODO: move environment usage to the appropriate location for ionic
-// for now I put this here as http.service is the only service that uses it
-export const environment = {
-  production: false,
-  network: 'local',
-  database: {
-    url:  {
-      local: 'localhost',
-      broadcast: '192.168.200.100',
-    },
-    port: '3000'
-  },
-  getUrl: () => {
-    return `http://${environment.database.url[environment.network]}:${environment.database.port}/`;
-  }
-};
+import { ENVIRONMENT } from '../../environments/environment.default';
 
 @Injectable()
 export class HttpService {
@@ -35,7 +17,7 @@ export class HttpService {
   // Add Check Email Availability
   createUser(name: string, email: string, password: string): Observable<any> {
     console.log(`${name}, ${email}, ${password}`);
-    return this.http.post(`${environment.getUrl()}Users`, {name, email, password})
+    return this.http.post(`${this.getUrl()}Users`, {name, email, password})
       .map((response: Response) => {
         let toReturn = response.json();
         toReturn.authToken = response.headers.get('x-auth');
@@ -47,7 +29,7 @@ export class HttpService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${environment.getUrl()}Users/Me`, { email, password })
+    return this.http.post(`${this.getUrl()}Users/Me`, { email, password })
       .map((response: Response) => {
         let toReturn = response.json();
         toReturn.authToken = response.headers.get('x-auth');
@@ -58,7 +40,7 @@ export class HttpService {
   }
 
   logout(authToken: string): Observable<boolean> {
-    return this.http.delete(`${environment.getUrl()}Users/Me`, this.createAuthHeader(authToken))
+    return this.http.delete(`${this.getUrl()}Users/Me`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         return true;
       }).catch((error: Response) => {
@@ -67,7 +49,7 @@ export class HttpService {
   }
 
   getCharacters(authToken: string): Observable<Character[]> {
-    return this.http.get(`${environment.getUrl()}Users/Characters`, this.createAuthHeader(authToken))
+    return this.http.get(`${this.getUrl()}Users/Characters`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         let responseJson = response.json();
         // array [_id, charNames]
@@ -84,7 +66,7 @@ export class HttpService {
   }
 
   createCharacter(authToken: string, characterName: string): Observable<Character> {
-    return this.http.post(`${environment.getUrl()}Users/Characters`, { name: characterName }, this.createAuthHeader(authToken))
+    return this.http.post(`${this.getUrl()}Users/Characters`, { name: characterName }, this.createAuthHeader(authToken))
       .map((response: Response) => {
         let toReturn = response.json();
         return {
@@ -97,7 +79,7 @@ export class HttpService {
   }
 
   getCharacterStats(authToken: string, characterId: string): Observable<any> {
-    return this.http.get(`${environment.getUrl()}Users/Characters/${characterId}`, this.createAuthHeader(authToken))
+    return this.http.get(`${this.getUrl()}Users/Characters/${characterId}`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         // return Character
         let toReturn = response.json();
@@ -110,7 +92,7 @@ export class HttpService {
   createCharacterStat(authToken: string, characterId: string, newStat: CharacterStat): Observable<any> {
     // console.log(`${authToken}, ${characterId}, ${newStat}`);
     return this.http.post(
-      `${environment.getUrl()}Users/Characters/Stats/`, { id: characterId, ...newStat }, this.createAuthHeader(authToken))
+      `${this.getUrl()}Users/Characters/Stats/`, { id: characterId, ...newStat }, this.createAuthHeader(authToken))
         .map((response: Response) => {
           // return Character.[stats]
           // console.log(response.json());
@@ -122,7 +104,7 @@ export class HttpService {
 
   patchCharacterStat(auth: string, charId: string, stat: CharacterStat): Observable<CharacterStat> {
     return this.http.patch(
-      `${environment.getUrl()}Users/Characters/Stats/`,
+      `${this.getUrl()}Users/Characters/Stats/`,
       { id: charId, ...stat },
       this.createAuthHeader(auth))
         .map((response: Response) => {
@@ -136,7 +118,7 @@ export class HttpService {
   deleteCharacterStat(auth: string, charId: string, statName: string): Observable<boolean> {
     // rewrite server api to not expect json object
     return this.http.delete(
-      `${environment.getUrl()}Users/Characters/${charId}/Stats/${statName}`,
+      `${this.getUrl()}Users/Characters/${charId}/Stats/${statName}`,
       this.createAuthHeader(auth))
         .map((response: Response) => {
           // return Character.[stats]
@@ -150,4 +132,8 @@ export class HttpService {
     const header = new Headers({'x-auth': authToken});
     return new RequestOptions({ headers: header});
   }
+
+  getUrl = () => {
+    return `http://${ENVIRONMENT.database.host}:${ENVIRONMENT.database.port}/`;
+  };
 };
