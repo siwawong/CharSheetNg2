@@ -28,5 +28,5 @@ export class DeleteSuccess implements Action {
 export type All
     = Create
     | CreateSuccess
-    | DeleteSuccess
-    | Delete;
+    | Delete
+    | DeleteSuccess;

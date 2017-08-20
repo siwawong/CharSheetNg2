@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/withLatestFrom';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -38,9 +38,9 @@ export class AuthEffects {
 
     @Effect()
     delete$: Observable<Action> = this.actions$.ofType(AuthActions.DELETE)
-        .combineLatest(this.store$.select(fromRoot.getAuth), (action, token) => token)
+        .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
         .switchMap((authToken) => this.http.logout(authToken))
-        .mergeMap((username) => {
+        .mergeMap(() => {
             let mergeActions = [
                 new AuthActions.DeleteSuccess(),
                 new UserActions.RemoveSuccess(),

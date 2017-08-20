@@ -2,20 +2,20 @@ import * as AuthActions from '../actions/auth-actions';
 
 export interface State {
     authToken: string;
-    persist: boolean;
+    // persist: boolean;
 };
 
 const initialState: State = {
-    authToken: '',
-    persist: false
+    authToken: ''
+    // persist: false
 };
 
 export function reducer(state = initialState, action: AuthActions.All): State {
     switch (action.type) {
         case AuthActions.CREATE_SUCCESS: {
             return {
-                authToken: action.payload,
-                persist: state.persist
+                authToken: action.payload
+                // persist: state.persist
             };
         }
         case AuthActions.DELETE_SUCCESS: {
