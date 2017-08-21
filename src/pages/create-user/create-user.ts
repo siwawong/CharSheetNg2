@@ -57,7 +57,7 @@ export class CreateUserPage {
   }
 
   create() {
-    this.store.dispatch(new UserActions.Add({name: this.name.value, email: this.email.value, password: this.password1.value}));
+    this.store.dispatch(new UserActions.Create({name: this.name.value, email: this.email.value, password: this.password1.value}));
   }
 
   ionViewDidLoad() {

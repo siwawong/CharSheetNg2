@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
-import * as AuthActions from '../../app/store/actions/auth-actions';
+import * as UserActions from '../../app/store/actions/user-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
 /**
@@ -22,7 +22,7 @@ export class AppMenuComponent {
   constructor(private store: Store<fromRoot.State>) { }
 
   logout() {
-    this.store.dispatch(new AuthActions.Delete());
+    this.store.dispatch(new UserActions.Delete());
   }
 
   charList() {

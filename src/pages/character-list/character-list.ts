@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
-import { CreateCharacterPage } from '../create-character/create-character';
-import { CharacterSheetPage } from '../character-sheet/character-sheet';
+// import { CreateCharacterPage } from '../create-character/create-character';
+// import { CharacterSheetPage } from '../character-sheet/character-sheet';
 
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
-import * as AuthActions from '../../app/store/actions/auth-actions';
+// import * as AuthActions from '../../app/store/actions/auth-actions';
 import * as CharacterActions from '../../app/store/actions/character-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User } from '../../models/user-model';
+import { UserState } from '../reducers/user-reducer';
 
 /**
  * For each action type in an action group, make a simple
@@ -10,53 +10,53 @@ import { User } from '../../models/user-model';
  * action types in the application are unique. 
  */
 
-export const ADD =              '[User] Add';
-export const ADD_SUCCESS =      '[User] Add Success';
-export const REMOVE =           '[User] Remove';
-export const REMOVE_SUCCESS =   '[User] Remove Success';
-export const UPDATE =           '[User] Update';
-export const UPDATE_SUCCESS =   '[User] Update Success';
+export const CREATE         = '[User] Create';
+export const CREATE_SUCCESS = '[User] Create Success';
+export const DELETE         = '[User] Delete';
+export const DELETE_SUCCESS = '[User] Delete Success';
+export const LOGIN          = '[User] Login';
+export const LOGIN_SUCCESS  = '[User] Login Success';
 
-export class Add implements Action {
-    readonly type = ADD;
+export class Create implements Action {
+    readonly type = CREATE;
 
     constructor(public payload: {name: string, email: string, password: string}) { }
 }
 
-export class AddSuccess implements Action {
-    readonly type = ADD_SUCCESS;
+export class CreateSuccess implements Action {
+    readonly type = CREATE_SUCCESS;
 
-    constructor(public payload: User) { }
+    constructor(public payload: UserState) { }
 }
 
-export class Remove implements Action {
-    readonly type = REMOVE;
-
-    constructor(public payload: string) { }
-}
-
-export class RemoveSuccess implements Action {
-    readonly type = REMOVE_SUCCESS;
+export class Delete implements Action {
+    readonly type = DELETE;
 
     constructor() { }
 }
 
-export class Update implements Action {
-    readonly type = UPDATE;
+export class DeleteSuccess implements Action {
+    readonly type = DELETE_SUCCESS;
 
-    constructor(public payload: {name: string, email: string, password: string}) { }
+    constructor() { }
 }
 
-export class UpdateSuccess implements Action {
-    readonly type = UPDATE_SUCCESS;
+export class Login implements Action {
+    readonly type = LOGIN;
 
-    constructor(public payload: User) { }
+    constructor(public payload: {email: string, password: string}) { }
+}
+
+export class LoginSuccess implements Action {
+    readonly type = LOGIN_SUCCESS;
+
+    constructor(public payload: UserState) { }
 }
 
 export type All
- = Add
- | AddSuccess
- | Remove
- | RemoveSuccess
- | Update
- | UpdateSuccess;
+ = Create
+ | CreateSuccess
+ | Delete
+ | DeleteSuccess
+ | Login
+ | LoginSuccess;
