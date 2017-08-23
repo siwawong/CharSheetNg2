@@ -47,7 +47,7 @@ export class CharacterSheetPage {
   ngOnInit() {
     this.character = this.store.select(fromRoot.getCharacter);
     this.stats = this.store.select(fromRoot.getStats);
-    this.selectedStat = this.store.select(fromRoot.getStatIndex);
+    this.selectedStat = this.store.select(fromRoot.getStatId);
 
     this.name = new FormControl('', Validators.required);
     this.value = new FormControl('', Validators.required);

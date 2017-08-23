@@ -1,59 +1,56 @@
 import { createSelector } from 'reselect';
+import { shortid } from 'shortid';
 
 import * as CharacterActions from '../actions/character-actions';
 import { Character } from '../../models/character-model';
 
-export interface State {
+export interface CharacterState {
     ids: string[];
     entities: { [id: string]: Character};
     selectedCharId: string | null;
 };
 
-const initialState: State = {
+const initialState: CharacterState = {
     ids: [],
     entities: {},
     selectedCharId: null,
 };
 
-export function reducer(state = initialState, action: CharacterActions.All): State {
+const genNewCharState = (stats: Character[], selected?: string): CharacterState => {
+    let newState = {
+        ids: [],
+        entities: {},
+        selectedCharId: (selected) || null
+    };
+    stats.map((stat) => {
+        newState.ids.push(stat.id);
+        newState.entities[stat.id] = stat;
+    });
+    return newState;
+};
+
+export function reducer(state = initialState, action: CharacterActions.All): CharacterState {
     switch (action.type) {
-        case CharacterActions.GET_SUCCESS:
-        case CharacterActions.CREATE_SUCCESS: {
-            const newChar = action.payload;
-
-            return {
-                ids: [...state.ids, newChar.id],
-                entities: Object.assign({}, state.entities, {[newChar.id]: newChar}),
-                selectedCharId: state.selectedCharId,
+        case CharacterActions.ADD: {
+            const newId = shortid.generate();           
+            const newStat: Character = {
+                id: newId,
+                name: action.payload,
             };
-        }
-        case CharacterActions.UPDATE_SUCCESS: {
-            const updatedChar = action.payload;
 
             return {
-                ids: [...state.ids],
-                entities: Object.assign({}, state.entities, {[updatedChar.id]: updatedChar}),
-                selectedCharId: state.selectedCharId
-            }
-        }
-        case CharacterActions.GET_ALL_SUCCESS: {
-            const newChars = action.payload;
-            let newState = {
-                ids: [],
-                entities: { }
-            };
-            newChars.map((char) => {
-                newState.ids.push(char.id);
-                newState.entities[char.id] = char;
-            });
-
-            return {
-                ids: newState.ids,
-                entities: newState.entities,
+                ids: [...state.ids, newId],
+                entities: Object.assign({}, state.entities, {[newId]: newStat}),
                 selectedCharId: state.selectedCharId
             };
         }
-        case CharacterActions.REMOVE_SUCCESS: {
+        case CharacterActions.LOAD_MANY_SUCCESS: {
+            return genNewCharState(action.payload.chars, action.payload.selected);
+        }
+        case CharacterActions.LOAD_MANY_NETWORK_SUCCESS: {
+            return genNewCharState(action.payload);
+        }
+        case CharacterActions.REMOVE: {
             const toRemoveId = action.payload;
             const selectedCharId = (toRemoveId === state.selectedCharId) ? null : state.selectedCharId;
 
@@ -62,6 +59,18 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
                 entities: Object.assign({}, state.entities, {[toRemoveId]: undefined}),
                 selectedCharId: selectedCharId
             };
+        }
+        case CharacterActions.REMOVE_ALL: {
+            return initialState;
+        }
+        case CharacterActions.UPDATE: {
+            const updatedChar = action.payload;
+
+            return {
+                ids: [...state.ids],
+                entities: Object.assign({}, state.entities, {[updatedChar.id]: updatedChar}),
+                selectedCharId: state.selectedCharId
+            }
         }
         case CharacterActions.SELECT: {
             const newSelectId = state.ids[action.payload];
@@ -72,33 +81,44 @@ export function reducer(state = initialState, action: CharacterActions.All): Sta
                 selectedCharId: newSelectId
             };
         }
-        case CharacterActions.REMOVE_ALL_SUCCESS: {
-            return initialState;
-        }
-        case CharacterActions.SELECT_SUCCESS:
-        case CharacterActions.REMOVE:
-        case CharacterActions.REMOVE_ALL:
-        case CharacterActions.CREATE:
-        case CharacterActions.GET:
-        case CharacterActions.UPDATE:
-        case CharacterActions.GET_ALL:
+        case CharacterActions.ADD_ERROR:
+        case CharacterActions.ADD_NETWORK:
+        case CharacterActions.ADD_NETWORK_SUCCESS:
+        case CharacterActions.ADD_NETWORK_ERROR:
+        case CharacterActions.SAVE_MANY:
+        case CharacterActions.SAVE_MANY_ERROR:
+        case CharacterActions.LOAD_MANY:
+        case CharacterActions.LOAD_MANY_ERROR:
+        case CharacterActions.LOAD_MANY_NETWORK:
+        case CharacterActions.LOAD_MANY_NETWORK_ERROR:
+        case CharacterActions.LOAD_MANY_NONE:
+        case CharacterActions.REMOVE_ERROR:
+        case CharacterActions.REMOVE_NETWORK:
+        case CharacterActions.REMOVE_NETWORK_SUCCESS:
+        case CharacterActions.REMOVE_NETWORK_ERROR:
+        case CharacterActions.REMOVE_ALL_ERROR:
+        case CharacterActions.REMOVE_ALL_NETWORK:
+        case CharacterActions.REMOVE_ALL_NETWORK_SUCCESS:
+        case CharacterActions.REMOVE_ALL_NETWORK_ERROR:
+        case CharacterActions.UPDATE_ERROR:
+        case CharacterActions.UPDATE_NETWORK:
+        case CharacterActions.UPDATE_NETWORK_SUCCESS:
+        case CharacterActions.UPDATE_NETWORK_ERROR:
+        case CharacterActions.SELECT_ERROR:
         default:
             return state;
     }
 };
 
-export const getEntities            = (s: State) => s.entities;
-export const getIds                 = (s: State) => s.ids;
-export const getCharacterId = (s: State) => s.selectedCharId;
-export const getCharacters          = createSelector(getIds, getEntities, (ids, entities) => {
+export const getEntities   = (s: CharacterState) => s.entities;
+export const getIds        = (s: CharacterState) => s.ids;
+export const getSelectedId = (s: CharacterState) => s.selectedCharId;
+export const getLastAdded  = (s: CharacterState) => {
+    return s.entities[s.ids.length - 1];
+};
+
+export const getCharacters = createSelector(getIds, getEntities, (ids, entities) => {
     return ids.map(id => entities[id]);
 });
-
-export const getCharacter   = createSelector(getCharacterId,
-                                                     getEntities,
-                                                     (id, characters) => characters[id]);
-
-// export const getCharacterName   = createSelector(getCharacterId,
-//                                                      getEntities,
-//                                                      (id, characters) => characters[id].name);
-
+export const getCharacter  = createSelector(getSelectedId, getEntities,
+    (id, characters) => characters[id]);

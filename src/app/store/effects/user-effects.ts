@@ -7,6 +7,7 @@ import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
 import { HttpService } from '../../services/http.service';
+import { StorageService } from '../../services/storage.service';
 
 import * as UserActions from '../actions/user-actions';
 import * as NavActions from '../actions/nav-actions';
@@ -24,6 +25,7 @@ export class UserEffects {
                 new UserActions.CreateSuccess(user),
                 new NavActions.CharacterList()
             ];
+            this.storage.setUserState(user);
             return mergeActions;
         });
 
@@ -38,6 +40,7 @@ export class UserEffects {
                 new UserActions.LoginSuccess(user),
                 new NavActions.CharacterList()
             ];
+            this.storage.setUserState(user);           
             return mergeActions;
         });
 
@@ -48,11 +51,29 @@ export class UserEffects {
         .mergeMap(() => {
             let mergeActions = [
                 new UserActions.DeleteSuccess(),
-                new CharacterActions.RemoveAllSuccess(),
+                new CharacterActions.RemoveAll(),
                 new NavActions.Login()
             ];
             return mergeActions;
         });
+    
+    @Effect()
+    load$: Observable<Action> = this.actions$.ofType(UserActions.LOAD)
+        .mergeMap(() => {
+            let newAction: Action[] = [];
+            const userState = this.storage.getUserState();
+            // Fit a Catch in here for loaderror?
+            if (userState === null) {
+                newAction.push(new UserActions.LoadNone());
+            } else {
+                newAction.push(new UserActions.LoadSuccess(userState));
+                newAction.push(new NavActions.Load());
+            }
+            return newAction;
+        });
 
-    constructor(private http: HttpService, private actions$: Actions, private store$: Store<fromRoot.State>) { }
+    constructor(private http: HttpService,
+                private actions$: Actions,
+                private store$: Store<fromRoot.State>,
+                private storage: StorageService) { }
 };

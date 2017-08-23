@@ -1,4 +1,5 @@
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 // import 'rxjs/add/operator/switchMap';
 // import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/withLatestFrom';
@@ -7,9 +8,14 @@ import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
+import { StorageService } from '../../services/storage.service';
+
 import { App } from 'ionic-angular';
 
+import { PAGES } from '../../models/nav-model';
+
 import * as NavActions from '../actions/nav-actions';
+import * as UserActions from '../actions/user-actions';
 import * as fromRoot from '../reducers';
 
 @Injectable()
@@ -62,8 +68,41 @@ export class NavEffects {
             this.navCtrl().push(page);
             return null;
         });
+    
+    @Effect()
+    load$: Observable<Action> = this.actions$.ofType(NavActions.LOAD)
+        .map(() => {
+            let newAction;
+            const newState = this.storage.getNavState();
 
-    constructor(private actions$: Actions, private store$: Store<fromRoot.State>, private app: App) { }
+            if (newState === null) {
+                newAction = new NavActions.LoadNone();
+                this.navCtrl().setRoot(PAGES.login);
+            } else {
+                newAction = new NavActions.LoadSuccess(newState);
+            }
+            return newAction;
+        });
+    
+    @Effect({dispatch: false})
+    loadSuccess$: Observable<Action> = this.actions$.ofType(NavActions.LOAD_SUCCESS)
+        .map(toPayload)
+        .do((payload) => {
+            this.navCtrl().setRoot(payload.root);
+            return null;
+        });
+    
+    @Effect({dispatch: false})
+    begin$: Observable<Action> = this.actions$.ofType(UserActions.LOAD_NONE || UserActions.LOAD_ERROR)
+        .map(() => {
+            this.navCtrl().setRoot(PAGES.login);
+            return null;
+        });
+
+    constructor(private actions$: Actions,
+                private store$: Store<fromRoot.State>,
+                private app: App,
+                private storage: StorageService) { }
 
     navCtrl() {
         return this.app.getActiveNavs()[0];
