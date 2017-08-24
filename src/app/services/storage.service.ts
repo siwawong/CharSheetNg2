@@ -11,7 +11,7 @@ import { CharacterStat } from '../models/stat-model';
 const STORAGE = {
     USERKEY: 'UserState',
     CHARACTERSKEY: 'CharMetaState',
-    STATSKEY: 'StatMetaState',
+    STATSKEY: 'StatMetaState', //{CharId}StatMeta
 };
 
 @Injectable()
@@ -98,20 +98,20 @@ export class StorageService {
         this.remCharMetaState();
     }
 
-    setStatMetaState(ids: string[], selectedId: string) {
-        return this.setItem(STORAGE.STATSKEY, {ids, selectedId});
+    setStatMetaState(charId: string, ids: string[], selectedId: string) {
+        return this.setItem(STORAGE.STATSKEY + charId, {ids, selectedId});
     }
 
-    getStatMetaState() {
-        return this.getItem(STORAGE.STATSKEY);
+    getStatMetaState(charId: string) {
+        return this.getItem(STORAGE.STATSKEY + charId);
     }
 
-    remStatMetaState() {
-        return this.removeItem(STORAGE.STATSKEY);
+    remStatMetaState(charId: string) {
+        return this.removeItem(STORAGE.STATSKEY + charId);
     }
 
-    addStat(ids: string[], selected: string, stat: CharacterStat) {
-        this.setStatMetaState(ids, selected);
+    addStat(charId: string, ids: string[], selected: string, stat: CharacterStat) {
+        this.setStatMetaState(charId, ids, selected);
         this.setItem(stat.id, stat);
         return stat;
     }
@@ -120,8 +120,8 @@ export class StorageService {
         this.setItem(stat.id, stat);
     }
 
-    remStat(ids: string[], selected: string, statId: string) {
-        this.setStatMetaState(ids, selected);
+    remStat(charId: string, ids: string[], selected: string, statId: string) {
+        this.setStatMetaState(charId, ids, selected);
         this.removeItem(statId);
     }
 
@@ -131,9 +131,9 @@ export class StorageService {
         });
     }
 
-    getStats() {
+    getStats(charId: string) {
         // let newStats: CharacterStat[];
-        return this.getStatMetaState().then((meta) => {
+        return this.getStatMetaState(charId).then((meta) => {
             if (meta === null) {
                 return null;
             } else {
@@ -149,15 +149,15 @@ export class StorageService {
         })
     }
 
-    remStats() {
-        this.getStatMetaState().then((meta) => {
+    remStats(charId: string) {
+        this.getStatMetaState(charId).then((meta) => {
             if (meta) {
                 meta.ids.map((id) => {
                     this.removeItem(id);
                 });
             }
         });
-        this.remStatMetaState();
+        this.remStatMetaState(charId);
     }
 
     private getItem(KEY: string) {

@@ -20,7 +20,7 @@ import * as fromRoot from '../reducers';
 @Injectable()
 export class CharacterEffects {
     @Effect()
-    createChar: Observable<Action> = this.actions$.ofType(CharacterActions.ADD)
+    createChar$: Observable<Action> = this.actions$.ofType(CharacterActions.ADD)
         .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
         .map((state) => this.storage.addChar(state.meta.ids, state.meta.selectedId, state.char))
         .mergeMap((char) => {
@@ -34,7 +34,7 @@ export class CharacterEffects {
         });
 
     @Effect()
-    createCharNet: Observable<Action> = this.actions$.ofType(CharacterActions.ADD_NETWORK)
+    createCharNet$: Observable<Action> = this.actions$.ofType(CharacterActions.ADD_NETWORK)
         .map(toPayload)
         .withLatestFrom(this.store$.select(fromRoot.getAuth), (payload, token) => {
             return {
@@ -46,7 +46,7 @@ export class CharacterEffects {
         .map(() => new CharacterActions.AddNetworkSuccess());
 
     @Effect({dispatch: false})
-    saveMany: Observable<Action> = this.actions$.ofType(CharacterActions.SAVE_MANY)
+    saveMany$: Observable<Action> = this.actions$.ofType(CharacterActions.SAVE_MANY)
         .map(toPayload)
         .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (chars, state) => {
             return {
@@ -61,7 +61,7 @@ export class CharacterEffects {
         });
     
     @Effect()
-    loadMany: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY)
+    loadMany$: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY)
         .mergeMap(() => this.storage.getChars())
         .mergeMap((newCharState) => {
             let newAction: Action[] = [];
@@ -84,7 +84,7 @@ export class CharacterEffects {
         });
 
     @Effect()
-    loadManyNet: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY_NETWORK)
+    loadManyNet$: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY_NETWORK)
         .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
         .switchMap((authToken) => this.http.getCharacters(authToken))
         .mergeMap((res) => {
@@ -98,7 +98,7 @@ export class CharacterEffects {
         });
     
     @Effect()
-    removeAll: Observable<Action> = this.actions$.ofType(CharacterActions.REMOVE_ALL)
+    removeAll$: Observable<Action> = this.actions$.ofType(CharacterActions.REMOVE_ALL)
         .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (action, meta) => meta)
         .map((meta) => {
             // if (meta.ids.length > 0) {
@@ -115,12 +115,20 @@ export class CharacterEffects {
         });
 
     @Effect()
-    selectChar: Observable<Action> = this.actions$.ofType(CharacterActions.SELECT)
+    selectChar$: Observable<Action> = this.actions$.ofType(CharacterActions.SELECT)
         .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
         // .map(toPayload)
         .map((state) => {
             this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
             return new StatActions.LoadMany();
+        });
+    
+    @Effect({dispatch: false})
+    unselectChar$: Observable<Action> = this.actions$.ofType(CharacterActions.UNSELECT)
+        .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
+        .map((state) => {
+            this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
+            return null;
         });
 
     constructor(private http: HttpService,

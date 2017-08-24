@@ -47,6 +47,10 @@ export const getLatestStat   = createSelector(getStatState, fromStats.getLastAdd
 export const getStatMeta     = createSelector(getStatState, fromStats.getMeta);
 export const getStatLateMeta = createSelector(getStatState, fromStats.getLatestMeta);
 
+export const getStatLateCharId = createSelector(getCharacterId, getStatLateMeta, (charId, statMeta) => {
+    return { charId, stat: statMeta.stat, meta: statMeta.meta };
+})
+
 export const getNavState = (state: State) => state.nav;
 
 export const getNavRootPage    = createSelector(getNavState, fromNav.getRootPage);

@@ -19,8 +19,9 @@ import * as fromRoot from '../reducers';
 export class StatEffects {
     @Effect()
     add$: Observable<Action> = this.actions$.ofType(StatActions.ADD)
-    .withLatestFrom(this.store$.select(fromRoot.getStatLateMeta), (action, state) => state)
-    .map((state) => this.storage.addStat(state.meta.ids, state.meta.selectedId, state.stat))    
+    .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (action, state) => state)
+    .map((state) => this.storage.addStat(
+        state.charId, state.meta.ids, state.meta.selectedId, state.stat))    
     .mergeMap((stat)  => {
             // Check for Error and dispatch here?
             // logic for when to update network based on timer goes here?
@@ -47,21 +48,23 @@ export class StatEffects {
     @Effect({dispatch: false})
     saveMany: Observable<Action> = this.actions$.ofType(StatActions.SAVE_MANY)
         .map(toPayload)
-        .withLatestFrom(this.store$.select(fromRoot.getStatMeta), (stats, state) => {
+        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (stats, meta) => {
             return {
                 stats,
-                state
+                state: meta.meta,
+                charId: meta.charId
             };
         })
         .map((payload) => {
-            this.storage.setStatMetaState(payload.state.ids, payload.state.selectedId);
+            this.storage.setStatMetaState(payload.charId, payload.state.ids, payload.state.selectedId);
             this.storage.setStats(payload.stats);
             return null;
         })
 
     @Effect()
     loadMany$: Observable<Action> = this.actions$.ofType(StatActions.LOAD_MANY)
-        .mergeMap(() => this.storage.getStats())
+        .withLatestFrom(this.store$.select(fromRoot.getCharacterId), (action, charId) => charId)
+        .mergeMap((charId) => this.storage.getStats(charId))
         .mergeMap((newStatState) => {
             let newAction: Action[] =[];
 
@@ -92,12 +95,12 @@ export class StatEffects {
     
     @Effect({dispatch: false})
     removeAll$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE_ALL)
-        .withLatestFrom(this.store$.select(fromRoot.getStatMeta), (action, meta) => meta)
-        .map((meta) => {
+        .withLatestFrom(this.store$.select(fromRoot.getCharacterId), (action, charId) => charId)
+        .map((charId) => {
             // if (meta.ids.length > 0) {
             //     this.storage.remStats();                
             // }
-            this.storage.remStats();
+            this.storage.remStats(charId);
             return null;
         });
 
@@ -111,15 +114,16 @@ export class StatEffects {
     @Effect()
     remove$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE)
         .map(toPayload)
-        .withLatestFrom(this.store$.select(fromRoot.getStatLateMeta), (payload, state) => {
+        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (payload, meta) => {
             return {
-                ids: state.meta.ids,
-                selected: state.meta.selectedId,
+                charId: meta.charId,
+                ids: meta.meta.ids,
+                selected: meta.meta.selectedId,
                 statId: payload
             };
         })
         .map((payload) => {
-            this.storage.remStat(payload.ids, payload.selected, payload.statId);
+            this.storage.remStat(payload.charId, payload.ids, payload.selected, payload.statId);
             return new StatActions.RemoveNetwork(payload.statId);
         });
 
@@ -159,9 +163,9 @@ export class StatEffects {
 
     @Effect({dispatch: false})
     select$: Observable<Action> = this.actions$.ofType(StatActions.SELECT)
-        .withLatestFrom(this.store$.select(fromRoot.getStatLateMeta), (action, state) => state)
+        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (action, state) => state)
         .map((state) => {
-            this.storage.setStatMetaState(state.meta.ids, state.meta.selectedId);
+            this.storage.setStatMetaState(state.charId, state.meta.ids, state.meta.selectedId);
             return null;
         })
 

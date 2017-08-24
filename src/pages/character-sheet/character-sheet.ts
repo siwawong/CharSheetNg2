@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { IonicPage } from 'ionic-angular';
-import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/map';
 
 // import { CharacterListPage } from '../character-list/character-list';
 // import { CreateStatPage } from '../create-stat/create-stat';
@@ -49,7 +49,7 @@ export class CharacterSheetPage {
   ngOnInit() {
     let initStat;
 
-    this.store.select(fromRoot.getStat).withLatestFrom((stat) => {
+    this.store.select(fromRoot.getStat).map((stat) => {
       console.log(`Stat on Init: ${stat}`);
       initStat = stat;
     });
