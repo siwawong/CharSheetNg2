@@ -17,6 +17,8 @@ import * as NavActions from '../../app/store/actions/nav-actions';
  * on Ionic pages and navigation.
  */
 
+const _PW_MIN_LENGTH = 6;
+
 @IonicPage()
 @Component({
   selector: 'page-create-user',
@@ -37,8 +39,8 @@ export class CreateUserPage {
   ngOnInit() {
     this.name = new FormControl('', Validators.required);
     this.email = new FormControl('', [Validators.required, Validators.email]);
-    this.password1 = new FormControl('', Validators.required);
-    this.password2 = new FormControl('', Validators.required);
+    this.password1 = new FormControl('', [Validators.required, Validators.minLength(_PW_MIN_LENGTH)]);
+    this.password2 = new FormControl('', [Validators.required, Validators.minLength(_PW_MIN_LENGTH)]);
 
     this.createForm = new FormGroup({
       name: this.name,
@@ -65,5 +67,4 @@ export class CreateUserPage {
       this.store.dispatch(new NavActions.Back());
     };
   }
-
 }
