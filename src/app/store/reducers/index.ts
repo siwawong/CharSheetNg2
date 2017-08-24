@@ -35,12 +35,16 @@ export const getCharacters       = createSelector(getCharState, fromChars.getCha
 export const getCharacter        = createSelector(getCharState, fromChars.getCharacter);
 export const getCharacterId      = createSelector(getCharState, fromChars.getSelectedId);
 export const getLatestChar       = createSelector(getCharState, fromChars.getLastAdded);
+export const getCharMeta         = createSelector(getCharState, fromChars.getMeta);
+export const getCharLateMeta     = createSelector(getCharState, fromChars.getLatestMeta);
 
 export const getStatState = (state: State) => state.stats;
 
-export const getStats  = createSelector(getStatState, fromStats.getEntities);
-export const getStatId = createSelector(getStatState, fromStats.getSelectedId);
-export const getStat   = createSelector(getStatState, fromStats.getStat);
+export const getStats      = createSelector(getStatState, fromStats.getEntities);
+export const getStatId     = createSelector(getStatState, fromStats.getSelectedId);
+export const getStat       = createSelector(getStatState, fromStats.getStat);
+export const getLatestStat = createSelector(getStatState, fromStats.getLastAdded);
+export const getStatMeta   = createSelector(getStatState, fromStats.getMeta);
 
 export const getNavState = (state: State) => state.nav;
 

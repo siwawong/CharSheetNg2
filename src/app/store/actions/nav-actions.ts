@@ -11,10 +11,10 @@ export const CREATE_STAT      = '[Nav] Create Stat';
 export const BACK             = '[Nav] Back';
 export const PREFERENCES      = '[Nav] Preferences';
 
-export const LOAD             = '[Nav] Load';
-export const LOAD_SUCCESS     = '[Nav] Load Success';
-export const LOAD_ERROR       = '[Nav] Load Error';
-export const LOAD_NONE        = '[Nav] Load None';
+// export const LOAD             = '[Nav] Load';
+// export const LOAD_SUCCESS     = '[Nav] Load Success';
+// export const LOAD_ERROR       = '[Nav] Load Error';
+// export const LOAD_NONE        = '[Nav] Load None';
 
 export class CreateUser implements Action {
     readonly type = CREATE_USER;
@@ -56,25 +56,25 @@ export class Preferences implements Action {
     constructor() { }
 }
 
-export class Load implements Action {
-    readonly type = LOAD;
-    constructor() { }
-}
+// export class Load implements Action {
+//     readonly type = LOAD;
+//     constructor() { }
+// }
 
-export class LoadSuccess implements Action {
-    readonly type = LOAD_SUCCESS;
-    constructor(public payload: {root: string, stack: string}) { }
-}
+// export class LoadSuccess implements Action {
+//     readonly type = LOAD_SUCCESS;
+//     constructor(public payload: {root: string, stack: string}) { }
+// }
 
-export class LoadError implements Action {
-    readonly type = LOAD_ERROR;
-    constructor() { }
-}
+// export class LoadError implements Action {
+//     readonly type = LOAD_ERROR;
+//     constructor() { }
+// }
 
-export class LoadNone implements Action {
-    readonly type = LOAD_NONE;
-    constructor() { }
-}
+// export class LoadNone implements Action {
+//     readonly type = LOAD_NONE;
+//     constructor() { }
+// }
 
 export type All
     = CreateUser
@@ -84,8 +84,8 @@ export type All
     | CharacterSheet
     | CreateStat
     | Back
-    | Preferences
-    | Load
-    | LoadSuccess
-    | LoadError
-    | LoadNone;
+    | Preferences;
+    // | Load
+    // | LoadSuccess
+    // | LoadError
+    // | LoadNone;

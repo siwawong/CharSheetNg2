@@ -125,3 +125,6 @@ export const getStat       = createSelector(getSelectedId, getEntities, (id, sta
 export const getStats      = createSelector(getIds, getEntities, (ids, entities) => {
     return ids.map(id => entities[id]);
 });
+export const getMeta       = createSelector(getIds, getSelectedId, (ids, selectedId) => {
+    return {ids, selectedId};
+});

@@ -3,38 +3,15 @@ import { Observable } from 'rxjs/Observable';
 import { Storage } from '@ionic/storage';
 
 import { UserState } from '../store/reducers/user-reducer';
-import { StatState } from '../store/reducers/stat-reducer';
-import { CharacterState } from '../store/reducers/character-reducer';
 
+import { Character } from '../models/character-model';
+import { CharacterStat } from '../models/stat-model';
 
+// Likely Need more unique names?
 const STORAGE = {
     USERKEY: 'UserState',
-    CHARACTERSKEY: 'CharState',
-    STATSKEY: 'StatState',
-    NAVKEY: 'NavState'
-};
-
-const STORAGE_V2 = {
-    USERSTATE: {
-        authToken: 'user.auth',
-        id: 'user.id',
-        name: 'user.name',
-        email: 'user.email'
-    },
-    CHARACTERSTATE: {
-        ids: 'character.ids', // -> [ ids ] 
-        entities: 'character.entities', // -> charId
-        selectedCharId: 'character.selectedId'
-    },
-    STATSTATE: {
-        ids: 'stats.ids', // -> [ ids ] -> last 7 of associatedCharId + shortId
-        stats: 'stat.stats', // -> statId
-        selectedIndex: 'stat.selected'
-    },
-    NAVSTATE: {
-        root: 'nav.root',
-        stack: 'nav.stack'
-    }
+    CHARACTERSKEY: 'CharMetaState',
+    STATSKEY: 'StatMetaState',
 };
 
 @Injectable()
@@ -54,48 +31,122 @@ export class StorageService {
         return this.getItem(STORAGE.USERKEY);
     }
 
-    removeUserState() {
+    remUserState() {
         return this.removeItem(STORAGE.USERKEY);
     }
 
-    setNavState(root: string, stack: string) {
-        return this.setItem(STORAGE.NAVKEY, {root, stack});
+    setCharMetaState(ids: string[], selectedId: string) {
+        return this.setItem(STORAGE.CHARACTERSKEY, {ids, selectedId});
     }
 
-    getNavState() {
-        return this.getItem(STORAGE.NAVKEY);
-    }
-
-    removeNavState() {
-        return this.removeItem(STORAGE.NAVKEY);
-    }
-
-    setStatState(stats: StatState) {
-        return this.setItem(STORAGE.STATSKEY, stats);
-    }
-
-    getStatState() {
-        return this.getItem(STORAGE.STATSKEY);
-    }
-
-    removeStatState() {
-        return this.removeItem(STORAGE.STATSKEY);
-    }
-
-    setCharacterState(chars: CharacterState) {
-        return this.setItem(STORAGE.CHARACTERSKEY, chars);
-    }
-
-    getCharacterState() {
+    getCharMetaState() {
         return this.getItem(STORAGE.CHARACTERSKEY);
     }
 
-    removeCharacterState() {
+    remCharMetaState() {
         return this.removeItem(STORAGE.CHARACTERSKEY);
     }
 
+    addChar(ids: string[], selected: string, char: Character) {
+        this.setCharMetaState(ids, selected);
+        this.setItem(char.id, char);
+        return char;
+    }
+
+    setChar(char: Character) {
+        this.setItem(char.id, char);
+    }
+
+    remChar(ids: string[], selected: string, charId: string) {
+        this.setCharMetaState(ids, selected);
+        this.removeItem(charId);
+    }
+
+    setChars(chars: Character[]) {
+        chars.map((char) => {
+            this.setItem(char.id, char);
+        });
+    }
+
+    getChars() {
+        // let newChars: Character[];
+        return this.getCharMetaState().then((meta) => {
+            let promises = meta.ids.map((id) => {
+                return this.getItem(id).then((char) => {
+                    // newChars.push(char);
+                    return char;
+                });
+            });
+            return Promise.all(promises).then((chars) => {
+                return {chars: chars, selected: meta.selectedId};
+            });
+        });
+    }
+
+    remChars() {
+        this.getCharMetaState().then((meta) => {
+            meta.ids.map((id) => {
+                this.removeItem(id);
+            });
+        });
+        this.remCharMetaState();
+    }
+
+    setStatMetaState(ids: string[], selectedId: string) {
+        return this.setItem(STORAGE.STATSKEY, {ids, selectedId});
+    }
+
+    getStatMetaState() {
+        return this.getItem(STORAGE.STATSKEY);
+    }
+
+    remStatState() {
+        return this.removeItem(STORAGE.STATSKEY);
+    }
+
+    addStat(ids: string[], selected: string, stat: CharacterStat) {
+        this.setStatMetaState(ids, selected);
+        this.setItem(stat.id, stat);
+    }
+
+    setStat(stat: CharacterStat) {
+        this.setItem(stat.id, stat);
+    }
+
+    remStat(ids: string[], selected: string, statId: string) {
+        this.setStatMetaState(ids, selected);
+        this.removeItem(statId);
+    }
+
+    setStats(stats: CharacterStat[]) {
+        stats.map((stat) => {
+            this.setItem(stat.id, stat);
+        });
+    }
+
+    getStats(ids: string[]) {
+        // let newStats: CharacterStat[];
+        let promises = ids.map((id) => {
+            return this.getItem(id).then((stat) => {
+                return stat;
+            });
+        });
+        return Promise.all(promises).then((results) => {
+            return results;
+        });
+    }
+
+    remStats() {
+        this.getStatMetaState().then((meta) => {
+            meta.ids.map((id) => {
+                this.removeItem(id);
+            });
+        });
+        this.remStatState();
+    }
+
     private getItem(KEY: string) {
-        this.storage.get(KEY).then((value) => {
+        return this.storage.get(KEY).then((value) => {
             console.log(value);          
             return value;
         }).catch((error) => {
@@ -107,10 +158,10 @@ export class StorageService {
     private setItem(KEY: string, data: any) {
         this.storage.set(KEY, data).then((value) => {
             console.log(value);          
-            return value;
+            // return value;
         }).catch((error) => {
             console.log(error);          
-            return error;
+            // return error;
         })
     }
 
@@ -119,7 +170,7 @@ export class StorageService {
             console.log('DONE');
         }).catch((error) => {
             console.log(error);
-            return error;
+            // return error;
         });
     }
 }

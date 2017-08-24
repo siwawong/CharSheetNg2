@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/flatMap';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -12,6 +13,7 @@ import { StorageService } from '../../services/storage.service';
 import * as UserActions from '../actions/user-actions';
 import * as NavActions from '../actions/nav-actions';
 import * as CharacterActions from '../actions/character-actions';
+import * as StatActions from '../actions/stat-actions';
 import * as fromRoot from '../reducers';
 
 @Injectable()
@@ -23,7 +25,8 @@ export class UserEffects {
         .mergeMap((user) => {
             let mergeActions = [
                 new UserActions.CreateSuccess(user),
-                new NavActions.CharacterList()
+                new NavActions.CharacterList(),
+                new CharacterActions.LoadManyNetwork()
             ];
             this.storage.setUserState(user);
             return mergeActions;
@@ -38,7 +41,8 @@ export class UserEffects {
         .mergeMap((user) => {
             let mergeActions = [
                 new UserActions.LoginSuccess(user),
-                new NavActions.CharacterList()
+                new NavActions.CharacterList(),               
+                new CharacterActions.LoadManyNetwork()
             ];
             this.storage.setUserState(user);           
             return mergeActions;
@@ -52,6 +56,7 @@ export class UserEffects {
             let mergeActions = [
                 new UserActions.DeleteSuccess(),
                 new CharacterActions.RemoveAll(),
+                new StatActions.RemoveAll(),
                 new NavActions.Login()
             ];
             return mergeActions;
@@ -59,18 +64,23 @@ export class UserEffects {
     
     @Effect()
     load$: Observable<Action> = this.actions$.ofType(UserActions.LOAD)
-        .mergeMap(() => {
+        .flatMap(() => this.storage.getUserState())
+        .mergeMap((userState) => {
             let newAction: Action[] = [];
-            const userState = this.storage.getUserState();
-            // Fit a Catch in here for loaderror?
             if (userState === null) {
                 newAction.push(new UserActions.LoadNone());
+                newAction.push(new NavActions.Login());
             } else {
                 newAction.push(new UserActions.LoadSuccess(userState));
-                newAction.push(new NavActions.Load());
+                newAction.push(new CharacterActions.LoadMany());
             }
             return newAction;
         });
+    
+                    // let newAction: Action[] = [];
+            // this.storage.getUserState();
+            // // Fit a Catch in here for loaderror?
+            // // LoadNone might be unnecessary
 
     constructor(private http: HttpService,
                 private actions$: Actions,

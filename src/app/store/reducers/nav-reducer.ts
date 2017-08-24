@@ -67,17 +67,17 @@ export function reducer(state =  initialState, action: NavActions.All): State {
                 stack: null
             };
         }
-        case NavActions.LOAD_SUCCESS: {
-            const newState = action.payload;
-            return {
-                pages: state.pages,
-                root: newState.root,
-                stack: newState.stack
-            };
-        }
-        case NavActions.LOAD:
-        case NavActions.LOAD_ERROR:
-        case NavActions.LOAD_NONE:
+        // case NavActions.LOAD_SUCCESS: {
+        //     const newState = action.payload;
+        //     return {
+        //         pages: state.pages,
+        //         root: newState.root,
+        //         stack: newState.stack
+        //     };
+        // }
+        // case NavActions.LOAD:
+        // case NavActions.LOAD_ERROR:
+        // case NavActions.LOAD_NONE:
         default: {
             return state;
         }

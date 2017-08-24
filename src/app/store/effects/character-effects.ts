@@ -1,8 +1,9 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-// import 'rxjs/add/operator/combineLatest';
+// import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/flatMap';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -13,39 +14,18 @@ import { StorageService } from '../../services/storage.service';
 
 import * as CharacterActions from '../actions/character-actions';
 import * as NavActions from '../actions/nav-actions';
+import * as StatActions from '../actions/stat-actions';
 import * as fromRoot from '../reducers';
 
 @Injectable()
 export class CharacterEffects {
     @Effect()
-    loadMany: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY)
-        .map(() => {
-            let newAction;
-            const newCharState = this.storage.getCharacterState();
-
-            if (newCharState === null) {
-                newAction = new CharacterActions.LoadManyNetwork();
-            } else {
-                newAction = new CharacterActions.LoadManySuccess(newCharState);
-            }
-            return newAction;
-        });
-
-    @Effect()
-    loadManyNet: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY_NETWORK)
-        .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
-        .switchMap((authToken) => this.http.getCharacters(authToken))
-        .map((res) => {
-            return new CharacterActions.LoadManyNetworkSuccess(res);
-            // SAVE MANY ADDED HERE? new CharacterActions.SaveMany(res)
-        });
-
-    @Effect()
     createChar: Observable<Action> = this.actions$.ofType(CharacterActions.ADD)
-        .withLatestFrom(this.store$.select(fromRoot.getLatestChar), (action, char) => char)
+        .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
+        .map((state) => this.storage.addChar(state.meta.ids, state.meta.selectedId, state.char))
         .mergeMap((char) => {
-            this.storage.setCharacterState(char);
-            // logic for when to update network goes here?
+            // Check for Error and dispatch here?
+            // logic for when to update network based on timer goes here?
             let merge = [
                 new CharacterActions.AddNetwork(char),
                 new NavActions.Back()
@@ -59,29 +39,70 @@ export class CharacterEffects {
         .withLatestFrom(this.store$.select(fromRoot.getAuth), (payload, token) => {
             return {
                 token: token,
-                name: payload
+                char: payload
             };
         })
-        .switchMap((payload) => this.http.createCharacter(payload.token, payload.name))
+        .switchMap((payload) => this.http.createCharacter(payload.token, payload.char.id, payload.char.name))
+        .map((res) => new CharacterActions.AddNetworkSuccess());
+
+    @Effect({dispatch: false})
+    saveMany: Observable<Action> = this.actions$.ofType(CharacterActions.SAVE_MANY)
+        .map(toPayload)
+        .map((payload) => {
+            this.storage.setChars(payload);
+            return null;
+        });
+    
+    @Effect()
+    loadMany: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY)
+        .flatMap(() => this.storage.getChars())
+        .mergeMap((newCharState) => {
+            let newAction: Action[] = [];
+
+            // Call NavACtions then stat or 
+            if (newCharState === null) {
+                newAction.push(new CharacterActions.LoadManyNetwork());
+                newAction.push(new NavActions.CharacterList());
+            } else {
+                // Potential Error Here with no type checking and unknow DB response
+                newAction.push(new CharacterActions.LoadManySuccess(newCharState));
+                if (newCharState.selected !== null) {
+                    newAction.push(new StatActions.LoadMany());                   
+                } else {
+                    newAction.push(new NavActions.CharacterList());
+                }
+            }
+            return newAction;
+        });
+
+    @Effect()
+    loadManyNet: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY_NETWORK)
+        .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
+        .switchMap((authToken) => this.http.getCharacters(authToken))
         .mergeMap((res) => {
-            let merge = [
-                new CharacterActions.AddNetworkSuccess(),
-                // new NavActions.Back()            
+            let merge: Action[] = [
+                new CharacterActions.LoadManyNetworkSuccess(res)                
             ];
+            if (res.length > 0) {
+                merge.push(new CharacterActions.SaveMany(res))
+            }
             return merge;
+        });
+    
+    @Effect({dispatch: false})
+    removeAll: Observable<Action> = this.actions$.ofType(CharacterActions.REMOVE_ALL)
+        .map(() => {
+            this.storage.remChars();
+            return null;
         });
 
     @Effect()
     selectChar: Observable<Action> = this.actions$.ofType(CharacterActions.SELECT)
-        // .withLatestFrom(this.store$.select(fromRoot.getUsernameAndChar), (action, obj) => {
-        .map(toPayload)
-        .mergeMap((payload) => {
-            this.storage.setCharacterState(payload);
-            let merge = [
-                // new CharacterActions.SelectSuccess(),
-                new NavActions.CharacterSheet()
-            ];
-            return merge;
+        .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
+        // .map(toPayload)
+        .map((state) => {
+            this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
+            return new StatActions.LoadMany();
         });
 
     constructor(private http: HttpService,

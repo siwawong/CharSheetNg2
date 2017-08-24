@@ -90,7 +90,7 @@ export class LoadMany implements Action {
 export class LoadManySuccess implements Action {
     readonly type = LOAD_MANY_SUCCESS;
 
-    constructor(public payload: {chars: Character[], selected: string}) { }
+    constructor(public payload: {chars: any, selected: string}) { }
 };
 
 export class LoadManyNone implements Action {

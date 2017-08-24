@@ -31,7 +31,7 @@ export class CharacterListPage {
   private username: Observable<string>;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.store.dispatch(new CharacterActions.GetAll());   
+    // this.store.dispatch(new CharacterActions.GetAll());   
   }
 
   ngOnInit() {

@@ -18,16 +18,19 @@ import * as fromRoot from '../reducers';
 @Injectable()
 export class StatEffects {
     @Effect()
-    getAll$: Observable<Action> = this.actions$.ofType(StatActions.LOAD_MANY)
-        .withLatestFrom(this.store$.select(fromRoot.getCharAuth), (action, payload) => payload)
-        .switchMap((payload) => this.http.getCharacterStats(payload.auth, payload.charId))
-        .map((result) =>  {
-            this.storage.setStatState(result);
-            return new StatActions.AddManySuccess(result);
+    add$: Observable<Action> = this.actions$.ofType(StatActions.ADD)
+        .map(toPayload)
+        .mergeMap((payload) => {
+            this.storage.setStatState(payload);
+            let merge = [
+                new StatActions.AddNetwork(payload),
+                new NavActions.Back()
+            ];
+            return merge;
         });
 
     @Effect()
-    add$: Observable<Action> = this.actions$.ofType(StatActions.ADD)
+    addNetwork$: Observable<Action> = this.actions$.ofType(StatActions.ADD_NETWORK)
         .map(toPayload)
         .withLatestFrom(this.store$.select(fromRoot.getCharAuth), (payload, token) => {
             const test = {
@@ -38,22 +41,77 @@ export class StatEffects {
             return test;
         })
         .switchMap((result) => this.http.createCharacterStat(result.auth, result.charId, result.stat))
-        .mergeMap((result) => {
+        .mergeMap(() => {
             let merge = [
-                new StatActions.AddSuccess(result),
-                new NavActions.Back()       
+                new StatActions.AddNetworkSuccess(),
+                // new NavActions.Back()       
             ];
             return merge;
         });
 
     @Effect()
+    loadMany$: Observable<Action> = this.actions$.ofType(StatActions.LOAD_MANY)
+        .map(() => {
+            let newAction: Action;
+            const newState = this.storage.getStatState();
+
+            if (newState === null) {
+                newAction = new StatActions.LoadManyNetwork();
+            } else {
+                newAction = new StatActions.LoadManySuccess(newState);
+            };
+
+            return newAction;
+        });
+
+    @Effect()
+    loadManyNet$: Observable<Action> = this.actions$.ofType(StatActions.LOAD_MANY_NETWORK)
+        .withLatestFrom(this.store$.select(fromRoot.getCharAuth), (action, payload) => payload)
+        .switchMap((payload) => this.http.getCharacterStats(payload.auth, payload.charId))
+        .map((result) =>  {
+            this.storage.setStatState(result);
+            return new StatActions.LoadManyNetworkSuccess(result);
+            // Save Dispatched Here?
+        });
+    
+    @Effect()
     remove$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE)
+        .map(toPayload)
+        .do((payload) => {
+            this.storage.removeStatState(payload);
+            return new StatActions.RemoveNetwork(payload);
+        });
+
+    @Effect()
+    removeNet$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE_NETWORK)
         .withLatestFrom(this.store$.select(fromRoot.getStatToRemove), (action, payload) => payload)
         .switchMap((payload) => this.http.deleteCharacterStat(payload.auth, payload.char, payload.stat.name))
-        .map((res) => new StatActions.RemoveSuccess());
+        .map((res) => new StatActions.RemoveNetworkSuccess());
+    
+    @Effect()
+    removeAll$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE_ALL)
+        .map(() => {
+            this.storage.removeStatState();
+            return new StatActions.RemoveAllNetwork();
+        });
+    
+    @Effect()
+    removeAllNet$: Observable<Action> = tthis.actions$.ofType(StatActions.REMOVE_ALL_NETWORK)
+        .withLatestFrom(this.store$.select(fromRoot.getCharAuth), (action, payload) => payload)
+        // Need to Add Delete All Character Stats
+        .switchMap((payload) => this.http.deleteCharacterStat(payload.auth, payload.charId, 'Hate'))
+        .map((res) => new StatActions.RemoveAllNetworkSuccess());
 
     @Effect()
     update$: Observable<Action> = this.actions$.ofType(StatActions.UPDATE)
+        .map(toPayload)
+        .do((charStat) => {
+            this.storage.setStatState(charStat);
+            return new StatActions.UpdateNetwork(charStat);
+        });
+
+    @Effect()
+    updateNet$: Observable<Action> = this.actions$.ofType(StatActions.UPDATE_NETWORK)
         .map(toPayload)
         .withLatestFrom(this.store$.select(fromRoot.getCharAuth), (payload, charId) => {
             return {
@@ -63,7 +121,15 @@ export class StatEffects {
             };
         })
         .switchMap((payload) => this.http.patchCharacterStat(payload.auth, payload.char, payload.stat))
-        .map((res) => new StatActions.UpdateSuccess(res));
+        .map(() => new StatActions.UpdateNetworkSuccess());
+
+    @Effect()
+    select$: Observable<Action> = this.actions$.ofType(StatActions.SELECT)
+        .map(toPayload)
+        .do((index) => {
+            this.storage.setStatState(index);
+            return null;
+        })
 
     constructor(private http: HttpService,
                 private actions$: Actions,

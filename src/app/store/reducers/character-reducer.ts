@@ -16,7 +16,7 @@ const initialState: CharacterState = {
     selectedCharId: null,
 };
 
-const genNewCharState = (stats: Character[], selected?: string): CharacterState => {
+const genNewCharState = (stats: any, selected?: string): CharacterState => {
     let newState = {
         ids: [],
         entities: {},
@@ -122,3 +122,9 @@ export const getCharacters = createSelector(getIds, getEntities, (ids, entities)
 });
 export const getCharacter  = createSelector(getSelectedId, getEntities,
     (id, characters) => characters[id]);
+export const getMeta       = createSelector(getIds, getSelectedId, (ids, selectedId) => {
+    return {ids, selectedId};
+});
+export const getLatestMeta = createSelector(getLastAdded, getMeta, (char, meta) => {
+    return {char, meta};
+})

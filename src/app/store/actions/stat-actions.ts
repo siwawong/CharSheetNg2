@@ -1,43 +1,45 @@
 import { Action } from '@ngrx/store';
 import { CharacterStat } from '../../models/stat-model';
 
-export const ADD                           = '[Character-Stat] Add';
-export const ADD_ERROR                     = '[Character-Stat] Add Error'
-export const ADD_NETWORK                   = '[Character-Stat] Add Network'
-export const ADD_NETWORK_SUCCESS           = '[Character-Stat] Add Network Success';
-export const ADD_NETWORK_ERROR             = '[Character-Stat] Add Network Error';
+export const ADD                        = '[Character-Stat] Add';
+export const ADD_ERROR                  = '[Character-Stat] Add Error'
+export const ADD_NETWORK                = '[Character-Stat] Add Network'
+export const ADD_NETWORK_SUCCESS        = '[Character-Stat] Add Network Success';
+export const ADD_NETWORK_ERROR          = '[Character-Stat] Add Network Error';
 
-export const SAVE_MANY                     = '[Character-Stat] Save Many';
-export const SAVE_MANY_ERROR               = '[Character-Stat] Save Many Error'
+export const SAVE_MANY                  = '[Character-Stat] Save Many';
+export const SAVE_MANY_ERROR            = '[Character-Stat] Save Many Error'
 
-export const LOAD_MANY                     = '[Character-Stat] Load Many';
-export const LOAD_MANY_SUCCESS             = '[Character-Stat] Load Many Success';
-export const LOAD_MANY_NONE                = '[Character-Stat] Load Many None';
-export const LOAD_MANY_ERROR               = '[Character-Stat] Load Many Error';
-export const LOAD_MANY_NETWORK             = '[Character-Stat] Load Many Network';
-export const LOAD_MANY_NETWORK_SUCCESS     = '[Character-Stat] Load Many Network Success';
-export const LOAD_MANY_NETWORK_ERROR       = '[Character-Stat] Load Many Network Error';
+export const LOAD_MANY                  = '[Character-Stat] Load Many';
+export const LOAD_MANY_SUCCESS          = '[Character-Stat] Load Many Success';
+export const LOAD_MANY_NONE             = '[Character-Stat] Load Many None';
+export const LOAD_MANY_ERROR            = '[Character-Stat] Load Many Error';
+export const LOAD_MANY_NETWORK          = '[Character-Stat] Load Many Network';
+export const LOAD_MANY_NETWORK_SUCCESS  = '[Character-Stat] Load Many Network Success';
+export const LOAD_MANY_NETWORK_ERROR    = '[Character-Stat] Load Many Network Error';
 
-export const REMOVE                        = '[Character-Stat] Remove';
-export const REMOVE_ERROR                  = '[Character-Stat] Remove Error';
-export const REMOVE_NETWORK                = '[Character-Stat] Remove Network';
-export const REMOVE_NETWORK_SUCCESS        = '[Character-Stat] Remove Network Success';
-export const REMOVE_NETWORK_ERROR          = '[Character-Stat] Remove Network Error';
+export const REMOVE                     = '[Character-Stat] Remove';
+export const REMOVE_ERROR               = '[Character-Stat] Remove Error';
+export const REMOVE_NETWORK             = '[Character-Stat] Remove Network';
+export const REMOVE_NETWORK_SUCCESS     = '[Character-Stat] Remove Network Success';
+export const REMOVE_NETWORK_ERROR       = '[Character-Stat] Remove Network Error';
 
-export const REMOVE_ALL                    = '[Character-Stat] Remove All';
-export const REMOVE_ALL_ERROR              = '[Character-Stat] Remove All Error';
-export const REMOVE_ALL_NETWORK            = '[Character-Stat] Remove All Network';
-export const REMOVE_ALL_NETWORK_SUCCESS    = '[Character-Stat] Remove All Network Success';
-export const REMOVE_ALL_NETWORK_ERROR      = '[Character-Stat] Remove All Network Error';
+export const REMOVE_ALL                 = '[Character-Stat] Remove All';
+export const REMOVE_ALL_ERROR           = '[Character-Stat] Remove All Error';
+export const REMOVE_ALL_NETWORK         = '[Character-Stat] Remove All Network';
+export const REMOVE_ALL_NETWORK_SUCCESS = '[Character-Stat] Remove All Network Success';
+export const REMOVE_ALL_NETWORK_ERROR   = '[Character-Stat] Remove All Network Error';
 
-export const UPDATE                        = '[Character-Stat] Update';
-export const UPDATE_ERROR                  = '[Character-Stat] Update Error';
-export const UPDATE_NETWORK                = '[Character-Stat] Update Network';
-export const UPDATE_NETWORK_SUCCESS        = '[Character-Stat] Update Network Success';
-export const UPDATE_NETWORK_ERROR          = '[Character-Stat] Update Network Error';
+export const UPDATE                     = '[Character-Stat] Update';
+export const UPDATE_ERROR               = '[Character-Stat] Update Error';
+export const UPDATE_NETWORK             = '[Character-Stat] Update Network';
+export const UPDATE_NETWORK_SUCCESS     = '[Character-Stat] Update Network Success';
+export const UPDATE_NETWORK_ERROR       = '[Character-Stat] Update Network Error';
 
-export const SELECT                        = '[Character-Stat] Select';
-export const SELECT_ERROR                  = '[Character-Stat] Select Error';
+//Add Update All Network?
+
+export const SELECT                     = '[Character-Stat] Select';
+export const SELECT_ERROR               = '[Character-Stat] Select Error';
 
 export class Add implements Action {
     readonly type = ADD;
@@ -198,7 +200,7 @@ export class UpdateError implements Action {
 export class UpdateNetwork implements Action {
     readonly type = UPDATE_NETWORK;
 
-    constructor() { }
+    constructor(public payload: CharacterStat) { }
 }
 
 export class UpdateNetworkSuccess implements Action {

@@ -41,7 +41,7 @@ export class CharacterSheetPage {
   
 
   constructor(private store: Store<fromRoot.State>) {
-    this.store.dispatch(new StatActions.AddMany());
+    // this.store.dispatch(new StatActions.AddMany());
   }
 
   ngOnInit() {
@@ -93,6 +93,7 @@ export class CharacterSheetPage {
   generateStat(): CharacterStat {
     const group = this.editStatForm;
     return {
+      id: '',
       name: group.get('name').value,
       value: group.get('value').value,
       maximum: group.get('maximum').value,
