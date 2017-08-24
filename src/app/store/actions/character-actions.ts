@@ -37,6 +37,7 @@ export const UPDATE_NETWORK_SUCCESS     = '[Character] Update Network Success';
 export const UPDATE_NETWORK_ERROR       = '[Character] Update Network Error';
 
 export const SELECT                     = '[Character] Select';
+export const UNSELECT                   = '[Character] Unselect';
 export const SELECT_ERROR               = '[Character] Select Error';
 
 export class Add implements Action {
@@ -219,6 +220,12 @@ export class Select implements Action {
     constructor(public payload: number) { }
 }
 
+export class Unselect implements Action {
+    readonly type = UNSELECT;
+
+    constructor() { }
+}
+
 export class SelectError implements Action {
     readonly type = SELECT_ERROR;
 
@@ -256,4 +263,5 @@ export type All
     | UpdateNetworkSuccess
     | UpdateNetworkError
     | Select
+    | Unselect
     | SelectError;

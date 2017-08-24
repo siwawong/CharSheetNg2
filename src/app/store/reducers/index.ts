@@ -40,11 +40,12 @@ export const getCharLateMeta     = createSelector(getCharState, fromChars.getLat
 
 export const getStatState = (state: State) => state.stats;
 
-export const getStats      = createSelector(getStatState, fromStats.getEntities);
-export const getStatId     = createSelector(getStatState, fromStats.getSelectedId);
-export const getStat       = createSelector(getStatState, fromStats.getStat);
-export const getLatestStat = createSelector(getStatState, fromStats.getLastAdded);
-export const getStatMeta   = createSelector(getStatState, fromStats.getMeta);
+export const getStats        = createSelector(getStatState, fromStats.getStats);
+export const getStatId       = createSelector(getStatState, fromStats.getSelectedId);
+export const getStat         = createSelector(getStatState, fromStats.getStat);
+export const getLatestStat   = createSelector(getStatState, fromStats.getLastAdded);
+export const getStatMeta     = createSelector(getStatState, fromStats.getMeta);
+export const getStatLateMeta = createSelector(getStatState, fromStats.getLatestMeta);
 
 export const getNavState = (state: State) => state.nav;
 

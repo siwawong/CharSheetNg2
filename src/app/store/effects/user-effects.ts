@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/flatMap';
+// import 'rxjs/add/operator/flatMap';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -49,22 +49,35 @@ export class UserEffects {
         });
 
     @Effect()
-    delete$: Observable<Action> = this.actions$.ofType(UserActions.DELETE)
+    deleteNet$: Observable<Action> = this.actions$.ofType(UserActions.DELETE)
         .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
         .switchMap((authToken) => this.http.logout(authToken))
-        .mergeMap(() => {
-            let mergeActions = [
-                new UserActions.DeleteSuccess(),
-                new CharacterActions.RemoveAll(),
-                new StatActions.RemoveAll(),
-                new NavActions.Login()
-            ];
+        .mergeMap((res) => {
+            console.log(`UE, Delete: ${res}`);
+            let mergeActions: Action[] = [];
+            if (res) {
+                console.log('All Deletes!');
+                this.storage.remUserState();
+                mergeActions.push(new UserActions.DeleteSuccess());
+                mergeActions.push(new CharacterActions.RemoveAll());
+                mergeActions.push(new NavActions.Login());
+            } else {
+                // Need action for logout error!!!
+                mergeActions.push(new UserActions.LoadError());
+            }
             return mergeActions;
         });
     
+    // @Effect()
+    // deleteLoc$: Observable<Action> = this.actions$.ofType(UserActions.DELETE_SUCCESS)
+    //     .map(() => {
+
+    //         return null;
+    //     });
+    
     @Effect()
     load$: Observable<Action> = this.actions$.ofType(UserActions.LOAD)
-        .flatMap(() => this.storage.getUserState())
+        .mergeMap(() => this.storage.getUserState())
         .mergeMap((userState) => {
             let newAction: Action[] = [];
             if (userState === null) {

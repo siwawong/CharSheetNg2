@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { shortid } from 'shortid';
+import shortid from 'shortid';
 
 import * as CharacterActions from '../actions/character-actions';
 import { Character } from '../../models/character-model';
@@ -32,17 +32,19 @@ const genNewCharState = (stats: any, selected?: string): CharacterState => {
 export function reducer(state = initialState, action: CharacterActions.All): CharacterState {
     switch (action.type) {
         case CharacterActions.ADD: {
-            const newId = shortid.generate();           
-            const newStat: Character = {
+            const newId = shortid.generate();
+            const newChar: Character = {
                 id: newId,
                 name: action.payload,
             };
-
-            return {
+            console.log('char: ' + JSON.stringify(newChar));
+            const newState = {
                 ids: [...state.ids, newId],
-                entities: Object.assign({}, state.entities, {[newId]: newStat}),
+                entities: Object.assign({}, state.entities, {[newId]: newChar}),
                 selectedCharId: state.selectedCharId
-            };
+            }
+            console.log('state: ' + JSON.stringify(newState));
+            return newState;
         }
         case CharacterActions.LOAD_MANY_SUCCESS: {
             return genNewCharState(action.payload.chars, action.payload.selected);
@@ -73,12 +75,19 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
             }
         }
         case CharacterActions.SELECT: {
-            const newSelectId = state.ids[action.payload];
+            const newSelectId = state.ids[action.payload];               
 
             return {
                 ids: [...state.ids],
                 entities: Object.assign({}, state.entities),
                 selectedCharId: newSelectId
+            };
+        }
+        case CharacterActions.UNSELECT: {
+            return {
+                ids: [...state.ids],
+                entities: Object.assign({}, state.entities),
+                selectedCharId: null
             };
         }
         case CharacterActions.ADD_ERROR:
@@ -114,7 +123,8 @@ export const getEntities   = (s: CharacterState) => s.entities;
 export const getIds        = (s: CharacterState) => s.ids;
 export const getSelectedId = (s: CharacterState) => s.selectedCharId;
 export const getLastAdded  = (s: CharacterState) => {
-    return s.entities[s.ids.length - 1];
+    const lastElement = s.ids.length - 1;
+    return s.entities[s.ids[lastElement]];
 };
 
 export const getCharacters = createSelector(getIds, getEntities, (ids, entities) => {
@@ -127,4 +137,4 @@ export const getMeta       = createSelector(getIds, getSelectedId, (ids, selecte
 });
 export const getLatestMeta = createSelector(getLastAdded, getMeta, (char, meta) => {
     return {char, meta};
-})
+});

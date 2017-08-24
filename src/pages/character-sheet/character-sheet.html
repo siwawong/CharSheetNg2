@@ -16,7 +16,7 @@
 <ion-content padding>
     <ion-grid>
         <ion-row *ngFor="let stat of (stats | async); let i = index">
-            <div *ngIf="(selectedStat | async) === i; then editMode else viewMode"></div>
+            <div *ngIf="(selectedStatId | async) === stat.id; then editMode else viewMode"></div>
             <ng-template #viewMode>
                 <ion-row col-12 (click)="selectStat(stat, i)">
                     <ion-col col-3>
@@ -58,10 +58,10 @@
                         </ion-row>
                         <ion-row>
                             <ion-col col-6>
-                                <button ion-button full (click)="removeStat()" type="button" color="danger">Remove</button>
+                                <button ion-button full (click)="removeStat(stat)" type="button" color="danger">Remove</button>
                             </ion-col>
                             <ion-col col-6>
-                                <button ion-button full (click)="updateStat()" type="button" color="secondary">Update</button>
+                                <button ion-button full (click)="updateStat(stat)" type="button" color="secondary">Update</button>
                             </ion-col>
                         </ion-row>
                     </ion-grid>

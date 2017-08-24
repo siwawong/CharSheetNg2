@@ -3,7 +3,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 // import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/flatMap';
+// import 'rxjs/add/operator/flatMap';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -43,19 +43,26 @@ export class CharacterEffects {
             };
         })
         .switchMap((payload) => this.http.createCharacter(payload.token, payload.char.id, payload.char.name))
-        .map((res) => new CharacterActions.AddNetworkSuccess());
+        .map(() => new CharacterActions.AddNetworkSuccess());
 
     @Effect({dispatch: false})
     saveMany: Observable<Action> = this.actions$.ofType(CharacterActions.SAVE_MANY)
         .map(toPayload)
+        .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (chars, state) => {
+            return {
+                chars,
+                state
+            };
+        })
         .map((payload) => {
-            this.storage.setChars(payload);
+            this.storage.setCharMetaState(payload.state.ids, payload.state.selectedId);
+            this.storage.setChars(payload.chars);
             return null;
         });
     
     @Effect()
     loadMany: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY)
-        .flatMap(() => this.storage.getChars())
+        .mergeMap(() => this.storage.getChars())
         .mergeMap((newCharState) => {
             let newAction: Action[] = [];
 
@@ -72,6 +79,7 @@ export class CharacterEffects {
                     newAction.push(new NavActions.CharacterList());
                 }
             }
+            
             return newAction;
         });
 
@@ -89,11 +97,21 @@ export class CharacterEffects {
             return merge;
         });
     
-    @Effect({dispatch: false})
+    @Effect()
     removeAll: Observable<Action> = this.actions$.ofType(CharacterActions.REMOVE_ALL)
-        .map(() => {
+        .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (action, meta) => meta)
+        .map((meta) => {
+            // if (meta.ids.length > 0) {
+            //     this.storage.remChars();              
+            // }
+            // if (meta.selectedId !== null) {
+            //     return new StatActions.RemoveAll();
+            // }
             this.storage.remChars();
-            return null;
+            return new StatActions.RemoveAll();  
+            // if for when to remove Network
+            // return new StatActions.RemoveAllNetwork();
+            // return new StatActions.RemoveAllError(); //Need actual action;
         });
 
     @Effect()

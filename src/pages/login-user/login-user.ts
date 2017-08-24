@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -19,6 +19,7 @@ import * as fromRoot from '../../app/store/reducers';
 @Component({
   selector: 'page-login-user',
   templateUrl: 'login-user.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginUserPage {
   private title = 'User Login';

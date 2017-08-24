@@ -71,23 +71,29 @@ export class StorageService {
     getChars() {
         // let newChars: Character[];
         return this.getCharMetaState().then((meta) => {
-            let promises = meta.ids.map((id) => {
-                return this.getItem(id).then((char) => {
-                    // newChars.push(char);
-                    return char;
+            if (meta === null) {
+                return null;
+            } else {
+                let promises = meta.ids.map((id) => {
+                    return this.getItem(id).then((char) => {
+                        // newChars.push(char);
+                        return char;
+                    });
                 });
-            });
-            return Promise.all(promises).then((chars) => {
-                return {chars: chars, selected: meta.selectedId};
-            });
+                return Promise.all(promises).then((chars) => {
+                    return {chars: chars, selected: meta.selectedId};
+                });
+            }
         });
     }
 
     remChars() {
         this.getCharMetaState().then((meta) => {
-            meta.ids.map((id) => {
-                this.removeItem(id);
-            });
+            if (meta) {
+                meta.ids.map((id) => {
+                    this.removeItem(id);
+                });
+            }
         });
         this.remCharMetaState();
     }
@@ -100,13 +106,14 @@ export class StorageService {
         return this.getItem(STORAGE.STATSKEY);
     }
 
-    remStatState() {
+    remStatMetaState() {
         return this.removeItem(STORAGE.STATSKEY);
     }
 
     addStat(ids: string[], selected: string, stat: CharacterStat) {
         this.setStatMetaState(ids, selected);
         this.setItem(stat.id, stat);
+        return stat;
     }
 
     setStat(stat: CharacterStat) {
@@ -124,25 +131,33 @@ export class StorageService {
         });
     }
 
-    getStats(ids: string[]) {
+    getStats() {
         // let newStats: CharacterStat[];
-        let promises = ids.map((id) => {
-            return this.getItem(id).then((stat) => {
-                return stat;
-            });
-        });
-        return Promise.all(promises).then((results) => {
-            return results;
-        });
+        return this.getStatMetaState().then((meta) => {
+            if (meta === null) {
+                return null;
+            } else {
+                let promises = meta.ids.map((id) => {
+                    return this.getItem(id).then((stat) => {
+                        return stat;
+                    });
+                });
+                return Promise.all(promises).then((results) => {
+                    return {stats: results, selected: meta.selectedId} ;
+                });
+            }
+        })
     }
 
     remStats() {
         this.getStatMetaState().then((meta) => {
-            meta.ids.map((id) => {
-                this.removeItem(id);
-            });
+            if (meta) {
+                meta.ids.map((id) => {
+                    this.removeItem(id);
+                });
+            }
         });
-        this.remStatState();
+        this.remStatMetaState();
     }
 
     private getItem(KEY: string) {

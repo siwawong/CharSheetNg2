@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
@@ -25,6 +25,7 @@ import { Character } from '../../app/models/character-model';
 @Component({
   selector: 'page-character-list',
   templateUrl: 'character-list.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CharacterListPage {
   private characters: Observable<Character[]>

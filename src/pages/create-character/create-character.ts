@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IonicPage, Navbar } from 'ionic-angular';
 
@@ -19,6 +19,7 @@ import * as NavActions from '../../app/store/actions/nav-actions';
 @Component({
   selector: 'page-create-character',
   templateUrl: 'create-character.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCharacterPage {
   @ViewChild(Navbar) navBar: Navbar;
@@ -45,7 +46,7 @@ export class CreateCharacterPage {
   }
 
   addCharacter() {
-    this.store.dispatch(new CharacterActions.Create(this.name.value));
+    this.store.dispatch(new CharacterActions.Add(this.name.value));
     // this.navCtrl.pop();
   }
 

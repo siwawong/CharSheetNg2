@@ -16,6 +16,7 @@ import { App } from 'ionic-angular';
 
 import * as NavActions from '../actions/nav-actions';
 // import * as UserActions from '../actions/user-actions';
+import * as CharacterActions from '../actions/character-actions';
 import * as fromRoot from '../reducers';
 
 @Injectable()
@@ -34,11 +35,11 @@ export class NavEffects {
             return null;
         });
 
-    @Effect({dispatch: false})
+    @Effect()
     charListNav: Observable<Action> = this.actions$.ofType(NavActions.CHARACTER_LIST)
         .withLatestFrom(this.store$.select(fromRoot.getNavRootPage), (action, page) => {
             this.navCtrl().setRoot(page);
-            return null;
+            return new CharacterActions.Unselect();
         });
     
     @Effect({dispatch: false})

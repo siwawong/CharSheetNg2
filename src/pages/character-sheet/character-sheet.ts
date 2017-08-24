@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { IonicPage } from 'ionic-angular';
+import 'rxjs/add/operator/withLatestFrom';
 
 // import { CharacterListPage } from '../character-list/character-list';
 // import { CreateStatPage } from '../create-stat/create-stat';
@@ -26,11 +28,13 @@ import * as NavActions from '../../app/store/actions/nav-actions';
 @Component({
   selector: 'page-character-sheet',
   templateUrl: 'character-sheet.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CharacterSheetPage {
   private character: Observable<Character>;
   private stats: Observable<CharacterStat[]>;
-  private selectedStat: Observable<number>;
+  private selectedStatId: Observable<string>;
+  // private statSubscription: Subscription;
 
   private editStatForm: FormGroup;
 
@@ -40,14 +44,19 @@ export class CharacterSheetPage {
   private type: FormControl;
   
 
-  constructor(private store: Store<fromRoot.State>) {
-    // this.store.dispatch(new StatActions.AddMany());
-  }
+  constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
+    let initStat;
+
+    this.store.select(fromRoot.getStat).withLatestFrom((stat) => {
+      console.log(`Stat on Init: ${stat}`);
+      initStat = stat;
+    });
+
     this.character = this.store.select(fromRoot.getCharacter);
     this.stats = this.store.select(fromRoot.getStats);
-    this.selectedStat = this.store.select(fromRoot.getStatId);
+    this.selectedStatId = this.store.select(fromRoot.getStatId);
 
     this.name = new FormControl('', Validators.required);
     this.value = new FormControl('', Validators.required);
@@ -60,7 +69,11 @@ export class CharacterSheetPage {
       maximum: this.maximum,
       type: this.type
     });
-    
+
+    // this.statSubscription = this.store.select(fromRoot.getStat).subscribe((stat) => {
+    //   this.name.setValue(stat.name);
+
+    // });   
   }
 
   selectStat(stat: CharacterStat, index: number) {
@@ -69,6 +82,7 @@ export class CharacterSheetPage {
     this.maximum.setValue(stat.maximum);
     this.type.setValue(stat.type); 
 
+    // console.log(`stat: ${stat}, index: ${index}`);
     this.store.dispatch(new StatActions.Select(index));
   }
 
@@ -76,12 +90,12 @@ export class CharacterSheetPage {
   //   this.navCtrl.setRoot(CharacterListPage);
   // }
 
-  removeStat() {
-    this.store.dispatch(new StatActions.Remove());
+  removeStat(stat) {
+    this.store.dispatch(new StatActions.Remove(stat.id));
   }
 
-  updateStat() {
-    this.store.dispatch(new StatActions.Update(this.generateStat()));
+  updateStat(stat) {
+    this.store.dispatch(new StatActions.Update(this.generateStat(stat.id)));
     this.editStatForm.reset();
   }
 
@@ -90,10 +104,10 @@ export class CharacterSheetPage {
     this.store.dispatch(new NavActions.CreateStat());
   }
 
-  generateStat(): CharacterStat {
+  generateStat(statId): CharacterStat {
     const group = this.editStatForm;
     return {
-      id: '',
+      id: statId,
       name: group.get('name').value,
       value: group.get('value').value,
       maximum: group.get('maximum').value,

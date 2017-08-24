@@ -92,7 +92,7 @@ export class LoadMany implements Action {
 export class LoadManySuccess implements Action {
     readonly type = LOAD_MANY_SUCCESS;
 
-    constructor(public payload: {stats: CharacterStat[], selected: string}) { }
+    constructor(public payload: {stats: any, selected: string}) { }
 }
 
 export class LoadManyError implements Action {

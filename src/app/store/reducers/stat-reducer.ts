@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { shortid } from 'shortid';
+import shortid from 'shortid';
 
 import * as StatActions from '../actions/stat-actions';
 import { CharacterStat } from '../../models/stat-model';
@@ -117,8 +117,9 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
 export const getIds        = (s: StatState) => s.ids;
 export const getEntities   = (s: StatState) => s.entities;
 export const getSelectedId = (s: StatState) => s.selectedStatId;
-export const getLastAdded  = (s: StatState) => {
-    return (s.entities[s.ids.length - 1]) || null;  
+export const getLastAdded  = (s: StatState) => {    
+    const lastElement = s.ids.length - 1;
+    return s.entities[s.ids[lastElement]];  
 };
 
 export const getStat       = createSelector(getSelectedId, getEntities, (id, stats) => stats[id]);
@@ -127,4 +128,7 @@ export const getStats      = createSelector(getIds, getEntities, (ids, entities)
 });
 export const getMeta       = createSelector(getIds, getSelectedId, (ids, selectedId) => {
     return {ids, selectedId};
+});
+export const getLatestMeta = createSelector(getLastAdded, getMeta, (stat, meta) => {
+    return {stat, meta};
 });
