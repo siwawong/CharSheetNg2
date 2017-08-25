@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { CreateUserPage } from '../create-user/create-user';
-import { CharacterListPage } from '../character-list/character-list';
-
 import { Store } from '@ngrx/store';
 
-import * as AuthActions from '../../app/store/actions/auth-actions';
+import * as UserActions from '../../app/store/actions/user-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 import * as fromRoot from '../../app/store/reducers';
 
@@ -42,7 +39,7 @@ export class LoginUserPage {
   }
 
   login() {
-    this.store.dispatch(new AuthActions.Create({email: this.email.value, password: this.password.value}));
+    this.store.dispatch(new UserActions.Login({email: this.email.value, password: this.password.value}));
   }
 
   create() {

@@ -1,8 +1,8 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/combineLatest';
-// import 'rxjs/add/operator/withLatestFrom';
+// import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/withLatestFrom';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -18,14 +18,14 @@ import * as fromRoot from '../reducers';
 export class CharacterEffects {
     @Effect()
     getAll: Observable<Action> = this.actions$.ofType(CharacterActions.GET_ALL)
-        .combineLatest(this.store$.select(fromRoot.getAuth), (action, token) => token)
+        .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
         .switchMap((authToken) => this.http.getCharacters(authToken))
         .map((res) => new CharacterActions.GetAllSuccess(res));
 
     @Effect()
     createChar: Observable<Action> = this.actions$.ofType(CharacterActions.CREATE)
         .map(toPayload)
-        .combineLatest(this.store$.select(fromRoot.getAuth), (payload, token) => {
+        .withLatestFrom(this.store$.select(fromRoot.getAuth), (payload, token) => {
             return {
                 token: token,
                 name: payload

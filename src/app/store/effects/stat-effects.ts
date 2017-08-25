@@ -1,7 +1,8 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/combineLatest';
+// import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/withLatestFrom';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -24,7 +25,7 @@ export class StatEffects {
     @Effect()
     add$: Observable<Action> = this.actions$.ofType(StatActions.ADD)
         .map(toPayload)
-        .combineLatest(this.store$.select(fromRoot.getCharAuth), (payload, token) => {
+        .withLatestFrom(this.store$.select(fromRoot.getCharAuth), (payload, token) => {
             const test = {
                 auth: token.auth,
                 charId: token.charId,
@@ -50,7 +51,7 @@ export class StatEffects {
     @Effect()
     update$: Observable<Action> = this.actions$.ofType(StatActions.UPDATE)
         .map(toPayload)
-        .combineLatest(this.store$.select(fromRoot.getCharAuth), (payload, charId) => {
+        .withLatestFrom(this.store$.select(fromRoot.getCharAuth), (payload, charId) => {
             return {
                 auth: charId.auth,
                 char: charId.charId,

@@ -5,15 +5,20 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 // import { CommonModule } from '@angular/common';
+import { IonicStorageModule } from '@ionic/storage';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // store import
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { reducers } from './store/reducers';
 import { effects } from './store/effects';
+
+import { StorageService } from './services/storage.service';
+import { HttpService } from './services/http.service';
 
 import { AppComponent } from './app.component';
 import { AppMenuComponent } from '../components/app-menu/app-menu';
@@ -24,8 +29,6 @@ import { CharacterListPage } from '../pages/character-list/character-list';
 import { CreateCharacterPage } from '../pages/create-character/create-character';
 import { CharacterSheetPage } from '../pages/character-sheet/character-sheet';
 import { CreateStatPage } from '../pages/create-stat/create-stat';
-
-import { HttpService } from './services/http.service';
 
 @NgModule({
   declarations: [
@@ -50,12 +53,20 @@ import { HttpService } from './services/http.service';
   imports: [
     BrowserModule,
     IonicModule.forRoot(AppComponent),
+    IonicStorageModule.forRoot({
+      name: 'charSheetIonicDB',
+      driverOrder: ['sqlite', 'indexeddb', 'localstorage']
+    }),
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25
+    }),
     EffectsModule.forRoot(effects),
     HttpModule
   ],
   providers: [
+    StorageService,
     HttpService,
     StatusBar,
     SplashScreen,

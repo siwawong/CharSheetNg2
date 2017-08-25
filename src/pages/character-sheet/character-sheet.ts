@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { IonicPage } from 'ionic-angular';
 
-import { CharacterListPage } from '../character-list/character-list';
-import { CreateStatPage } from '../create-stat/create-stat';
+// import { CharacterListPage } from '../character-list/character-list';
+// import { CreateStatPage } from '../create-stat/create-stat';
 
 import { Store } from '@ngrx/store';
 

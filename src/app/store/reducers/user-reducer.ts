@@ -1,49 +1,52 @@
-import { createSelector } from 'reselect';
-
 import * as UserActions from '../actions/user-actions';
 import { User } from '../../models/user-model';
 
-export interface State extends User {
+export interface UserState extends User {
+    authToken: string;
     id: string;
     name: string;
     email: string;
 };
 
-const initialState: State = {
+const initialState: UserState = {
+    authToken: '',
     id: '',
     name: '',
     email: '',
 };
 
-export function reducer(state = initialState, action: UserActions.All): State {
+export function reducer(state = initialState, action: UserActions.All): UserState {
     switch (action.type) {
-        case UserActions.UPDATE_SUCCESS:
-        case UserActions.ADD_SUCCESS: {
+        case UserActions.LOGIN_SUCCESS:
+        case UserActions.CREATE_SUCCESS: {
             const newUser = action.payload;
 
             return {
+                authToken: newUser.authToken,
                 id: newUser.id,
                 name: newUser.name,
                 email: newUser.email
             };
         }
-        case UserActions.REMOVE_SUCCESS: {
+        case UserActions.DELETE_SUCCESS: {
             return initialState;
         }
 
-        case UserActions.ADD:
-        case UserActions.REMOVE:
-        case UserActions.UPDATE:
+        case UserActions.CREATE:
+        case UserActions.DELETE:
+        case UserActions.LOGIN:
         default:
             return state;
     }
 }
 
-export const getUsername    = (state: State) => state.name;
-export const getEmail       = (state: State) => state.email;
-export const getUserId      = (state: State) => state.id;
-export const getUser        = (state: State): User => {
+export const getUsername    = (state: UserState) => state.name;
+export const getEmail       = (state: UserState) => state.email;
+export const getUserId      = (state: UserState) => state.id;
+export const getAuth        = (state: UserState) => state.authToken;
+export const getUser        = (state: UserState): UserState => {
     return {
+        authToken: state.authToken,
         id: state.id,
         name: state.name,
         email: state.email
