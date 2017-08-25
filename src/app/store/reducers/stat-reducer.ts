@@ -72,7 +72,7 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
             return {
                 ids: [...state.ids],
                 entities: Object.assign({}, state.entities, {[updatedStat.id]: updatedStat}),
-                selectedStatId: null
+                selectedStatId: state.selectedStatId
             };
         }
         case StatActions.SELECT: {
@@ -82,6 +82,13 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
                 ids: [...state.ids],
                 entities: Object.assign({}, state.entities),
                 selectedStatId: newSelectId
+            };
+        }
+        case StatActions.UNSELECT: {
+            return {
+                ids: [...state.ids],
+                entities: Object.assign({}, state.entities),
+                selectedStatId: null
             };
         }
         case StatActions.ADD_ERROR:

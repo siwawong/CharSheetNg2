@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IonicPage, Navbar } from 'ionic-angular';
 
@@ -21,6 +21,7 @@ import * as NavActions from '../../app/store/actions/nav-actions';
 @Component({
   selector: 'page-create-user',
   templateUrl: 'create-user.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateUserPage {
   @ViewChild(Navbar) navBar: Navbar; 

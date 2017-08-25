@@ -9,7 +9,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>{{ ( character | async )?.name }}'s Sheet</ion-title>
+        <ion-title>{{ ( character | async )?.name }}</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -69,6 +69,8 @@
             </ng-template>
         </ion-row>
     </ion-grid>
-    <button ion-button full (click)="createStat()" type="button">Add Stat</button>
+    <div bottonContainer>
+        <button ion-button full (click)="createStat()" type="button">Add Stat</button>
+    </div>
     <!-- <button ion-button full (click)="navCharList()" type="button">Character List</button> -->
 </ion-content>

@@ -29,7 +29,7 @@ import { Character } from '../../app/models/character-model';
 })
 export class CharacterListPage {
   private characters: Observable<Character[]>
-  private username: Observable<string>;
+  // private username: Observable<string>;
 
   constructor(private store: Store<fromRoot.State>) {
     // this.store.dispatch(new CharacterActions.GetAll());   
@@ -37,7 +37,7 @@ export class CharacterListPage {
 
   ngOnInit() {
     this.characters = this.store.select(fromRoot.getCharacters);
-    this.username = this.store.select(fromRoot.getUsername);
+    // this.username = this.store.select(fromRoot.getUsername);
   }
 
   selectCharacter(index: number) {

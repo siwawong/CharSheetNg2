@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
@@ -18,8 +18,13 @@ import * as NavActions from '../../app/store/actions/nav-actions';
 })
 export class AppMenuComponent {
   @Input() content;
+  private user: Observable<string>
 
   constructor(private store: Store<fromRoot.State>) { }
+
+  ngOnInit() {
+    this.user = this.store.select(fromRoot.getUsername);
+  }
 
   logout() {
     this.store.dispatch(new UserActions.Delete());

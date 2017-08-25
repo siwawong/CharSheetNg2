@@ -10,7 +10,7 @@ import { AppMenuComponent } from '../components/app-menu/app-menu';
 
 import * as fromRoot from './store/reducers';
 import * as UserActions from './store/actions/user-actions';
-import { LoginUserPage } from '../pages/login-user/login-user';
+// import { LoginUserPage } from '../pages/login-user/login-user';
 
 
 @Component({
@@ -18,7 +18,7 @@ import { LoginUserPage } from '../pages/login-user/login-user';
 })
 export class AppComponent {
   title = 'Ng4 CharSheet Store';
-  rootPage:any = LoginUserPage;
+  rootPage:any;
 
   constructor(platform: Platform,
               statusBar: StatusBar,
