@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="primary">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -13,64 +13,76 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    <ion-grid>
-        <ion-row *ngFor="let stat of (stats | async); let i = index">
-            <div *ngIf="(selectedStatId | async) === stat.id; then editMode else viewMode"></div>
-            <ng-template #viewMode>
-                <ion-row col-12 (click)="selectStat(stat, i)">
-                    <ion-col col-3>
-                        {{ stat.name }} :
-                    </ion-col>
-                    <ion-col col-6 text-right>
-                        {{ stat.value }} / {{ stat.maximum }}
-                    </ion-col>
-                    <ion-col col-3 text-right>
-                        {{ stat.type }}
+<ion-content padding-left padding-right>
+    <!-- <ion-grid padding> -->
+    <h6 *ngFor="let stat of (stats | async); let i = index" no-margin padding-top ion-grid>
+        <div *ngIf="(selectedStatId | async) === stat.id; then editMode else viewMode"></div>
+        <ng-template #viewMode>
+            <ion-row col-12 (click)="selectStat(stat, i)">
+                <ion-col col-3>
+                    {{ stat.name }} :
+                </ion-col>
+                <ion-col col-6 text-right>
+                    {{ stat.value }} / {{ stat.maximum }}
+                </ion-col>
+                <ion-col col-3 text-right>
+                    {{ stat.type }}
+                </ion-col>
+            </ion-row>
+        </ng-template>
+        <ng-template #editMode>
+            <form [formGroup]="editStatForm" style="width: 100%;">
+                <ion-grid style="border: 1px solid red;">
+                    <ion-row style="background-color: red;">
+                        <ion-col col-12 style="color:white">Edit Stat</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-12>
+                            <ion-input style="border-bottom: 1px solid red;" text-right type="text" name="name" formControlName="name"></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-12>
+                            <ion-input style="border-bottom: 1px solid red;" text-right type="text" type="number" name="value" formControlName="value"></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-12>
+                            <ion-input style="border-bottom: 1px solid red;" text-right type="text" type="number" name="maximum" formControlName="maximum"></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-12>
+                            <ion-input style="border-bottom: 1px solid red;" text-right type="text" type="text" name="type" formControlName="type"></ion-input>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </form>
+        </ng-template>
+    </h6>
+    <!-- </ion-grid> -->
+</ion-content>
+<ion-footer>
+    <ion-toolbar color="primary" no-padding>
+        <ion-grid>
+            <div *ngIf="btnView === false; then addMode else changeMode"></div>
+            <ng-template #addMode>
+                <ion-row>
+                    <ion-col col-12>
+                        <button ion-button full (click)="createStat()" type="button" color="secondary">Add Stat</button>
                     </ion-col>
                 </ion-row>
             </ng-template>
-            <ng-template #editMode>
-                <form [formGroup]="editStatForm" style="width: 100%;">
-                    <ion-grid style="border: 1px solid red;">
-                        <ion-row style="background-color: red;">
-                            <ion-col col-12 style="color:white">Edit Stat</ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col col-12>
-                                <ion-input style="border-bottom: 1px solid red;" text-right type="text" name="name" formControlName="name"></ion-input>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col col-12>
-                                <ion-input style="border-bottom: 1px solid red;" text-right type="text" type="number" name="value" formControlName="value"></ion-input>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col col-12>
-                                <ion-input style="border-bottom: 1px solid red;" text-right type="text" type="number" name="maximum" formControlName="maximum"></ion-input>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col col-12>
-                                <ion-input style="border-bottom: 1px solid red;" text-right type="text" type="text" name="type" formControlName="type"></ion-input>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col col-6>
-                                <button ion-button full (click)="removeStat(stat)" type="button" color="danger">Remove</button>
-                            </ion-col>
-                            <ion-col col-6>
-                                <button ion-button full (click)="updateStat(stat)" type="button" color="secondary">Update</button>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </form>
+            <ng-template #changeMode>
+                <ion-row>
+                    <ion-col col-6>
+                        <button ion-button full (click)="removeStat()" type="button" color="danger">Remove</button>
+                    </ion-col>
+                    <ion-col col-6>
+                        <button ion-button full (click)="updateStat()" type="button" color="secondary">Update</button>
+                    </ion-col>
+                </ion-row>
             </ng-template>
-        </ion-row>
-    </ion-grid>
-    <div bottonContainer>
-        <button ion-button full (click)="createStat()" type="button">Add Stat</button>
-    </div>
-    <!-- <button ion-button full (click)="navCharList()" type="button">Character List</button> -->
-</ion-content>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

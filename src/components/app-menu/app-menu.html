@@ -1,11 +1,11 @@
 <!-- Generated template for the AppDrawComponent component -->
 <ion-menu [content]="content">
     <ion-header>
-        <ion-toolbar>
+        <ion-toolbar color="primary" class="taller">
             <ion-title>{{ user | async }}</ion-title>
         </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content class="colorStyle">
         <ion-list>
             <ion-item (click)="logout()" menuClose>Log Out</ion-item>
             <ion-item (click)="charList()" menuClose>Character List</ion-item>

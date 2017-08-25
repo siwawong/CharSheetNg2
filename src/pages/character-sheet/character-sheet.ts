@@ -34,6 +34,8 @@ export class CharacterSheetPage {
   private stats: Observable<CharacterStat[]>;
   private selectedStatId: Observable<string>;
   private statSub: Subscription;
+  private btnView = false;
+  private statId: string;
 
   private editStatForm: FormGroup;
 
@@ -65,10 +67,14 @@ export class CharacterSheetPage {
     this.statSub = this.store.select(fromRoot.getStat).subscribe((stat) => {
       // initStat = stat;
       if (stat) {
+        this.statId = stat.id;
         this.name.setValue(stat.name);
         this.value.setValue(stat.value);
         this.maximum.setValue(stat.maximum);
         this.type.setValue(stat.type);
+        this.btnView = true;
+      } else {
+        this.btnView = false;
       }
     });
 
@@ -94,12 +100,12 @@ export class CharacterSheetPage {
   //   this.navCtrl.setRoot(CharacterListPage);
   // }
 
-  removeStat(stat) {
-    this.store.dispatch(new StatActions.Remove(stat.id));
+  removeStat() {
+    this.store.dispatch(new StatActions.Remove(this.statId));
   }
 
   updateStat(stat) {
-    this.store.dispatch(new StatActions.Update(this.generateStat(stat.id)));
+    this.store.dispatch(new StatActions.Update(this.generateStat()));
     this.editStatForm.reset();
   }
 
@@ -108,10 +114,10 @@ export class CharacterSheetPage {
     this.store.dispatch(new NavActions.CreateStat());
   }
 
-  generateStat(statId): CharacterStat {
+  generateStat(): CharacterStat {
     const group = this.editStatForm;
     return {
-      id: statId,
+      id: this.statId,
       name: group.get('name').value,
       value: group.get('value').value,
       maximum: group.get('maximum').value,
