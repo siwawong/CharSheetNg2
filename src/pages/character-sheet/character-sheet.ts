@@ -1,9 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { IonicPage } from 'ionic-angular';
-import 'rxjs/add/operator/map';
 
 // import { CharacterListPage } from '../character-list/character-list';
 // import { CreateStatPage } from '../create-stat/create-stat';
@@ -34,7 +33,7 @@ export class CharacterSheetPage {
   private character: Observable<Character>;
   private stats: Observable<CharacterStat[]>;
   private selectedStatId: Observable<string>;
-  // private statSubscription: Subscription;
+  private statSub: Subscription;
 
   private editStatForm: FormGroup;
 
@@ -47,13 +46,6 @@ export class CharacterSheetPage {
   constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
-    let initStat;
-
-    this.store.select(fromRoot.getStat).map((stat) => {
-      console.log(`Stat on Init: ${stat}`);
-      initStat = stat;
-    });
-
     this.character = this.store.select(fromRoot.getCharacter);
     this.stats = this.store.select(fromRoot.getStats);
     this.selectedStatId = this.store.select(fromRoot.getStatId);
@@ -69,6 +61,18 @@ export class CharacterSheetPage {
       maximum: this.maximum,
       type: this.type
     });
+
+    this.statSub = this.store.select(fromRoot.getStat).subscribe((stat) => {
+      // initStat = stat;
+      if (stat) {
+        this.name.setValue(stat.name);
+        this.value.setValue(stat.value);
+        this.maximum.setValue(stat.maximum);
+        this.type.setValue(stat.type);
+      }
+    });
+
+    this.store.next(new StatActions.UpdateError())
 
     // this.statSubscription = this.store.select(fromRoot.getStat).subscribe((stat) => {
     //   this.name.setValue(stat.name);
@@ -117,6 +121,10 @@ export class CharacterSheetPage {
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad CharacterSheetPage');
+  }
+
+  ngOnDestroy() {
+    this.statSub.unsubscribe();
   }
 
 }
