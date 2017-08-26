@@ -13,19 +13,23 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding-left padding-right>
-    <!-- <ion-grid padding> -->
-    <h6 *ngFor="let stat of (stats | async); let i = index" no-margin padding-top ion-grid>
+<ion-content>
+    <ion-grid *ngFor="let stat of (stats | async); let i = index" class="statWrapper">
         <div *ngIf="(selectedStatId | async) === stat.id; then editMode else viewMode"></div>
         <ng-template #viewMode>
-            <ion-row col-12 (click)="selectStat(stat, i)">
-                <ion-col col-3>
-                    {{ stat.name }} :
+            <ion-row col-12 (click)="selectStat(stat, i)" class="stat">
+                <ion-col col-5>
+                    {{ stat.name }}
                 </ion-col>
-                <ion-col col-6 text-right>
-                    {{ stat.value }} / {{ stat.maximum }}
+                <ion-col col-3 text-right class="valueWrapper">
+                    <span text-right class="value">
+                        {{ stat.value }}
+                    </span>
+                    <!-- <span text-left [ngStyle]="{'visibility': getVis(stat.value, stat.maximum) ? 'hidden' : 'visible'}" class="maximum">
+                        {{ stat.maximum }}
+                    </span> -->
                 </ion-col>
-                <ion-col col-3 text-right>
+                <ion-col col-4 text-right class="type">
                     {{ stat.type }}
                 </ion-col>
             </ion-row>
@@ -59,9 +63,9 @@
                 </ion-grid>
             </form>
         </ng-template>
-    </h6>
-    <!-- </ion-grid> -->
+    </ion-grid>
 </ion-content>
+
 <ion-footer>
     <ion-toolbar color="primary" no-padding>
         <ion-grid>

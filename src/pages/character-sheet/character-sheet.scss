@@ -1,1 +1,39 @@
-page-character-sheet {}
+page-character-sheet {
+    .statWrapper {
+        margin: 0em;
+        padding: .25em 0em .25em 0em;
+        // background-color: blue;
+    }
+    .statWrapper:first-child {
+        padding-top: .5em;
+    }
+    .statWrapper:last-child {
+        padding-bottom: .5em;
+    }
+    .stat {
+        border-bottom: 1px solid #dedede;
+        font-size: 1.15em;
+        padding: .5em 1.15em .5em 1.15em;
+        // background-color: green;
+        margin: 0em 0em 0em 0em;
+    }
+    .valueWrapper {
+        display: flex;
+        flex-direction: row;
+    }
+    .value {
+        flex: 1;
+    }
+    .maximum {
+        color: #938585;
+        font-size: .75em;
+        flex: 1;
+        padding: .3em 0em 0em .65em;
+    }
+    .type {
+        font-size: .8em;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+}

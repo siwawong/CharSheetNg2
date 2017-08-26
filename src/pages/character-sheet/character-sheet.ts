@@ -129,6 +129,16 @@ export class CharacterSheetPage {
     // console.log('ionViewDidLoad CharacterSheetPage');
   }
 
+  getVis(value: number, maximum: number) {
+    if (maximum < 1) {
+      return true;
+    } else if (value >= maximum) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ngOnDestroy() {
     this.statSub.unsubscribe();
   }
