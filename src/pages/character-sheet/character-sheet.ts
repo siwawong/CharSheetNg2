@@ -4,9 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { IonicPage } from 'ionic-angular';
 
-// import { CharacterListPage } from '../character-list/character-list';
-// import { CreateStatPage } from '../create-stat/create-stat';
-
 import { Store } from '@ngrx/store';
 
 import { CharacterStat } from '../../app/models/stat-model';
@@ -15,13 +12,6 @@ import { Character } from '../../app/models/character-model';
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
-
-/**
- * Generated class for the CharacterSheetPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -65,7 +55,6 @@ export class CharacterSheetPage {
     });
 
     this.statSub = this.store.select(fromRoot.getStat).subscribe((stat) => {
-      // initStat = stat;
       if (stat) {
         this.statId = stat.id;
         this.name.setValue(stat.name);
@@ -78,12 +67,7 @@ export class CharacterSheetPage {
       }
     });
 
-    this.store.next(new StatActions.UpdateError())
-
-    // this.statSubscription = this.store.select(fromRoot.getStat).subscribe((stat) => {
-    //   this.name.setValue(stat.name);
-
-    // });   
+    this.store.next(new StatActions.UpdateError()) 
   }
 
   selectStat(stat: CharacterStat, index: number) {
@@ -92,13 +76,8 @@ export class CharacterSheetPage {
     this.maximum.setValue(stat.maximum);
     this.type.setValue(stat.type); 
 
-    // console.log(`stat: ${stat}, index: ${index}`);
     this.store.dispatch(new StatActions.Select(index));
   }
-
-  // navCharList() {
-  //   this.navCtrl.setRoot(CharacterListPage);
-  // }
 
   removeStat() {
     this.store.dispatch(new StatActions.Remove(this.statId));
@@ -110,7 +89,6 @@ export class CharacterSheetPage {
   }
 
   createStat() {
-    // this.navCtrl.push(CreateStatPage);
     this.store.dispatch(new NavActions.CreateStat());
   }
 
@@ -126,17 +104,30 @@ export class CharacterSheetPage {
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad CharacterSheetPage');
   }
 
   getVis(value: number, maximum: number) {
     if (maximum < 1) {
-      return true;
-    } else if (value >= maximum) {
-      return true;
-    } else {
       return false;
+    } else if (value >= maximum) {
+      return false;
+    } else {
+      return true;
     }
+  }
+
+  refresh(stat: CharacterStat) {
+      this.store.dispatch(new StatActions.Update({
+        id: stat.id,
+        name: stat.name,
+        value: stat.maximum,
+        maximum: stat.maximum,
+        type: stat.type
+      }));
+  }
+
+  trash(stat: CharacterStat) {
+    this.store.dispatch(new StatActions.Remove(stat.id));
   }
 
   ngOnDestroy() {
