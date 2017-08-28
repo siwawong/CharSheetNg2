@@ -13,6 +13,9 @@ import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
+const RANGETIMEOUT = 1500;
+const EVENTDEBOUNCE = 200;
+
 @IonicPage()
 @Component({
   selector: 'page-character-sheet',
@@ -23,9 +26,16 @@ export class CharacterSheetPage {
   private character: Observable<Character>;
   private stats: Observable<CharacterStat[]>;
   private selectedStatId: Observable<string>;
+
+  private btnView = false; 
   private statSub: Subscription;
-  private btnView = false;
   private statId: string;
+
+  private timeoutRef;
+  private rangeValue: number;
+  private rangeMin: number;
+  private rangeMax: number;
+  private rangeStep: number;
 
   private editStatForm: FormGroup;
 
@@ -59,9 +69,11 @@ export class CharacterSheetPage {
         this.statId = stat.id;
         this.name.setValue(stat.name);
         this.value.setValue(stat.value);
+        // this.rangeValue = stat.value;
         this.maximum.setValue(stat.maximum);
         this.type.setValue(stat.type);
         this.btnView = true;
+        this.calcRange(stat);
       } else {
         this.btnView = false;
       }
@@ -77,10 +89,58 @@ export class CharacterSheetPage {
     this.type.setValue(stat.type); 
 
     this.store.dispatch(new StatActions.Select(index));
+    this.calcRange(stat);
   }
 
-  removeStat() {
-    this.store.dispatch(new StatActions.Remove(this.statId));
+  unselectStat() {
+    this.store.dispatch(new StatActions.Unselect());
+    this.rangeValue = 0;
+  }
+
+  calcRange(stat: CharacterStat) {
+    if (stat.maximum < 1) {
+      this.rangeMax = Math.abs(3 * stat.value);
+    } else {
+      this.rangeMax = stat.maximum;
+    }
+    console.log('Max: ' + this.rangeMax);
+    if (stat.value < 0) {
+      this.rangeMin = 0 - (this.rangeMax - this.rangeValue);
+    } else {
+      this.rangeMin = 0;     
+    }
+    console.log('Min: ' + this.rangeMin);
+    this.rangeValue = stat.value;
+    if (this.rangeMax > 999) {
+      this.rangeStep = Math.floor(this.rangeMax * .01);
+    }  else {
+      this.rangeStep = 1;
+    }
+    console.log('Step: ' + this.rangeStep);
+  }
+
+  rangeChange(stat: CharacterStat) {
+    clearInterval(this.timeoutRef);
+    this.timeoutRef = setInterval(() => {
+      this.rangeEnd(stat);
+    }, RANGETIMEOUT);
+  }
+
+  rangeEnd(stat: CharacterStat) {
+    clearInterval(this.timeoutRef);   
+    // console.log('RANGE END: ' + this.rangeValue);
+    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type}));
+    // this.unselectStat();
+  }
+
+  removeStat(stat?: CharacterStat) {
+    let toRemove;
+    if (stat) {
+      toRemove = stat.id;
+    } else {
+      toRemove = this.statId;
+    }
+    this.store.dispatch(new StatActions.Remove(toRemove));
   }
 
   updateStat(stat) {
@@ -126,9 +186,9 @@ export class CharacterSheetPage {
       }));
   }
 
-  trash(stat: CharacterStat) {
-    this.store.dispatch(new StatActions.Remove(stat.id));
-  }
+  // trash(stat: CharacterStat) {
+  //   this.store.dispatch(new StatActions.Remove(stat.id));
+  // }
 
   ngOnDestroy() {
     this.statSub.unsubscribe();

@@ -1,6 +1,6 @@
 page-character-sheet {
     .item-md.item-block .item-inner,
-    .item-block .inneritem,
+    .item.item-block .item-inner, // .item-block .inneritem,
     .item-inner .input-wrapper .label,
     .itemFixer {
         margin: 0em;
@@ -36,13 +36,6 @@ page-character-sheet {
     // .stat.visible {
     //     padding-bottom: .25em;
     // }
-    .valueWrapper {
-        display: flex;
-        flex-direction: column;
-        // background-color: green;
-        padding: 0;
-        margin: 0;
-    }
     .name {
         // background-color: red;
         display: flex;
@@ -51,6 +44,13 @@ page-character-sheet {
         font-size: 1.05em;
         margin: 0;
         padding: 0;
+    }
+    .valueWrapper {
+        display: flex;
+        flex-direction: column;
+        // background-color: green;
+        padding: 0;
+        margin: 0;
     }
     .value {
         flex: 1;
@@ -73,7 +73,7 @@ page-character-sheet {
         margin: 0;
         padding: 0;
     }
-    .visible>.valueWrapper>.value {
+    .visible .value {
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -82,7 +82,7 @@ page-character-sheet {
         padding-top: .2em;
         // background-color: yellow;
     }
-    .visible>.valueWrapper>.maximum {
+    .visible .maximum {
         color: #938585;
         // background-color: blue;
         font-size: .65em;
@@ -99,4 +99,33 @@ page-character-sheet {
     // .visible>.type {
     //     margin-bottom: .4em;
     // }
+    .editForm .list,
+    .editForm .list-md {
+        padding: 0em;
+        margin: 0em;
+        display: flex;
+        flex-direction: column;
+    }
+    .editForm .list-header,
+    .editForm .list-header-md {
+        background-color: red;
+        border: none;
+        color: white;
+        margin: 0em;
+        font-size: 1.2em;
+        padding: .7em;
+        display: flex;
+        flex: 1;
+    }
+    .editForm .item.item-block.item-input,
+    .editForm .item-md.item-block.item-input,
+    .editForm .item-md.item-block.item-input {
+        background-color: #DFBFBF;
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
 }

@@ -174,7 +174,7 @@ export class StatEffects {
 
     @Effect({dispatch: false})
     unselect$: Observable<Action> = this.actions$.ofType(StatActions.UNSELECT)
-    .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (action, state) => state)
+        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (action, state) => state)
         .map((state) => {
             this.storage.setStatMetaState(state.charId, state.meta.ids, state.meta.selectedId);
             return null;
