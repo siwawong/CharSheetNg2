@@ -143,12 +143,9 @@ export class StatEffects {
     @Effect()
     update$: Observable<Action> = this.actions$.ofType(StatActions.UPDATE)
         .map(toPayload)
-        .mergeMap((charStat) => {
+        .map((charStat) => {
             this.storage.setStat(charStat)
-            return [
-                new StatActions.UpdateNetwork(charStat),
-                new StatActions.Unselect()
-            ];
+            return new StatActions.UpdateNetwork(charStat);
         });
 
     @Effect()

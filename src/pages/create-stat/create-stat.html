@@ -10,6 +10,12 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>{{ title }}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="createStat()" [disabled]="addStatForm.invalid">
+                <ion-icon name="create">
+                </ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -36,8 +42,8 @@
     </form>
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
     <ion-toolbar color="primary" padding-left padding-right>
         <button ion-button full color="secondary" type="button" (click)="createStat()" [disabled]="addStatForm.invalid">Create Stat</button>
     </ion-toolbar>
-</ion-footer>
+</ion-footer> -->

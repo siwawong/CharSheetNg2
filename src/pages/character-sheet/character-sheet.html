@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-    <div *ngIf="btnView === false; then titleAdd else titleEdit"></div>
+    <div *ngIf="(currentStat | async); then titleEdit else titleAdd"></div>
     <ng-template #titleAdd>
         <ion-navbar color="primary">
             <button ion-button menuToggle>
@@ -27,8 +27,8 @@
             </button> -->
             <ion-title>{{ ( currentStat | async )?.name }}</ion-title>
             <ion-buttons end>
-                <button ion-button icon-only>
-                     <ion-icon name="create">
+                <button ion-button icon-only (click)="editStat()">
+                     <ion-icon name="open">
                      </ion-icon>
                 </button>
                 <button ion-button icon-only (click)="unselectStat()">
@@ -43,7 +43,7 @@
 <ion-content>
     <ion-list class="listFixer">
         <div *ngFor="let stat of (stats | async); let i = index">
-            <div *ngIf="(selectedStatId | async) === stat.id; then editMode else viewMode"></div>
+            <div *ngIf="(currentStat | async)?.id === stat.id; then editMode else viewMode"></div>
             <ng-template #viewMode>
                 <ion-item-sliding>
                     <ion-item class="itemFixer">
@@ -92,8 +92,8 @@
                                     {{stat.name}}
                                 </ion-col> -->
                                 <ion-col col-2>
-                                    <button *ngIf="stat.value > 0" ion-button icon-only clear>
-                                    <ion-icon name="remove"></ion-icon>
+                                    <button *ngIf="stat.value > 0" (click)="rangeClick(stat, 'MINUS')" ion-button icon-only clear>
+                                    <ion-icon name="remove" ></ion-icon>
                                 </button>
                                 </ion-col>
                                 <ion-col col-8 class="rangeValue">
@@ -110,16 +110,16 @@
                                     </button>
                                 </ion-col> -->
                                 <ion-col col-2>
-                                    <button *ngIf="stat.value < stat.maximum" ion-button icon-only clear>
+                                    <button *ngIf="stat.value < stat.maximum" (click)="rangeClick(stat, 'PLUS')" ion-button icon-only clear>
                                         <ion-icon name="add"></ion-icon>
                                     </button>
                                 </ion-col>
                             </ion-row>
                         </ion-list-header>
                         <ion-item>
-                            <ion-range class="rangeSlider" min="{{rangeMin}}" max="{{rangeMax}}" step="{{rangeStep}}" [(ngModel)]="rangeValue" debounce="{{EVENTDEBOUNCE}}" (ionChange)="rangeChange(stat)">
+                            <ion-range class="rangeSlider" min="0" max="{{rangeMax}}" [(ngModel)]="rangeValue" debounce="{{EVENTDEBOUNCE}}" (ionChange)="rangeChange(stat)">
                                 <ion-label range-left class="rangeLeft">
-                                    {{rangeMin}}
+                                    0
                                 </ion-label>
                                 <ion-label range-right class="rangeRight">
                                     {{rangeMax}}
@@ -133,16 +133,16 @@
                         <form [formGroup]="editStatForm">
                             <ion-row>
                                 <ion-col col-2>
-                                    <button ion-button icon-only clear>
-                                    <ion-icon name="remove" style="color:white"></ion-icon>
+                                    <button (click)="formChange(stat, 'MINUS')" ion-button icon-only clear>
+                                    <ion-icon name="remove"></ion-icon>
                                 </button>
                                 </ion-col>
                                 <ion-col col-8 class="formEditInput">
-                                    <input type="number" placeholder="Change {{stat.value}} by" />
+                                    <input type="number" placeholder="Change {{stat.value}} by" formControlName="value" #inputFocus/>
                                 </ion-col>
                                 <ion-col col-2>
-                                    <button ion-button icon-only clear>
-                                    <ion-icon name="add" style="color:white"></ion-icon>
+                                    <button (click)="formChange(stat, 'PLUS')" ion-button icon-only clear>
+                                    <ion-icon name="add" ></ion-icon>
                                 </button>
                                 </ion-col>
                             </ion-row>

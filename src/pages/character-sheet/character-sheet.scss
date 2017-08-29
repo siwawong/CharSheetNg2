@@ -152,6 +152,10 @@ page-character-sheet {
     }
     .formEdit {
         background-color: $highlightSubBackColor;
+        .button-clear,
+        .button-clear-md {
+            color: $highlightColorText;
+        }
         .formEditInput input {
             background-color: $highlightSubBackColor;
             text-align: center;
@@ -160,9 +164,9 @@ page-character-sheet {
             border: 0px;
             color: $highlightColorText;
             border-bottom: 1px solid $highlightColorText;
-            .formEditInput input::placeholder {
-                color: $highlightColorText;
-            }
+        }
+        input::placeholder {
+            //for reference
         }
     }
 }
