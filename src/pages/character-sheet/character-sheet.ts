@@ -26,6 +26,7 @@ export class CharacterSheetPage {
   private character: Observable<Character>;
   private stats: Observable<CharacterStat[]>;
   private selectedStatId: Observable<string>;
+  private currentStat: Observable<CharacterStat>;
 
   private btnView = false; 
   private statSub: Subscription;
@@ -48,10 +49,6 @@ export class CharacterSheetPage {
   constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
-    this.character = this.store.select(fromRoot.getCharacter);
-    this.stats = this.store.select(fromRoot.getStats);
-    this.selectedStatId = this.store.select(fromRoot.getStatId);
-
     this.name = new FormControl('', Validators.required);
     this.value = new FormControl('', Validators.required);
     this.maximum = new FormControl('');
@@ -79,7 +76,10 @@ export class CharacterSheetPage {
       }
     });
 
-    this.store.next(new StatActions.UpdateError()) 
+    this.character = this.store.select(fromRoot.getCharacter);
+    this.stats = this.store.select(fromRoot.getStats);
+    this.selectedStatId = this.store.select(fromRoot.getStatId);
+    this.currentStat = this.store.select(fromRoot.getStat);
   }
 
   selectStat(stat: CharacterStat, index: number) {
@@ -97,6 +97,16 @@ export class CharacterSheetPage {
     this.rangeValue = 0;
   }
 
+  calcStep(statVal: number) {
+    const tempCheck = Math.abs(statVal);
+    if (tempCheck > 999) {
+      this.rangeStep = Math.round(Math.abs(tempCheck / 10) * .1);      
+    } else {
+      this.rangeStep = 1;
+    }
+    console.log('Step: ' + this.rangeStep);
+  }
+
   calcRange(stat: CharacterStat) {
     if (stat.maximum < 1) {
       this.rangeMax = Math.abs(3 * stat.value);
@@ -104,23 +114,20 @@ export class CharacterSheetPage {
       this.rangeMax = stat.maximum;
     }
     console.log('Max: ' + this.rangeMax);
-    if (stat.value < 0) {
-      this.rangeMin = 0 - (this.rangeMax - this.rangeValue);
+    if (stat.maximum < 1) {
+      this.rangeMin = this.rangeValue - Math.abs(this.rangeMax);
     } else {
       this.rangeMin = 0;     
     }
     console.log('Min: ' + this.rangeMin);
+
     this.rangeValue = stat.value;
-    if (this.rangeMax > 999) {
-      this.rangeStep = Math.floor(this.rangeMax * .01);
-    }  else {
-      this.rangeStep = 1;
-    }
-    console.log('Step: ' + this.rangeStep);
+    this.calcStep(this.rangeValue);
   }
 
   rangeChange(stat: CharacterStat) {
     clearInterval(this.timeoutRef);
+    this.calcStep(this.rangeValue);
     this.timeoutRef = setInterval(() => {
       this.rangeEnd(stat);
     }, RANGETIMEOUT);
