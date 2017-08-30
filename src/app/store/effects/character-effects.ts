@@ -97,18 +97,12 @@ export class CharacterEffects {
             return merge;
         });
     
-    @Effect()
+    @Effect({dispatch: false})
     removeAll$: Observable<Action> = this.actions$.ofType(CharacterActions.REMOVE_ALL)
         .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (action, meta) => meta)
         .map((meta) => {
-            // if (meta.ids.length > 0) {
-            //     this.storage.remChars();              
-            // }
-            // if (meta.selectedId !== null) {
-            //     return new StatActions.RemoveAll();
-            // }
             this.storage.remChars();
-            return new StatActions.RemoveAll();  
+            return null;
             // if for when to remove Network
             // return new StatActions.RemoveAllNetwork();
             // return new StatActions.RemoveAllError(); //Need actual action;

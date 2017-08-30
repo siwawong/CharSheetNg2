@@ -13,8 +13,8 @@ import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
-const RANGETIMEOUT = 1500;
-const EVENTDEBOUNCE = 200;
+const RANGETIMEOUT = 1752;
+const EVENTDEBOUNCE = 1752 / 4;
 
 @IonicPage()
 @Component({
@@ -129,15 +129,17 @@ export class CharacterSheetPage {
     this.rangeChange(stat);    
   }
 
-  formChange(stat: CharacterStat, type: string) {
+  formChange(stat: CharacterStat, type: string, evt: Event) {
+    evt.preventDefault();
     let newValue;
+    let subNum = this.editStatForm.get('value').value;
     if (type === 'PLUS') {
-      newValue = stat.value + this.editStatForm.get('value').value;      
+      newValue = stat.value + subNum;      
     } else {
-      newValue = stat.value - this.editStatForm.get('value').value;
+      newValue = stat.value - subNum;
     }
     this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
-    this.editStatForm.reset();
+    this.formValue.setValue('');
   }
 
   ngOnDestroy() {

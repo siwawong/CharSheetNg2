@@ -92,7 +92,7 @@
                                     {{stat.name}}
                                 </ion-col> -->
                                 <ion-col col-2>
-                                    <button *ngIf="stat.value > 0" (click)="rangeClick(stat, 'MINUS')" ion-button icon-only clear>
+                                    <button *ngIf="rangeValue > 0" (click)="rangeClick(stat, 'MINUS')" ion-button icon-only clear>
                                     <ion-icon name="remove" ></ion-icon>
                                 </button>
                                 </ion-col>
@@ -110,7 +110,7 @@
                                     </button>
                                 </ion-col> -->
                                 <ion-col col-2>
-                                    <button *ngIf="stat.value < stat.maximum" (click)="rangeClick(stat, 'PLUS')" ion-button icon-only clear>
+                                    <button *ngIf="rangeValue < stat.maximum" (click)="rangeClick(stat, 'PLUS')" ion-button icon-only clear>
                                         <ion-icon name="add"></ion-icon>
                                     </button>
                                 </ion-col>
@@ -133,7 +133,7 @@
                         <form [formGroup]="editStatForm">
                             <ion-row>
                                 <ion-col col-2>
-                                    <button (click)="formChange(stat, 'MINUS')" ion-button icon-only clear>
+                                    <button (click)="formChange(stat, 'MINUS', $event)" ion-button icon-only clear>
                                     <ion-icon name="remove"></ion-icon>
                                 </button>
                                 </ion-col>
@@ -141,7 +141,7 @@
                                     <input type="number" placeholder="Change {{stat.value}} by" formControlName="value" #inputFocus/>
                                 </ion-col>
                                 <ion-col col-2>
-                                    <button (click)="formChange(stat, 'PLUS')" ion-button icon-only clear>
+                                    <button (click)="formChange(stat, 'PLUS', $event)" ion-button icon-only clear>
                                     <ion-icon name="add" ></ion-icon>
                                 </button>
                                 </ion-col>

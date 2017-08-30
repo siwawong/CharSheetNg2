@@ -157,6 +157,10 @@ export class StorageService {
         this.remStatMetaState(charId);
     }
 
+    clearDB() {
+        this.storage.clear();
+    }
+
     private getItem(KEY: string) {
         return this.storage.get(KEY).then((value) => {
             return value;
