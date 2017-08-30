@@ -11,7 +11,7 @@ import { CharacterStat } from '../models/stat-model';
 const STORAGE = {
     USERKEY: 'UserState',
     CHARACTERSKEY: 'CharMetaState',
-    STATSKEY: 'StatMetaState', //{CharId}StatMeta
+    STATSKEY: 'StatMetaState',
 };
 
 @Injectable()
@@ -69,14 +69,12 @@ export class StorageService {
     }
 
     getChars() {
-        // let newChars: Character[];
         return this.getCharMetaState().then((meta) => {
             if (meta === null) {
                 return null;
             } else {
                 let promises = meta.ids.map((id) => {
                     return this.getItem(id).then((char) => {
-                        // newChars.push(char);
                         return char;
                     });
                 });
@@ -132,7 +130,6 @@ export class StorageService {
     }
 
     getStats(charId: string) {
-        // let newStats: CharacterStat[];
         return this.getStatMetaState(charId).then((meta) => {
             if (meta === null) {
                 return null;
@@ -160,31 +157,29 @@ export class StorageService {
         this.remStatMetaState(charId);
     }
 
+    clearDB() {
+        this.storage.clear();
+    }
+
     private getItem(KEY: string) {
         return this.storage.get(KEY).then((value) => {
-            console.log(value);          
             return value;
         }).catch((error) => {
-            console.log(error);          
             return error;
         })
     }
 
     private setItem(KEY: string, data: any) {
         this.storage.set(KEY, data).then((value) => {
-            console.log(value);          
             // return value;
         }).catch((error) => {
-            console.log(error);          
             // return error;
         })
     }
 
     private removeItem(KEY: string) {
         this.storage.remove(KEY).then(() => {
-            console.log('DONE');
         }).catch((error) => {
-            console.log(error);
             // return error;
         });
     }

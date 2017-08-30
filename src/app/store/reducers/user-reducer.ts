@@ -29,14 +29,14 @@ export function reducer(state = initialState, action: UserActions.All): UserStat
                 email: newUser.email
             };
         }
-        case UserActions.DELETE_SUCCESS: {
+        case UserActions.LOGOUT_SUCCESS: {
             return initialState;
         }
         case UserActions.LOAD:
         case UserActions.LOAD_ERROR:
         case UserActions.LOAD_NONE:       
         case UserActions.CREATE:
-        case UserActions.DELETE:
+        case UserActions.LOGOUT:
         case UserActions.LOGIN:
         default:
             return state;

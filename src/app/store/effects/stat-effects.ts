@@ -12,6 +12,7 @@ import { HttpService } from '../../services/http.service';
 import { StorageService } from '../../services/storage.service';
 
 import * as StatActions from '../actions/stat-actions';
+import * as CharacterActions from '../actions/character-actions';
 import * as NavActions from '../actions/nav-actions';
 import * as fromRoot from '../reducers';
 
@@ -93,15 +94,12 @@ export class StatEffects {
             // Save Dispatched Here?
         });
     
-    @Effect({dispatch: false})
+    @Effect()
     removeAll$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE_ALL)
         .withLatestFrom(this.store$.select(fromRoot.getCharacterId), (action, charId) => charId)
         .map((charId) => {
-            // if (meta.ids.length > 0) {
-            //     this.storage.remStats();                
-            // }
             this.storage.remStats(charId);
-            return null;
+            return new CharacterActions.RemoveAll();
         });
 
     @Effect()

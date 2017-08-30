@@ -18,6 +18,8 @@ export const LOAD_MANY_NETWORK          = '[Character] Load Many Network';
 export const LOAD_MANY_NETWORK_SUCCESS  = '[Character] Load Many Network Success';
 export const LOAD_MANY_NETWORK_ERROR    = '[Character] Load Many Network Error';
 
+export const LOGOUT                     = '[Character] Logout';
+
 export const REMOVE                     = '[Character] Remove';
 export const REMOVE_ERROR               = '[Character] Remove Error';
 export const REMOVE_NETWORK             = '[Character] Remove Network';
@@ -123,6 +125,12 @@ export class LoadManyNetworkError implements Action {
 
     constructor() { }
 };
+
+export class Logout implements Action {
+    readonly type = LOGOUT;
+
+    constructor() { }
+}
 
 export class Remove implements Action {
     readonly type = REMOVE;
@@ -247,6 +255,7 @@ export type All
     | LoadManyNetwork
     | LoadManyNetworkSuccess
     | LoadManyNetworkError
+    | Logout
     | Remove
     | RemoveError
     | RemoveNetwork

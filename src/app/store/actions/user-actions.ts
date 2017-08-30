@@ -4,8 +4,8 @@ import { UserState } from '../reducers/user-reducer';
 export const CREATE         = '[User] Create';
 export const CREATE_SUCCESS = '[User] Create Success';
 
-export const DELETE         = '[User] Delete';
-export const DELETE_SUCCESS = '[User] Delete Success';
+export const LOGOUT         = '[User] Logout';
+export const LOGOUT_SUCCESS = '[User] Logout Success';
 
 export const LOGIN          = '[User] Login';
 export const LOGIN_SUCCESS  = '[User] Login Success';
@@ -27,14 +27,14 @@ export class CreateSuccess implements Action {
     constructor(public payload: UserState) { }
 }
 
-export class Delete implements Action {
-    readonly type = DELETE;
+export class Logout implements Action {
+    readonly type = LOGOUT;
 
     constructor() { }
 }
 
-export class DeleteSuccess implements Action {
-    readonly type = DELETE_SUCCESS;
+export class LogoutSuccess implements Action {
+    readonly type = LOGOUT_SUCCESS;
 
     constructor() { }
 }
@@ -78,8 +78,8 @@ export class LoadNone implements Action {
 export type All
     = Create
     | CreateSuccess
-    | Delete
-    | DeleteSuccess
+    | Logout
+    | LogoutSuccess
     | Login
     | LoginSuccess
     | Load

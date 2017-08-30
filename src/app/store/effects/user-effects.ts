@@ -49,17 +49,16 @@ export class UserEffects {
         });
 
     @Effect()
-    deleteNet$: Observable<Action> = this.actions$.ofType(UserActions.DELETE)
+    logout$: Observable<Action> = this.actions$.ofType(UserActions.LOGOUT)
         .withLatestFrom(this.store$.select(fromRoot.getAuth), (action, token) => token)
         .switchMap((authToken) => this.http.logout(authToken))
         .mergeMap((res) => {
-            console.log(`UE, Delete: ${res}`);
             let mergeActions: Action[] = [];
             if (res) {
-                console.log('All Deletes!');
-                this.storage.remUserState();
-                mergeActions.push(new UserActions.DeleteSuccess());
-                mergeActions.push(new CharacterActions.RemoveAll());
+                this.storage.clearDB();
+                mergeActions.push(new UserActions.LogoutSuccess());
+                mergeActions.push(new CharacterActions.Logout());
+                mergeActions.push(new StatActions.Logout());
                 mergeActions.push(new NavActions.Login());
             } else {
                 // Need action for logout error!!!

@@ -1,21 +1,13 @@
 import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/do';
-// import 'rxjs/add/operator/switchMap';
-// import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/withLatestFrom';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 
-// import { StorageService } from '../../services/storage.service';
-
 import { App } from 'ionic-angular';
 
-// import { PAGES } from '../../models/nav-model';
-
 import * as NavActions from '../actions/nav-actions';
-// import * as UserActions from '../actions/user-actions';
 import * as CharacterActions from '../actions/character-actions';
 import * as fromRoot from '../reducers';
 

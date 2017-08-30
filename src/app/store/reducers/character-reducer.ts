@@ -62,6 +62,7 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
                 selectedCharId: selectedCharId
             };
         }
+        case CharacterActions.LOGOUT:
         case CharacterActions.REMOVE_ALL: {
             return initialState;
         }
