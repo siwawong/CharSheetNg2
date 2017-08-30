@@ -102,7 +102,7 @@ export class CharacterEffects {
         .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (action, meta) => meta)
         .map((meta) => {
             this.storage.remChars();
-            return null;
+            return null;  
             // if for when to remove Network
             // return new StatActions.RemoveAllNetwork();
             // return new StatActions.RemoveAllError(); //Need actual action;
