@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, Eleme
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { style, state, animate, trigger, transition } from '@angular/animations';
+
 import { IonicPage } from 'ionic-angular';
 
 import { Store } from '@ngrx/store';
@@ -20,7 +22,83 @@ const EVENTDEBOUNCE = 1752 / 4;
 @Component({
   selector: 'page-character-sheet',
   templateUrl: 'character-sheet.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('charTitle', [
+      state('in',
+        style({
+          transform: 'rotateX(0)'
+      })),
+      transition('void => *', [
+        style({
+          transform: 'rotateX(-145deg)'
+        }),
+        animate(200)
+      ])
+    ]),
+    trigger('statTitle', [
+      state('in',
+        style({
+          transform: 'rotateX(0)'
+      })),
+      transition('void => *', [
+        style({
+          transform: 'rotateX(-145deg)'
+        }),
+        animate(200)
+      ])
+    ]),
+    // Apparently animation work in 4.2 with animateChild?
+    trigger('activeRange', [
+      state('in', 
+        style({
+          transform: 'translateY(0px)'
+        })),
+      transition('void => *', [
+        style({
+          transform: 'translateY(-58px)'
+        }),
+        animate(350)
+      ])
+    ]),
+    trigger('activeRangeHeight', [
+      state('in', style({
+        height: '*',
+        overflow: 'hidden'
+      })),
+      transition('void => *', [
+        style({
+          height: '0px',
+          overflow: 'hidden'
+        }),
+        animate(350)
+      ])
+    ]),
+    trigger('activeStatHeader', [
+      state('in', style({
+        // transform: 'rotateX(0deg)'
+        backgroundColor: 'red'
+      })),
+      transition('void => *', [
+        style({
+          // transform: 'rotateX(-145deg)'
+          backgroundColor: 'white'
+        }),
+        animate(300)
+      ])
+    ]),
+    trigger('inactiveStat', [
+      // state('in', style({
+      //   backgroundColor: 'white'
+      // })),
+      // transition('void => *', [
+      //   style({
+      //     backgroundColor: 'red'
+      //   }),
+      //   animate(200)
+      // ])
+    ])
+  ]
 })
 export class CharacterSheetPage {
   @ViewChild('inputFocus') inputFoc: ElementRef;

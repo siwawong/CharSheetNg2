@@ -7,7 +7,7 @@ import { CharacterSheetPage } from './character-sheet';
     CharacterSheetPage,
   ],
   imports: [
-    IonicPageModule.forChild(CharacterSheetPage),
+    IonicPageModule.forChild(CharacterSheetPage)
   ],
 })
 export class CharacterSheetPageModule {}

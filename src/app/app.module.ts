@@ -1,5 +1,7 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import 'web-animations-js';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -58,6 +60,7 @@ import { CreateStatPage } from '../pages/create-stat/create-stat';
       // driverOrder: ['sqlite', 'indexeddb', 'localstorage']
     }),
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25
