@@ -20,7 +20,7 @@ import * as fromRoot from '../reducers';
 export class StatEffects {
     @Effect()
     add$: Observable<Action> = this.actions$.ofType(StatActions.ADD)
-    .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (action, state) => state)
+    .withLatestFrom(this.store$.select(fromRoot.getStatAddedCharId), (action, state) => state)
     .map((state) => this.storage.addStat(
         state.charId, state.meta.ids, state.meta.selectedId, state.stat))    
     .mergeMap((stat)  => {
@@ -49,7 +49,7 @@ export class StatEffects {
     @Effect({dispatch: false})
     saveMany: Observable<Action> = this.actions$.ofType(StatActions.SAVE_MANY)
         .map(toPayload)
-        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (stats, meta) => {
+        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharId), (stats, meta) => {
             return {
                 stats,
                 state: meta.meta,
@@ -112,7 +112,7 @@ export class StatEffects {
     @Effect()
     remove$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE)
         .map(toPayload)
-        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (payload, meta) => {
+        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharId), (payload, meta) => {
             return {
                 charId: meta.charId,
                 ids: meta.meta.ids,
@@ -140,8 +140,14 @@ export class StatEffects {
   
     @Effect()
     update$: Observable<Action> = this.actions$.ofType(StatActions.UPDATE)
-        // .map(toPayload)
-        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (action, state) => state)      
+        .map(toPayload)
+        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharId), (stat, state) => {
+            return {
+                charId: state.charId,
+                stat: stat,
+                meta: state.meta
+            };
+        })      
         .map((state) => {
             this.storage.setStat(state.stat)
             this.storage.setStatMetaState(state.charId, state.meta.ids, state.meta.selectedId);
@@ -163,7 +169,7 @@ export class StatEffects {
 
     @Effect({dispatch: false})
     select$: Observable<Action> = this.actions$.ofType(StatActions.SELECT)
-        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (action, state) => state)
+        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharId), (action, state) => state)
         .map((state) => {
             this.storage.setStatMetaState(state.charId, state.meta.ids, state.meta.selectedId);
             return null;
@@ -171,7 +177,7 @@ export class StatEffects {
 
     @Effect({dispatch: false})
     unselect$: Observable<Action> = this.actions$.ofType(StatActions.UNSELECT)
-        .withLatestFrom(this.store$.select(fromRoot.getStatLateCharId), (action, state) => state)
+        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharId), (action, state) => state)
         .map((state) => {
             this.storage.setStatMetaState(state.charId, state.meta.ids, state.meta.selectedId);
             return null;
