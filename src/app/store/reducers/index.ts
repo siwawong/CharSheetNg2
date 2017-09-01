@@ -45,9 +45,12 @@ export const getStatId       = createSelector(getStatState, fromStats.getSelecte
 export const getStat         = createSelector(getStatState, fromStats.getStat);
 export const getLatestStat   = createSelector(getStatState, fromStats.getLastAdded);
 export const getStatMeta     = createSelector(getStatState, fromStats.getMeta);
-export const getStatLateMeta = createSelector(getStatState, fromStats.getLatestMeta);
+export const getStatAddedMeta = createSelector(getStatState, fromStats.getAddedMeta);
 
-export const getStatLateCharId = createSelector(getCharacterId, getStatLateMeta, (charId, statMeta) => {
+export const getStatMetaCharId = createSelector(getCharacterId, getStatMeta, (charId, meta) => {
+    return { charId, meta };
+});
+export const getStatAddedCharId = createSelector(getCharacterId, getStatAddedMeta, (charId, statMeta) => {
     return { charId, stat: statMeta.stat, meta: statMeta.meta };
 })
 

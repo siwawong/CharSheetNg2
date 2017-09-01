@@ -137,6 +137,6 @@ export const getStats      = createSelector(getIds, getEntities, (ids, entities)
 export const getMeta       = createSelector(getIds, getSelectedId, (ids, selectedId) => {
     return {ids, selectedId};
 });
-export const getLatestMeta = createSelector(getLastAdded, getMeta, (stat, meta) => {
+export const getAddedMeta = createSelector(getLastAdded, getMeta, (stat, meta) => {
     return {stat, meta};
 });
