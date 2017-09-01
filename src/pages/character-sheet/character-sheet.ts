@@ -50,16 +50,16 @@ const EVENTDEBOUNCE = 1752 / 4;
     ]),
     // Apparently animation work in 4.2 with animateChild?
     trigger('activeRange', [
-      state('in', 
-        style({
-          transform: 'translateY(0px)'
-        })),
-      transition('void => *', [
-        style({
-          transform: 'translateY(-58px)'
-        }),
-        animate(350)
-      ])
+      // state('in', 
+      //   style({
+      //     transform: 'translateY(0px)'
+      //   })),
+      // transition('void => *', [
+      //   style({
+      //     transform: 'translateY(-58px)'
+      //   }),
+      //   animate(350)
+      // ])
     ]),
     trigger('activeRangeHeight', [
       state('in', style({
@@ -77,12 +77,14 @@ const EVENTDEBOUNCE = 1752 / 4;
     trigger('activeStatHeader', [
       state('in', style({
         // transform: 'rotateX(0deg)'
-        backgroundColor: 'red'
+        backgroundColor: 'red',
+        transform: 'translateY(0px)'        
       })),
       transition('void => *', [
         style({
           // transform: 'rotateX(-145deg)'
-          backgroundColor: 'white'
+          backgroundColor: 'white',
+          transform: 'translateY(-58px)'          
         }),
         animate(300)
       ])
@@ -163,8 +165,10 @@ export class CharacterSheetPage {
   }
 
   rangeEnd(stat: CharacterStat) {
-    clearInterval(this.timeoutRef);   
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type}));
+    clearInterval(this.timeoutRef);
+    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
+    console.log(`End ${JSON.stringify(newStat)}`); 
+    this.store.dispatch(new StatActions.Update(newStat));
   }
 
   removeStat(stat: CharacterStat) {
@@ -189,7 +193,8 @@ export class CharacterSheetPage {
   }
 
   refresh(stat: CharacterStat) {
-      this.store.dispatch(new StatActions.Update({
+    console.log(`refresh ${JSON.stringify(stat)}`);    
+    this.store.dispatch(new StatActions.Update({
         id: stat.id,
         name: stat.name,
         value: stat.maximum,
@@ -199,11 +204,19 @@ export class CharacterSheetPage {
   }
 
   rangeClick(stat: CharacterStat, type: string) {
+    console.log(`click ${JSON.stringify(stat)}`);
     if (type === 'PLUS') {
       this.rangeValue += 1;      
     } else {
       this.rangeValue -= 1;      
     }
+    // this.rangeChange({
+    //   id: stat.id,
+    //   name: stat.name,
+    //   value: this.rangeValue,
+    //   maximum: stat.maximum,
+    //   type: stat.type
+    // });
     this.rangeChange(stat);    
   }
 

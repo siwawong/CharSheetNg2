@@ -86,6 +86,18 @@
                 <div *ngIf="stat.maximum > 0; then slideEdit else inputEdit"></div>
                 <ng-template #slideEdit>
                     <ion-list>
+                        <div [@activeRangeHeight] style="z-index: 0">
+                            <ion-item [@activeRange]>
+                                <ion-range class="rangeSlider" min="0" max="{{rangeMax}}" [(ngModel)]="rangeValue" debounce="{{EVENTDEBOUNCE}}" (ionChange)="rangeChange(stat)">
+                                    <ion-label range-left class="rangeLeft">
+                                        0
+                                    </ion-label>
+                                    <ion-label range-right class="rangeRight">
+                                        {{rangeMax}}
+                                    </ion-label>
+                                </ion-range>
+                            </ion-item>
+                        </div>
                         <ion-list-header [@activeStatHeader] style="z-index: 1">
                             <ion-row>
                                 <!-- <ion-col col-4 class="rangeHeader">
@@ -116,18 +128,7 @@
                                 </ion-col>
                             </ion-row>
                         </ion-list-header>
-                        <div [@activeRangeHeight] style="z-index: 0">
-                            <ion-item [@activeRange]>
-                                <ion-range class="rangeSlider" min="0" max="{{rangeMax}}" [(ngModel)]="rangeValue" debounce="{{EVENTDEBOUNCE}}" (ionChange)="rangeChange(stat)">
-                                    <ion-label range-left class="rangeLeft">
-                                        0
-                                    </ion-label>
-                                    <ion-label range-right class="rangeRight">
-                                        {{rangeMax}}
-                                    </ion-label>
-                                </ion-range>
-                            </ion-item>
-                        </div>
+
                     </ion-list>
                 </ng-template>
                 <ng-template #inputEdit>
