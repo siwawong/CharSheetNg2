@@ -1,0 +1,87 @@
+$primary: map-get($themeNormalPrimary, normal);
+$primaryDark: map-get($themeNormalPrimary, dark);
+$primaryLight: map-get($themeNormalPrimary, light);
+$secondary: map-get($themeNormalAccent, normal);
+$secondaryDark: map-get($themeNormalAccent, dark);
+$primaryText: map-get($themeNormalPrimary, text);
+$primaryTextLight: map-get($themeNormalPrimary, textDark);
+$secondaryText: map-get($themeNormalAccent, text);
+$secondaryTextLight: map-get($themeNormalAccent, textDark);
+$toolbar-background: $primary;
+$text-color: $primaryText;
+$text-input-md-highlight-color: $secondary;
+.normal-theme {
+    .toolbar {
+        .icon,
+        .toolbar-title {
+            color: $primaryText;
+        }
+        .button {
+            background-color: $secondary;
+            color: $secondaryText;
+        }
+        .button:hover {
+            background-color: lighten($secondary, 5%);
+        }
+    }
+    .input-has-focus .label {
+        color: $secondary !important;
+    }
+    // Change buttons: button ion-button
+    page-character-sheet {
+        // Change slider refresh and delete icon buttons: ion-item-options button ion-button
+        .editHeader {
+            .toolbar-background {
+                background-color: $primaryDark;
+            }
+            .icon,
+            .toolbar-title {
+                color: $primaryTextLight !important;
+            }
+        }
+        .stat {
+            border-bottom-color: $primaryLight;
+        }
+        .list-header {
+            background-color: $secondary;
+            color: $secondaryText;
+            .button.button-clear {
+                color: $secondaryText;
+            }
+        }
+        .item.item-block.item-input {
+            background-color: $secondaryDark;
+            color: $secondaryTextLight;
+        }
+        .input-has-focus .rangeSlider .label {
+            color: $secondaryTextLight !important;
+        }
+        .rangeSlider {
+            .range-bar {
+                background: $primaryDark;
+            }
+            .range-bar.range-bar-active,
+            .range-knob {
+                background: $primary;
+            }
+        }
+        .item-range {
+            background-color: $secondaryDark;
+            color: $secondaryTextLight;
+        }
+        .formEdit {
+            background-color: $secondaryDark;
+            .button-clear {
+                color: $secondaryTextLight;
+            }
+            .formEditInput input {
+                background-color: $secondaryDark;
+                color: $secondaryTextLight;
+                border-bottom-color: $secondaryTextLight;
+            }
+            input::placeholder {
+                color: darken($secondaryTextLight, 30%);
+            }
+        }
+    }
+}
