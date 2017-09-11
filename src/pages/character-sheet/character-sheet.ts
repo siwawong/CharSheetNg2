@@ -15,8 +15,8 @@ import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
-const RANGETIMEOUT = 1752;
-const EVENTDEBOUNCE = 1752 / 4;
+const RANGETIMEOUT = 1250;
+const EVENTDEBOUNCE = RANGETIMEOUT / 4;
 
 @IonicPage()
 @Component({
@@ -33,7 +33,7 @@ const EVENTDEBOUNCE = 1752 / 4;
         style({
           transform: 'rotateX(-145deg)'
         }),
-        animate(200)
+        animate(150)
       ])
     ]),
     trigger('statTitle', [
@@ -45,21 +45,8 @@ const EVENTDEBOUNCE = 1752 / 4;
         style({
           transform: 'rotateX(-145deg)'
         }),
-        animate(200)
+        animate(150)
       ])
-    ]),
-    // Apparently animation work in 4.2 with animateChild?
-    trigger('activeRange', [
-      // state('in', 
-      //   style({
-      //     transform: 'translateY(0px)'
-      //   })),
-      // transition('void => *', [
-      //   style({
-      //     transform: 'translateY(-58px)'
-      //   }),
-      //   animate(350)
-      // ])
     ]),
     trigger('activeRangeHeight', [
       state('in', style({
@@ -71,34 +58,8 @@ const EVENTDEBOUNCE = 1752 / 4;
           height: '0px',
           overflow: 'hidden'
         }),
-        animate(350)
+        animate(250)
       ])
-    ]),
-    trigger('activeStatHeader', [
-      state('in', style({
-        // transform: 'rotateX(0deg)'
-        backgroundColor: 'red',
-        transform: 'translateY(0px)'        
-      })),
-      transition('void => *', [
-        style({
-          // transform: 'rotateX(-145deg)'
-          backgroundColor: 'white',
-          transform: 'translateY(-58px)'          
-        }),
-        animate(300)
-      ])
-    ]),
-    trigger('inactiveStat', [
-      // state('in', style({
-      //   backgroundColor: 'white'
-      // })),
-      // transition('void => *', [
-      //   style({
-      //     backgroundColor: 'red'
-      //   }),
-      //   animate(200)
-      // ])
     ])
   ]
 })
@@ -149,7 +110,6 @@ export class CharacterSheetPage {
 
   unselectStat() {
     this.store.dispatch(new StatActions.Unselect());
-    // this.rangeValue = 0;
   }
 
   calcRange(stat: CharacterStat) {
@@ -169,6 +129,29 @@ export class CharacterSheetPage {
     const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
     console.log(`End ${JSON.stringify(newStat)}`); 
     this.store.dispatch(new StatActions.Update(newStat));
+  }
+  
+  rangeClick(stat: CharacterStat, type: string) {
+    console.log(`click ${JSON.stringify(stat)}`);
+    if (type === 'PLUS') {
+      this.rangeValue += 1;      
+    } else {
+      this.rangeValue -= 1;      
+    }
+    this.rangeChange(stat);    
+  }
+
+  formChange(stat: CharacterStat, type: string, evt: Event) {
+    evt.preventDefault();
+    let newValue;
+    let subNum = this.editStatForm.get('value').value;
+    if (type === 'PLUS') {
+      newValue = stat.value + subNum;      
+    } else {
+      newValue = stat.value - subNum;
+    }
+    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
+    this.formValue.setValue('');
   }
 
   removeStat(stat: CharacterStat) {
@@ -201,36 +184,6 @@ export class CharacterSheetPage {
         maximum: stat.maximum,
         type: stat.type
       }));
-  }
-
-  rangeClick(stat: CharacterStat, type: string) {
-    console.log(`click ${JSON.stringify(stat)}`);
-    if (type === 'PLUS') {
-      this.rangeValue += 1;      
-    } else {
-      this.rangeValue -= 1;      
-    }
-    // this.rangeChange({
-    //   id: stat.id,
-    //   name: stat.name,
-    //   value: this.rangeValue,
-    //   maximum: stat.maximum,
-    //   type: stat.type
-    // });
-    this.rangeChange(stat);    
-  }
-
-  formChange(stat: CharacterStat, type: string, evt: Event) {
-    evt.preventDefault();
-    let newValue;
-    let subNum = this.editStatForm.get('value').value;
-    if (type === 'PLUS') {
-      newValue = stat.value + subNum;      
-    } else {
-      newValue = stat.value - subNum;
-    }
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
-    this.formValue.setValue('');
   }
 
   ngOnDestroy() {

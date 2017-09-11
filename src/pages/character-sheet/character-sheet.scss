@@ -83,12 +83,6 @@ page-character-sheet {
         display: flex;
         margin-bottom: -1.25em;
     }
-    // .visible>.name {
-    //     margin-bottom: .4em;
-    // }
-    // .visible>.type {
-    //     margin-bottom: .4em;
-    // }
     .list,
     .list-md {
         padding: 0em;
@@ -123,10 +117,6 @@ page-character-sheet {
         justify-content: flex-end;
         align-items: flex-end;
     }
-    // .rangeHeader {
-    //     display: flex;
-    //     align-items: center;
-    // }
     .rangeValue {
         display: flex;
         align-items: center;
@@ -143,9 +133,6 @@ page-character-sheet {
             margin-left: 1em;
         }
     }
-    // .rangeButtons {
-    //     justify-content: flex-end;
-    // }
     .item-range {
         padding: 0px 16px 0px 16px;
         background-color: $highlightSubBackColor;
