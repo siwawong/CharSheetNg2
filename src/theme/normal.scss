@@ -1,15 +1,18 @@
+//colors
 $primary: #4bb5ab;
 $primaryDark: #00857c;
 $primaryLight: #80e8dd;
 $secondary: #ff6f00;
 $secondaryDark: #c43e00;
 $secondaryLight: #ffa040;
+$lightGrey: #F5F5F6;
+//text colors
 $primaryText: #000000;
 $primaryTextLight: #ffffff;
 $secondaryText: #000000;
 $secondaryTextLight: #ffffff;
+// variable changes. Should prolly move into class?
 $toolbar-background: $primary;
-$text-color: $primaryText;
 $text-input-md-highlight-color: $secondary;
 .normal-theme {
     .toolbar {
@@ -27,6 +30,9 @@ $text-input-md-highlight-color: $secondary;
     }
     .input-has-focus .label {
         color: $secondary !important;
+    }
+    .content {
+        background-color: $lightGrey;
     }
     // Change buttons: button ion-button
     page-character-sheet {

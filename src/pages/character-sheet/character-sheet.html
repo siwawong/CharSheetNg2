@@ -85,7 +85,7 @@
             <ng-template #editMode>
                 <div *ngIf="stat.maximum > 0; then slideEdit else inputEdit"></div>
                 <ng-template #slideEdit>
-                    <ion-list>
+                    <ion-list class="slideEdit">
                         <ion-list-header>
                             <ion-row>
                                 <!-- <ion-col col-4 class="rangeHeader">
