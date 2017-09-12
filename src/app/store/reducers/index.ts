@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-// child reducers
 import * as fromUser from './user-reducer';
 import * as fromChars from './character-reducer';
 import * as fromStats from './stat-reducer';
@@ -8,24 +7,12 @@ import * as fromNav from './nav-reducer';
 
 // Notes taken from this repo: https://github.com/ngrx/example-app
 
-/**
- * Treat each reducer as a table in a database
- */
-
 export interface State {
     user: fromUser.UserState;
-    characters: fromChars.State;
-    stats: fromStats.State;
+    characters: fromChars.CharacterState;
+    stats: fromStats.StatState;
     nav: fromNav.State;
 };
-
-/**
- * Because metareducers take a reducer function and return a new reducer,
- * we can use our compose helper to chain them together. Here we are
- * using combineReducers to make our top level reducer, and then
- * wrapping that in storeLogger. Remember that compose applies
- * the result from right to left.
- */
 
 export const reducers = {
     user: fromUser.reducer,
@@ -46,13 +33,26 @@ export const getCharState = (state: State) => state.characters;
 
 export const getCharacters       = createSelector(getCharState, fromChars.getCharacters);
 export const getCharacter        = createSelector(getCharState, fromChars.getCharacter);
-export const getCharacterId      = createSelector(getCharState, fromChars.getCharacterId);
+export const getCharacterId      = createSelector(getCharState, fromChars.getSelectedId);
+export const getLatestChar       = createSelector(getCharState, fromChars.getLastAdded);
+export const getCharMeta         = createSelector(getCharState, fromChars.getMeta);
+export const getCharLateMeta     = createSelector(getCharState, fromChars.getLatestMeta);
 
 export const getStatState = (state: State) => state.stats;
 
-export const getStats       = createSelector(getStatState, fromStats.getStats);
-export const getStatIndex   = createSelector(getStatState, fromStats.getSelectedStatId);
-export const getCurrentStat = createSelector(getStatState, fromStats.getSelectedStat);
+export const getStats        = createSelector(getStatState, fromStats.getStats);
+export const getStatId       = createSelector(getStatState, fromStats.getSelectedId);
+export const getStat         = createSelector(getStatState, fromStats.getStat);
+export const getLatestStat   = createSelector(getStatState, fromStats.getLastAdded);
+export const getStatMeta     = createSelector(getStatState, fromStats.getMeta);
+export const getStatAddedMeta = createSelector(getStatState, fromStats.getAddedMeta);
+
+export const getStatMetaCharId = createSelector(getCharacterId, getStatMeta, (charId, meta) => {
+    return { charId, meta };
+});
+export const getStatAddedCharId = createSelector(getCharacterId, getStatAddedMeta, (charId, statMeta) => {
+    return { charId, stat: statMeta.stat, meta: statMeta.meta };
+})
 
 export const getNavState = (state: State) => state.nav;
 
@@ -60,8 +60,7 @@ export const getNavRootPage    = createSelector(getNavState, fromNav.getRootPage
 export const getNavStackPage   = createSelector(getNavState, fromNav.getStackPage);
 export const getNav            = createSelector(getNavRootPage, getNavStackPage, (root, stack) =>  { return { root, stack }});
 
-
 export const getCharAuth        = createSelector(getAuth, getCharacterId, (auth, charId) => { return { auth, charId }});
 export const getUsernameAndChar = createSelector(getUsername, getCharacter, (user, char) => { return { user, char }});
 export const getStatToRemove    =
-    createSelector(getAuth, getCharacterId, getCurrentStat, (auth, char, stat) => { return { auth, char, stat} });
+    createSelector(getAuth, getCharacterId, getStat, (auth, char, stat) => { return { auth, char, stat} });

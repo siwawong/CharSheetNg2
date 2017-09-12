@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
@@ -25,18 +25,19 @@ import { Character } from '../../app/models/character-model';
 @Component({
   selector: 'page-character-list',
   templateUrl: 'character-list.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CharacterListPage {
   private characters: Observable<Character[]>
-  private username: Observable<string>;
+  // private username: Observable<string>;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.store.dispatch(new CharacterActions.GetAll());   
+    // this.store.dispatch(new CharacterActions.GetAll());   
   }
 
   ngOnInit() {
     this.characters = this.store.select(fromRoot.getCharacters);
-    this.username = this.store.select(fromRoot.getUsername);
+    // this.username = this.store.select(fromRoot.getUsername);
   }
 
   selectCharacter(index: number) {

@@ -1,13 +1,13 @@
 import { Action } from '@ngrx/store';
 
-export const CREATE_USER = '[Nav] Create User';
-export const LOGIN = '[Nav] Login';
-export const CHARACTER_LIST = '[Nav] Character List';
+export const CREATE_USER      = '[Nav] Create User';
+export const LOGIN            = '[Nav] Login';
+export const CHARACTER_LIST   = '[Nav] Character List';
 export const CREATE_CHARACTER = '[Nav] Create Character';
-export const CHARACTER_SHEET = '[Nav] Character Sheet';
-export const CREATE_STAT = '[Nav] Create Stat';
-export const BACK = '[Nav] Back';
-export const PREFERENCES = '[Nav] Preferences';
+export const CHARACTER_SHEET  = '[Nav] Character Sheet';
+export const CREATE_STAT      = '[Nav] Create Stat';
+export const BACK             = '[Nav] Back';
+export const PREFERENCES      = '[Nav] Preferences';
 
 export class CreateUser implements Action {
     readonly type = CREATE_USER;
@@ -36,7 +36,7 @@ export class CharacterSheet implements Action {
 
 export class CreateStat implements Action {
     readonly type = CREATE_STAT;
-    constructor() { }
+    constructor(public payload?: string) { }
 }
 
 export class Back implements Action {

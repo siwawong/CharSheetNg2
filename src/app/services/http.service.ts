@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -23,8 +24,6 @@ export class HttpService {
         toReturn.authToken = response.headers.get('x-auth');
         return toReturn;
         // console.log(toReturn);
-      }).catch((error: Response) => {
-        return Observable.throw(error);
       });
   }
 
@@ -34,21 +33,18 @@ export class HttpService {
         let toReturn = response.json();
         toReturn.authToken = response.headers.get('x-auth');
         return toReturn;
-      }).catch((error: Response) => {
-        return Observable.throw(error);
       });
   }
 
-  logout(authToken: string): Observable<boolean> {
+  logout(authToken: string): Observable<boolean | any> {
     return this.http.delete(`${this.getUrl()}Users/Me`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         return true;
-      }).catch((error: Response) => {
-        return Observable.throw(error);
       });
   }
 
   getCharacters(authToken: string): Observable<Character[]> {
+    console.log('Get Char Called');
     return this.http.get(`${this.getUrl()}Users/Characters`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         let responseJson = response.json();
@@ -60,71 +56,68 @@ export class HttpService {
             // stats: []
           };
         });
-      }).catch((error: Response) => {
-        return Observable.throw(error);
       });
   }
 
-  createCharacter(authToken: string, characterName: string): Observable<Character> {
-    return this.http.post(`${this.getUrl()}Users/Characters`, { name: characterName }, this.createAuthHeader(authToken))
+  createCharacter(authToken: string, charId: string, characterName: string): Observable<Character | any> {
+    return this.http.post(`${this.getUrl()}Users/Characters`, { name: characterName, cid: charId }, this.createAuthHeader(authToken))
       .map((response: Response) => {
         let toReturn = response.json();
-        return {
-          id: toReturn,
-          name: characterName,
-        };
-      }).catch((error: Response) => {
-        return Observable.throw(error);
+        // return {
+        //   id: toReturn,
+        //   name: characterName,
+        // };
+        console.log(toReturn);
       });
   }
 
-  getCharacterStats(authToken: string, characterId: string): Observable<any> {
-    return this.http.get(`${this.getUrl()}Users/Characters/${characterId}`, this.createAuthHeader(authToken))
+  getCharacterStats(authToken: string, charId: string): Observable<CharacterStat[]> {
+    return this.http.get(`${this.getUrl()}Users/Characters/${charId}`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         // return Character
         let toReturn = response.json();
         return toReturn;
-      }).catch((error: Response) => {
-        return Observable.throw(error);
       });
   }
 
-  createCharacterStat(authToken: string, characterId: string, newStat: CharacterStat): Observable<any> {
+  createCharacterStat(authToken: string, charId: string, newStat: CharacterStat): Observable<any> {
     // console.log(`${authToken}, ${characterId}, ${newStat}`);
     return this.http.post(
-      `${this.getUrl()}Users/Characters/Stats/`, { id: characterId, ...newStat }, this.createAuthHeader(authToken))
+      `${this.getUrl()}Users/Characters/Stats/`, { cid: charId, ...newStat }, this.createAuthHeader(authToken))
         .map((response: Response) => {
           // return Character.[stats]
           // console.log(response.json());
           return response.json();
-        }).catch((error: Response) => {
-          return Observable.throw(error);
         });
   }
 
   patchCharacterStat(auth: string, charId: string, stat: CharacterStat): Observable<CharacterStat> {
     return this.http.patch(
       `${this.getUrl()}Users/Characters/Stats/`,
-      { id: charId, ...stat },
+      { cid: charId, ...stat },
       this.createAuthHeader(auth))
         .map((response: Response) => {
           // return Character.[stats]
           return response.json();
-        }).catch((error: Response) => {
-          return Observable.throw(error);
         });
   }
 
-  deleteCharacterStat(auth: string, charId: string, statName: string): Observable<boolean> {
+  deleteCharacterStat(auth: string, charId: string, statId: string): Observable<boolean | any> {
     // rewrite server api to not expect json object
     return this.http.delete(
-      `${this.getUrl()}Users/Characters/${charId}/Stats/${statName}`,
+      `${this.getUrl()}Users/Characters/${charId}/Stats/${statId}`,
       this.createAuthHeader(auth))
         .map((response: Response) => {
           // return Character.[stats]
           return true;
-        }).catch((error: Response) => {
-          return Observable.throw(error);
+        });
+  }
+
+  deleteCharacterStats(auth: string, charId: string): Observable<boolean | any> {
+    return this.http.delete(
+      `${this.getUrl()}Users/Characters/${charId}/Stats`, this.createAuthHeader(auth))
+        .map((response: Response) => {
+          return true;
         });
   }
 

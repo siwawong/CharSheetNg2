@@ -54,8 +54,8 @@ import { CreateStatPage } from '../pages/create-stat/create-stat';
     BrowserModule,
     IonicModule.forRoot(AppComponent),
     IonicStorageModule.forRoot({
-      name: 'charSheetIonicDB',
-      driverOrder: ['sqlite', 'indexeddb', 'localstorage']
+      name: 'charSheetIonicDB'
+      // driverOrder: ['sqlite', 'indexeddb', 'localstorage']
     }),
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),

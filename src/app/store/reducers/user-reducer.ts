@@ -17,6 +17,7 @@ const initialState: UserState = {
 
 export function reducer(state = initialState, action: UserActions.All): UserState {
     switch (action.type) {
+        case UserActions.LOAD_SUCCESS:
         case UserActions.LOGIN_SUCCESS:
         case UserActions.CREATE_SUCCESS: {
             const newUser = action.payload;
@@ -28,12 +29,14 @@ export function reducer(state = initialState, action: UserActions.All): UserStat
                 email: newUser.email
             };
         }
-        case UserActions.DELETE_SUCCESS: {
+        case UserActions.LOGOUT_SUCCESS: {
             return initialState;
         }
-
+        case UserActions.LOAD:
+        case UserActions.LOAD_ERROR:
+        case UserActions.LOAD_NONE:       
         case UserActions.CREATE:
-        case UserActions.DELETE:
+        case UserActions.LOGOUT:
         case UserActions.LOGIN:
         default:
             return state;

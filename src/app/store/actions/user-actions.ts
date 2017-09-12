@@ -1,21 +1,19 @@
 import { Action } from '@ngrx/store';
 import { UserState } from '../reducers/user-reducer';
 
-/**
- * For each action type in an action group, make a simple
- * enum object for all of this group's action types.
- * 
- * The 'type' utility function coerces strings into string
- * literal types and runs a simple check to guarantee all
- * action types in the application are unique. 
- */
-
 export const CREATE         = '[User] Create';
 export const CREATE_SUCCESS = '[User] Create Success';
-export const DELETE         = '[User] Delete';
-export const DELETE_SUCCESS = '[User] Delete Success';
+
+export const LOGOUT         = '[User] Logout';
+export const LOGOUT_SUCCESS = '[User] Logout Success';
+
 export const LOGIN          = '[User] Login';
 export const LOGIN_SUCCESS  = '[User] Login Success';
+
+export const LOAD           = '[User] Load';
+export const LOAD_SUCCESS   = '[User] Load Success';
+export const LOAD_ERROR     = '[User] Load Error';
+export const LOAD_NONE      = '[User] Load None';
 
 export class Create implements Action {
     readonly type = CREATE;
@@ -29,14 +27,14 @@ export class CreateSuccess implements Action {
     constructor(public payload: UserState) { }
 }
 
-export class Delete implements Action {
-    readonly type = DELETE;
+export class Logout implements Action {
+    readonly type = LOGOUT;
 
     constructor() { }
 }
 
-export class DeleteSuccess implements Action {
-    readonly type = DELETE_SUCCESS;
+export class LogoutSuccess implements Action {
+    readonly type = LOGOUT_SUCCESS;
 
     constructor() { }
 }
@@ -53,10 +51,38 @@ export class LoginSuccess implements Action {
     constructor(public payload: UserState) { }
 }
 
+export class Load implements Action {
+    readonly type = LOAD;
+
+    constructor() { }
+}
+
+export class LoadSuccess implements Action {
+    readonly type = LOAD_SUCCESS;
+
+    constructor(public payload: UserState) { }
+}
+
+export class LoadError implements Action {
+    readonly type = LOAD_ERROR;
+
+    constructor() { }
+}
+
+export class LoadNone implements Action {
+    readonly type = LOAD_NONE;
+
+    constructor() { }
+}
+
 export type All
- = Create
- | CreateSuccess
- | Delete
- | DeleteSuccess
- | Login
- | LoginSuccess;
+    = Create
+    | CreateSuccess
+    | Logout
+    | LogoutSuccess
+    | Login
+    | LoginSuccess
+    | Load
+    | LoadSuccess
+    | LoadError  
+    | LoadNone;
