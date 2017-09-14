@@ -1,0 +1,54 @@
+import { Action } from '@ngrx/store';
+import { PreferenceState } from '../reducers/preferences-reducer';
+
+export const LOAD = '[Preferences] Load';
+export const LOAD_SUCCESS = '[Preferences] Load Success';
+export const LOAD_ERROR = '[Preferences] Load Error';
+
+export const CHANGE_MODE = '[Preferences] Change Mode';
+export const CHANGE_THEME = '[Preferences] Change Theme';
+export const CHANGE_TIMER = '[Preferences] Change Timer';
+
+export class Load implements Action {
+    readonly type = LOAD;
+
+    constructor() { }
+}
+
+export class LoadSuccess implements Action {
+    readonly type = LOAD_SUCCESS;
+
+    constructor(public payload: PreferenceState) { }
+}
+
+export class LoadError implements Action {
+    readonly type = LOAD_ERROR;
+
+    constructor() { }
+}
+
+export class ChangeMode implements Action {
+    readonly type = CHANGE_MODE;
+
+    constructor(public payload: string) { }
+}
+
+export class ChangeTheme implements Action {
+    readonly type = CHANGE_THEME;
+
+    constructor(public payload: string) { }
+}
+
+export class ChangeTimer implements Action {
+    readonly type = CHANGE_TIMER;
+
+    constructor(public payload: number) { }
+}
+
+export type All
+    = Load
+    | LoadSuccess
+    | LoadError
+    | ChangeMode
+    | ChangeTheme
+    | ChangeTimer;

@@ -4,6 +4,7 @@ import * as fromUser from './user-reducer';
 import * as fromChars from './character-reducer';
 import * as fromStats from './stat-reducer';
 import * as fromNav from './nav-reducer';
+import * as fromPref from './preferences-reducer';
 
 // Notes taken from this repo: https://github.com/ngrx/example-app
 
@@ -12,13 +13,15 @@ export interface State {
     characters: fromChars.CharacterState;
     stats: fromStats.StatState;
     nav: fromNav.State;
+    pref: fromPref.PreferenceState;
 };
 
 export const reducers = {
     user: fromUser.reducer,
     characters: fromChars.reducer,
     stats: fromStats.reducer,
-    nav: fromNav.reducer
+    nav: fromNav.reducer,
+    pref: fromPref.reducer
 };
 
 export const getUserState = (state: State) => state.user;
@@ -59,6 +62,12 @@ export const getNavState = (state: State) => state.nav;
 export const getNavRootPage    = createSelector(getNavState, fromNav.getRootPage);
 export const getNavStackPage   = createSelector(getNavState, fromNav.getStackPage);
 export const getNav            = createSelector(getNavRootPage, getNavStackPage, (root, stack) =>  { return { root, stack }});
+
+export const getPrefState = (state: State) => state.pref;
+
+export const getPrefMode = createSelector(getPrefState, fromPref.getMode);
+export const getPrefInterval = createSelector(getPrefState, fromPref.getInterval);
+export const getPrefTheme = createSelector(getPrefState, fromPref.getTheme);
 
 export const getCharAuth        = createSelector(getAuth, getCharacterId, (auth, charId) => { return { auth, charId }});
 export const getUsernameAndChar = createSelector(getUsername, getCharacter, (user, char) => { return { user, char }});
