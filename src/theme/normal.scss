@@ -12,10 +12,16 @@ $primaryTextLight: #ffffff;
 $secondaryText: #000000;
 $secondaryTextLight: #ffffff;
 // variable changes. Should prolly move into class?
-$toolbar-background: $primary;
+// $toolbar-background: $primary;
 $text-input-md-highlight-color: $secondary;
 .normal-theme {
+    .header {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    }
     .toolbar {
+        .toolbar-background {
+            background-color: $primary;
+        }
         .icon,
         .toolbar-title {
             color: $primaryText;
@@ -31,15 +37,20 @@ $text-input-md-highlight-color: $secondary;
     .input-has-focus .label {
         color: $secondary !important;
     }
-    .content {
-        background-color: $lightGrey;
-    }
     // Change buttons: button ion-button
+    page-character-list {
+        .content {
+            background-color: $lightGrey;
+        }
+    }
     page-character-sheet {
         // Change slider refresh and delete icon buttons: ion-item-options button ion-button
+        .content {
+            background-color: $lightGrey;
+        }
         .editHeader {
             .toolbar-background {
-                background-color: $primaryDark;
+                background-color: $primaryDark !important;
             }
             .icon,
             .toolbar-title {
