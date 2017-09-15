@@ -45,6 +45,10 @@ export function reducer(state = initialState, action: PreferenceActions.All): Pr
                 theme: state.theme
             };
         }
+        case PreferenceActions.SAVE:
+        case PreferenceActions.SAVE_ERROR:
+        case PreferenceActions.SAVE_SUCCESS:
+        case PreferenceActions.LOAD_ERROR:
         case PreferenceActions.LOAD:
         default:
             return state;
@@ -52,6 +56,6 @@ export function reducer(state = initialState, action: PreferenceActions.All): Pr
 }
 
 export const getPreferences = (state: PreferenceState): PreferenceState => state;
-export const getMode = (state: PreferenceState) => state.mode;
-export const getInterval = (state: PreferenceState) => state.interval;
-export const getTheme = (state: PreferenceState) => state.theme;
+export const getMode        = (state: PreferenceState) => state.mode;
+export const getInterval    = (state: PreferenceState) => state.interval;
+export const getTheme       = (state: PreferenceState) => state.theme;

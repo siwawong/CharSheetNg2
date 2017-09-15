@@ -1,11 +1,15 @@
 import { Action } from '@ngrx/store';
 import { PreferenceState } from '../reducers/preferences-reducer';
 
-export const LOAD = '[Preferences] Load';
+export const LOAD         = '[Preferences] Load';
 export const LOAD_SUCCESS = '[Preferences] Load Success';
-export const LOAD_ERROR = '[Preferences] Load Error';
+export const LOAD_ERROR   = '[Preferences] Load Error';
 
-export const CHANGE_MODE = '[Preferences] Change Mode';
+export const SAVE         = '[Preferences] Save';
+export const SAVE_ERROR   = '[Preferences] Save Error';
+export const SAVE_SUCCESS = '[Preferences] Save Success'
+
+export const CHANGE_MODE  = '[Preferences] Change Mode';
 export const CHANGE_THEME = '[Preferences] Change Theme';
 export const CHANGE_TIMER = '[Preferences] Change Timer';
 
@@ -23,6 +27,24 @@ export class LoadSuccess implements Action {
 
 export class LoadError implements Action {
     readonly type = LOAD_ERROR;
+
+    constructor() { }
+}
+
+export class Save implements Action {
+    readonly type = SAVE;
+
+    constructor(public payload: PreferenceState) { }
+}
+
+export class SaveSuccess implements Action {
+    readonly type = SAVE_SUCCESS;
+
+    constructor() { }
+}
+
+export class SaveError implements Action {
+    readonly type = SAVE_ERROR;
 
     constructor() { }
 }
@@ -49,6 +71,9 @@ export type All
     = Load
     | LoadSuccess
     | LoadError
+    | Save
+    | SaveSuccess
+    | SaveError
     | ChangeMode
     | ChangeTheme
     | ChangeTimer;
