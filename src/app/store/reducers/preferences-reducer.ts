@@ -1,4 +1,5 @@
 import * as PreferenceActions from '../actions/preferences-actions';
+import * as PREFERENCES from '../../models/preferences-model';
 
 export interface PreferenceState {
     mode: string;
@@ -7,9 +8,9 @@ export interface PreferenceState {
 }
 
 const initialState: PreferenceState = {
-    mode: 'OFFLINE',
-    interval: 5000,
-    theme: 'NORMAL'
+    mode: PREFERENCES.MODE.OFFLINE,
+    interval: PREFERENCES.INTERVAL.FIVE_MINUTES,
+    theme: PREFERENCES.THEME.NORMAL
 };
 
 export function reducer(state = initialState, action: PreferenceActions.All): PreferenceState {
