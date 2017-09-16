@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import { AppMenuComponent } from './app-menu/app-menu';
 @NgModule({
-	declarations: [AppMenuComponent],
+	declarations: [],
 	imports: [],
-	exports: [AppMenuComponent]
+	exports: []
 })
 export class ComponentsModule {}

@@ -23,32 +23,20 @@ import { HttpService } from './services/http.service';
 import { AppComponent } from './app.component';
 import { AppMenuComponent } from '../components/app-menu/app-menu';
 
-import { LoginUserPage } from '../pages/login-user/login-user';
-import { CreateUserPage } from '../pages/create-user/create-user';
-import { CharacterListPage } from '../pages/character-list/character-list';
-import { CreateCharacterPage } from '../pages/create-character/create-character';
-import { CharacterSheetPage } from '../pages/character-sheet/character-sheet';
-import { CreateStatPage } from '../pages/create-stat/create-stat';
+import { LoginUserPageModule } from '../pages/login-user/login-user.module';
+import { CreateUserPageModule } from '../pages/create-user/create-user.module';
+import { CharacterListPageModule } from '../pages/character-list/character-list.module';
+import { CreateCharacterPageModule } from '../pages/create-character/create-character.module';
+import { CharacterSheetPageModule } from '../pages/character-sheet/character-sheet.module';
+import { CreateStatPageModule } from '../pages/create-stat/create-stat.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppMenuComponent,
-    LoginUserPage,
-    CreateUserPage,
-    CharacterListPage,
-    CreateCharacterPage,
-    CharacterSheetPage,
-    CreateStatPage
+    AppMenuComponent
   ],
   entryComponents: [
-    AppComponent,
-    LoginUserPage,
-    CreateUserPage,
-    CharacterListPage,
-    CreateCharacterPage,
-    CharacterSheetPage,
-    CreateStatPage
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +51,13 @@ import { CreateStatPage } from '../pages/create-stat/create-stat';
       maxAge: 25
     }),
     EffectsModule.forRoot(effects),
-    HttpModule
+    HttpModule,
+    LoginUserPageModule,
+    CreateUserPageModule,
+    CharacterListPageModule,
+    CreateCharacterPageModule,
+    CharacterSheetPageModule,
+    CreateStatPageModule
   ],
   providers: [
     StorageService,

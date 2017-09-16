@@ -6,6 +6,7 @@ import { LoginUserPage } from './login-user';
   declarations: [
     LoginUserPage,
   ],
+  entryComponents: [LoginUserPage],
   imports: [
     IonicPageModule.forChild(LoginUserPage),
   ],

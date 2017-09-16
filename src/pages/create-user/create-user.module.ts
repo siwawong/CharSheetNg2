@@ -6,6 +6,7 @@ import { CreateUserPage } from './create-user';
   declarations: [
     CreateUserPage,
   ],
+  entryComponents: [CreateUserPage],
   imports: [
     IonicPageModule.forChild(CreateUserPage),
   ],
