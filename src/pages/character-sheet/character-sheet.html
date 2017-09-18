@@ -7,7 +7,7 @@
 <ion-header>
     <div *ngIf="(currentStat | async); then titleEdit else titleAdd"></div>
     <ng-template #titleAdd>
-        <ion-navbar color="primary">
+        <ion-navbar>
             <button ion-button menuToggle>
                 <ion-icon name="menu"></ion-icon>
             </button>
@@ -67,14 +67,14 @@
                         </ion-grid>
                     </ion-item>
                     <ion-item-options *ngIf="stat.maximum > 0 && stat.value < stat.maximum" side="left">
-                        <button ion-button color="secondary" (click)="refresh(stat)">
+                        <button ion-button (click)="refresh(stat)">
                             <ion-icon name="refresh-circle">                          
                             </ion-icon>
                             Refresh
                         </button>
                     </ion-item-options>
                     <ion-item-options side="right">
-                        <button ion-button color="danger" (click)="removeStat(stat)">
+                        <button ion-button (click)="removeStat(stat)">
                             <ion-icon name="trash">
                             </ion-icon>
                             Remove
@@ -85,7 +85,7 @@
             <ng-template #editMode>
                 <div *ngIf="stat.maximum > 0; then slideEdit else inputEdit"></div>
                 <ng-template #slideEdit>
-                    <ion-list>
+                    <ion-list class="slideEdit">
                         <ion-list-header>
                             <ion-row>
                                 <!-- <ion-col col-4 class="rangeHeader">
