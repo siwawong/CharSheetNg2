@@ -6,6 +6,7 @@ import { CreateStatPage } from './create-stat';
   declarations: [
     CreateStatPage,
   ],
+  entryComponents: [CreateStatPage],
   imports: [
     IonicPageModule.forChild(CreateStatPage),
   ],

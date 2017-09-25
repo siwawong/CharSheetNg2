@@ -6,6 +6,7 @@ import { CreateCharacterPage } from './create-character';
   declarations: [
     CreateCharacterPage,
   ],
+  entryComponents: [CreateCharacterPage],
   imports: [
     IonicPageModule.forChild(CreateCharacterPage),
   ],

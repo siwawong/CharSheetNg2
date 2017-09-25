@@ -1,0 +1,105 @@
+//colors
+$primary: #4bb5ab;
+$primaryDark: #00857c;
+$primaryLight: #80e8dd;
+$secondary: #ff6f00;
+$secondaryDark: #c43e00;
+$secondaryLight: #ffa040;
+$lightGrey: #F5F5F6;
+//text colors
+$primaryText: #000000;
+$primaryTextLight: #ffffff;
+$secondaryText: #000000;
+$secondaryTextLight: #ffffff;
+// variable changes. Should prolly move into class?
+// $toolbar-background: $primary;
+$text-input-md-highlight-color: $secondary;
+.normal-theme {
+    .header {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    }
+    .toolbar {
+        .toolbar-background {
+            background-color: $primary;
+        }
+        .icon,
+        .toolbar-title {
+            color: $primaryText;
+        }
+        .button {
+            background-color: $secondary;
+            color: $secondaryText;
+        }
+        .button:hover {
+            background-color: lighten($secondary, 5%);
+        }
+    }
+    .input-has-focus .label {
+        color: $secondary !important;
+    }
+    // Change buttons: button ion-button
+    page-character-list {
+        .content {
+            background-color: $lightGrey;
+        }
+    }
+    page-character-sheet {
+        // Change slider refresh and delete icon buttons: ion-item-options button ion-button
+        .content {
+            background-color: $lightGrey;
+        }
+        .editHeader {
+            .toolbar-background {
+                background-color: $primaryDark !important;
+            }
+            .icon,
+            .toolbar-title {
+                color: $primaryTextLight !important;
+            }
+        }
+        .stat {
+            border-bottom-color: $primaryLight;
+        }
+        .list-header {
+            background-color: $secondary;
+            color: $secondaryText;
+            .button.button-clear {
+                color: $secondaryText;
+            }
+        }
+        .item.item-block.item-input {
+            background-color: $secondaryDark;
+            color: $secondaryTextLight;
+        }
+        .input-has-focus .rangeSlider .label {
+            color: $secondaryTextLight !important;
+        }
+        .rangeSlider {
+            .range-bar {
+                background: $primaryDark;
+            }
+            .range-bar.range-bar-active,
+            .range-knob {
+                background: $primary;
+            }
+        }
+        .item-range {
+            background-color: $secondaryDark;
+            color: $secondaryTextLight;
+        }
+        .formEdit {
+            background-color: $secondaryDark;
+            .button-clear {
+                color: $secondaryTextLight;
+            }
+            .formEditInput input {
+                background-color: $secondaryDark;
+                color: $secondaryTextLight;
+                border-bottom-color: $secondaryTextLight;
+            }
+            input::placeholder {
+                color: darken($secondaryTextLight, 30%);
+            }
+        }
+    }
+}

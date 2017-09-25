@@ -6,6 +6,7 @@ import { CharacterListPage } from './character-list';
   declarations: [
     CharacterListPage,
   ],
+  entryComponents: [CharacterListPage],
   imports: [
     IonicPageModule.forChild(CharacterListPage),
   ],

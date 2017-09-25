@@ -1,20 +1,9 @@
 page-character-sheet {
-    $highlightColor: red;
-    $highlightColorText: white;
-    $highlightSubBackColor: #DFBFBF;
-    .editHeader {
-        .toolbar-background,
-        .toolbar-background-md {
-            background-color: $highlightColor;
-        }
-        .bar-button,
-        .bar-button-md,
-        .toolbar-title,
-        .toolbar-title-md {
-            color: $highlightColorText;
-        }
+    .listFixer.list {
+        position: relative;
+        z-index: 0;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
     }
-    .item-md.item-block .item-inner,
     .item.item-block .item-inner,
     .item-inner .input-wrapper .label,
     .itemFixer {
@@ -22,13 +11,15 @@ page-character-sheet {
         padding: 0em;
         font-size: 1em;
         border: none;
+        position: relative;
+        z-index: 1;
     }
     .statWrapper {
         margin: 0em;
         padding: 0em;
     }
     .stat {
-        border-bottom: 1px solid #dedede;
+        border-bottom: 1px solid; //#dedede;
         font-size: 1.2em;
         padding: 1em 1.2em 1em 1.2em;
         margin: 0em 0em 0em 0em;
@@ -75,7 +66,7 @@ page-character-sheet {
         padding-top: .2em;
     }
     .visible .maximum {
-        color: #938585;
+        // color: #938585;
         font-size: .65em;
         flex: 1;
         justify-content: flex-end;
@@ -89,39 +80,43 @@ page-character-sheet {
     // .visible>.type {
     //     margin-bottom: .4em;
     // }
-    .list,
-    .list-md {
+    .list {
         padding: 0em;
         margin: 0em;
         display: flex;
         flex-direction: column;
     }
-    .list-header,
-    .list-header-md {
-        background-color: $highlightColor;
+    .list-header {
         border: none;
-        color: $highlightColorText;
         margin: 0em;
         font-size: 1.2em;
         padding: .55em;
         display: flex;
         flex: 1;
-        .button.button-clear,
-        .button-md.button-clear-md {
+        .button.button-clear {
             margin: 0;
-            color: $highlightColorText;
         }
     }
-    .item.item-block.item-input,
-    .item-md.item-block.item-input,
-    .item-md.item-block.item-input {
-        background-color: $highlightSubBackColor;
+    .item.item-block.item-input {
         border: none;
         margin: 0px;
         padding: 0px;
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
+    }
+    .slideEdit {
+        // position: relative;
+        // z-index: 2;
+        // box-shadow: 0px -4px 4px -4px rgba(0, 0, 0, 0.14);
+        .list-header {
+            position: relative;
+            z-index: 3;
+            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+        }
+        .item.item-block.item-range {
+            box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.14);
+        }
     }
     // .rangeHeader {
     //     display: flex;
@@ -133,12 +128,9 @@ page-character-sheet {
         justify-content: center;
     }
     .rangeSlider {
-        color: $highlightColorText;
-        .rangeLeft.label,
-        .rangeLeft.label-md {
+        .rangeLeft.label {
             margin-right: 1em;
         }
-        .rangeRight.label,
         .rangeRight.label {
             margin-left: 1em;
         }
@@ -148,25 +140,20 @@ page-character-sheet {
     // }
     .item-range {
         padding: 0px 16px 0px 16px;
-        background-color: $highlightSubBackColor;
     }
     .formEdit {
-        background-color: $highlightSubBackColor;
-        .button-clear,
-        .button-clear-md {
-            color: $highlightColorText;
+        padding: 0px;
+        .item-inner {
+            position: relative;
+            z-index: 1;
+            box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.14);
         }
         .formEditInput input {
-            background-color: $highlightSubBackColor;
             text-align: center;
             height: 100%;
             width: 100%;
             border: 0px;
-            color: $highlightColorText;
-            border-bottom: 1px solid $highlightColorText;
-        }
-        input::placeholder {
-            //for reference
+            border-bottom: 1px solid;
         }
     }
 }
