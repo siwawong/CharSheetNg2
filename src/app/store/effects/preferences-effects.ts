@@ -35,12 +35,12 @@ export class PreferencesEffects {
                 newActions.push(new NavActions.CharacterList());
             } else {
                 if (state.storage.mode === PREFERENCES.MODE.OFFLINE) {
-
+                    // App run before, checking if anything was saved
+                    newActions.push(new CharacterActions.LoadMany());                    
                 } else {
-
+                    newActions.push(new UserActions.Load());                    
                 }
             }
-            newActions.push(new UserActions.Load());
             return newActions;
         });
 

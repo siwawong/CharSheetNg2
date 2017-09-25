@@ -69,6 +69,8 @@ export const getPrefMode = createSelector(getPrefState, fromPref.getMode);
 export const getPrefInterval = createSelector(getPrefState, fromPref.getInterval);
 export const getPrefTheme = createSelector(getPrefState, fromPref.getTheme);
 
+export const getNetPref         = createSelector(getPrefMode, getPrefInterval, (mode, interval) => { return { mode, interval }});
+export const getStatMetaCharIdNetPref = createSelector(getCharacterId, getStatMeta, getNetPref, (charId, meta, pref) => { return { charId, meta, pref } });
 export const getCharAuth        = createSelector(getAuth, getCharacterId, (auth, charId) => { return { auth, charId }});
 export const getUsernameAndChar = createSelector(getUsername, getCharacter, (user, char) => { return { user, char }});
 export const getStatToRemove    =

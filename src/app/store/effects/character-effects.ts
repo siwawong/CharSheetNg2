@@ -17,19 +17,24 @@ import * as NavActions from '../actions/nav-actions';
 import * as StatActions from '../actions/stat-actions';
 import * as fromRoot from '../reducers';
 
+import * as PREFERENCES from '../../models/preferences-model';
+
 @Injectable()
 export class CharacterEffects {
     @Effect()
     createChar$: Observable<Action> = this.actions$.ofType(CharacterActions.ADD)
         .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
         .map((state) => this.storage.addChar(state.meta.ids, state.meta.selectedId, state.char))
-        .mergeMap((char) => {
+        .withLatestFrom(this.store$.select(fromRoot.getNetPref), (char, prefstate) => {return {char, prefstate}})
+        .mergeMap((meta) => {
+            let merge: Action[] = [];
             // Check for Error and dispatch here?
-            // logic for when to update network based on timer goes here?
-            let merge = [
-                new CharacterActions.AddNetwork(char),
-                new NavActions.Back()
-            ];
+            // TODO: CHECK TIMER IS UP?
+            if (meta.prefstate.mode === PREFERENCES.MODE.ONLINE) {
+               merge.push(new CharacterActions.AddNetwork(meta.char));
+            }
+            
+            merge.push(new NavActions.Back());
             return merge;
         });
 
@@ -63,17 +68,18 @@ export class CharacterEffects {
     @Effect()
     loadMany$: Observable<Action> = this.actions$.ofType(CharacterActions.LOAD_MANY)
         .mergeMap(() => this.storage.getChars())
-        .mergeMap((newCharState) => {
+        .withLatestFrom(this.store$.select(fromRoot.getNetPref), (charState, prefState) => {return {charState, prefState}})
+        .mergeMap((meta) => {
             let newAction: Action[] = [];
 
-            // Call NavACtions then stat or 
-            if (newCharState === null) {
+            // TODO: Add if null && onlinemode
+            if (meta.charState === null && meta.prefState.mode === PREFERENCES.MODE.ONLINE) {
                 newAction.push(new CharacterActions.LoadManyNetwork());
                 newAction.push(new NavActions.CharacterList());
-            } else {
+            } else if (meta.charState !== null) {
                 // Potential Error Here with no type checking and unknow DB response
-                newAction.push(new CharacterActions.LoadManySuccess(newCharState));
-                if (newCharState.selected !== null) {
+                newAction.push(new CharacterActions.LoadManySuccess(meta.charState));
+                if (meta.charState.selected !== null) {
                     newAction.push(new StatActions.LoadMany());                   
                 } else {
                     newAction.push(new NavActions.CharacterList());
@@ -111,7 +117,6 @@ export class CharacterEffects {
     @Effect()
     selectChar$: Observable<Action> = this.actions$.ofType(CharacterActions.SELECT)
         .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
-        // .map(toPayload)
         .map((state) => {
             this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
             return new StatActions.LoadMany();

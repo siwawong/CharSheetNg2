@@ -16,20 +16,25 @@ import * as CharacterActions from '../actions/character-actions';
 import * as NavActions from '../actions/nav-actions';
 import * as fromRoot from '../reducers';
 
+import * as PREFERENCES from '../../models/preferences-model';
+
 @Injectable()
 export class StatEffects {
     @Effect()
     add$: Observable<Action> = this.actions$.ofType(StatActions.ADD)
     .withLatestFrom(this.store$.select(fromRoot.getStatAddedCharId), (action, state) => state)
     .map((state) => this.storage.addStat(
-        state.charId, state.meta.ids, state.meta.selectedId, state.stat))    
-    .mergeMap((stat)  => {
+        state.charId, state.meta.ids, state.meta.selectedId, state.stat))
+    .withLatestFrom(this.store$.select(fromRoot.getNetPref), (stat, pref) => {return {stat, pref}})    
+    .mergeMap((meta)  => {
+            let merge: Action[] = [];
             // Check for Error and dispatch here?
-            // logic for when to update network based on timer goes here?
-            let merge = [
-                new StatActions.AddNetwork(stat),
-                new NavActions.Back()
-            ];
+            // TODO: CHECK TIMER UP?
+            if (meta.pref.mode === PREFERENCES.MODE.ONLINE) {
+                merge.push(new StatActions.AddNetwork(meta.stat));
+            }
+
+            merge.push(new NavActions.Back());
             return merge;
         });
 
@@ -66,13 +71,14 @@ export class StatEffects {
     loadMany$: Observable<Action> = this.actions$.ofType(StatActions.LOAD_MANY)
         .withLatestFrom(this.store$.select(fromRoot.getCharacterId), (action, charId) => charId)
         .mergeMap((charId) => this.storage.getStats(charId))
-        .mergeMap((newStatState) => {
+        .withLatestFrom(this.store$.select(fromRoot.getNetPref), (stat, pref) => {return {stat, pref}})
+        .mergeMap((meta) => {
             let newAction: Action[] =[];
 
-            if (newStatState === null) {
+            if (meta.stat === null && meta.pref.mode === PREFERENCES.MODE.ONLINE) {
                 newAction.push(new StatActions.LoadManyNetwork());
-            } else {
-                newAction.push(new StatActions.LoadManySuccess(newStatState));
+            } else if (meta.stat !== null) {
+                newAction.push(new StatActions.LoadManySuccess(meta.stat));
             };
             newAction.push(new NavActions.CharacterSheet());
 
@@ -112,17 +118,24 @@ export class StatEffects {
     @Effect()
     remove$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE)
         .map(toPayload)
-        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharId), (payload, meta) => {
+        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharIdNetPref), (payload, meta) => {
             return {
                 charId: meta.charId,
                 ids: meta.meta.ids,
                 selected: meta.meta.selectedId,
-                statId: payload
+                statId: payload,
+                pref: meta.pref
             };
         })
         .map((payload) => {
             this.storage.remStat(payload.charId, payload.ids, payload.selected, payload.statId);
-            return new StatActions.RemoveNetwork(payload.statId);
+            //TODO: CHECK TIMER?
+            if (payload.pref.mode === PREFERENCES.MODE.ONLINE) {
+                return new StatActions.RemoveNetwork(payload.statId);                
+            } else {
+                // Create RemoveSuccess
+                return new StatActions.RemoveError();
+            }
         });
 
     @Effect()
@@ -141,17 +154,24 @@ export class StatEffects {
     @Effect()
     update$: Observable<Action> = this.actions$.ofType(StatActions.UPDATE)
         .map(toPayload)
-        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharId), (stat, state) => {
+        .withLatestFrom(this.store$.select(fromRoot.getStatMetaCharIdNetPref), (stat, state) => {
             return {
                 charId: state.charId,
                 stat: stat,
-                meta: state.meta
+                meta: state.meta,
+                pref: state.pref
             };
         })      
         .map((state) => {
             this.storage.setStat(state.stat)
             this.storage.setStatMetaState(state.charId, state.meta.ids, state.meta.selectedId);
-            return new StatActions.UpdateNetwork(state.stat);
+            //TODO: CHECK TIMER?
+            if (state.pref.mode === PREFERENCES.MODE.ONLINE) {
+                return new StatActions.UpdateNetwork(state.stat);                
+            } else {
+                // Create Update Success
+                return new StatActions.UpdateError();
+            }
         });
 
     @Effect()
