@@ -2,12 +2,20 @@
 <ion-menu [content]="content">
     <ion-header>
         <ion-toolbar class="taller">
-            <ion-title>{{ user | async }}</ion-title>
+            <ion-title>
+                <div *ngIf="(user | async) === templateNameTestVar; then default else display"></div>
+                <ng-template #display>
+                    {{ user | async }}
+                </ng-template>
+                <ng-template #default>
+                    <button ion-button full disabled>Create User</button>
+                </ng-template>
+            </ion-title>
         </ion-toolbar>
     </ion-header>
     <ion-content>
         <ion-list>
-            <ion-item (click)="logout()" menuClose>
+            <ion-item *ngIf="mode === templateModeTestVar" (click)="logout()" menuClose>
                 <ion-icon name="log-out" item-start></ion-icon>
                 Log Out
             </ion-item>
@@ -15,10 +23,10 @@
                 <ion-icon name="people" item-start></ion-icon>
                 Character List
             </ion-item>
-            <ion-item menuClose>
+            <!-- <ion-item menuClose>
                 <ion-icon name="settings" item-start></ion-icon>
                 Preferences
-            </ion-item>
+            </ion-item> -->
         </ion-list>
     </ion-content>
 </ion-menu>

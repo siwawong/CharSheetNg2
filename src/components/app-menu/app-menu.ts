@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -6,6 +6,7 @@ import * as fromRoot from '../../app/store/reducers';
 import * as UserActions from '../../app/store/actions/user-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
+import * as PREFERENCES from '../../app/models/preferences-model';
 /**
  * Generated class for the AppDrawComponent component.
  *
@@ -14,16 +15,21 @@ import * as NavActions from '../../app/store/actions/nav-actions';
  */
 @Component({
   selector: 'app-menu',
-  templateUrl: 'app-menu.html'
+  templateUrl: 'app-menu.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppMenuComponent {
   @Input() content;
-  private user: Observable<string>
+  private user: Observable<string>;
+  private mode: Observable<string>;
+  private templateModeTestVar = PREFERENCES.MODE.ONLINE;
+  private templateNameTestVar = '';
 
   constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
     this.user = this.store.select(fromRoot.getUsername);
+    this.mode = this.store.select(fromRoot.getPrefMode);
   }
 
   logout() {
