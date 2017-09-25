@@ -8,5 +8,6 @@ export const effects = [
     UserEffects,
     CharacterEffects,
     StatEffects,
-    NavEffects
+    NavEffects,
+    PreferencesEffects
 ];

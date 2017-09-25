@@ -30,12 +30,9 @@ export class AppComponent {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      console.log(this.storage.getDriver());
-      // this.store.dispatch(new PreferencesActions.Load());
-      this.store.dispatch(new UserActions.Load());
-      // const user = this.storage.getUserState();
-      // const stats = this.storage.getStatState();
-      // const nav = this.storage.getNavState();
+      // console.log(this.storage.getDriver());
+      this.store.dispatch(new PreferencesActions.Load());
+      // this.store.dispatch(new UserActions.Load());
 
       statusBar.styleDefault();
       splashScreen.hide();

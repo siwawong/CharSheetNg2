@@ -37,13 +37,13 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
                 id: newId,
                 name: action.payload,
             };
-            console.log('char: ' + JSON.stringify(newChar));
+            // console.log('char: ' + JSON.stringify(newChar));
             const newState = {
                 ids: [...state.ids, newId],
                 entities: Object.assign({}, state.entities, {[newId]: newChar}),
                 selectedCharId: state.selectedCharId
             }
-            console.log('state: ' + JSON.stringify(newState));
+            // console.log('state: ' + JSON.stringify(newState));
             return newState;
         }
         case CharacterActions.LOAD_MANY_SUCCESS: {
