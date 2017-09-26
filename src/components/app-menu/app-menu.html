@@ -7,18 +7,18 @@
     </ion-header>
     <ion-content>
         <ion-list>
-            <ion-item (click)="logout()" menuClose>
+            <button ion-item (click)="logout()" menuClose>
                 <ion-icon name="log-out" item-start></ion-icon>
                 Log Out
-            </ion-item>
-            <ion-item (click)="charList()" menuClose>
+            </button>
+            <button ion-item (click)="charList()" menuClose>
                 <ion-icon name="people" item-start></ion-icon>
                 Character List
-            </ion-item>
-            <ion-item menuClose>
+            </button>
+            <button ion-item menuClose>
                 <ion-icon name="settings" item-start></ion-icon>
                 Preferences
-            </ion-item>
+            </button>
         </ion-list>
     </ion-content>
 </ion-menu>
