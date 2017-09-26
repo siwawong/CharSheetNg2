@@ -1,5 +1,6 @@
 export const THEME = {
-    NORMAL: 'Normal'
+    NORMAL: 'Normal',
+    DARK: 'Dark'
 };
 
 export const INTERVAL = {

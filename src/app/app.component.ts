@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Store, Action } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 import { StorageService } from './services/storage.service';
 
@@ -20,6 +21,7 @@ import * as PreferencesActions from './store/actions/preferences-actions';
 export class AppComponent {
   title = 'Ng4 CharSheet Store';
   rootPage:any;
+  private currentTheme: Observable<string>;
 
   constructor(platform: Platform,
               statusBar: StatusBar,
@@ -38,4 +40,13 @@ export class AppComponent {
       splashScreen.hide();
     });
   }
+
+  ngOnInit() {
+    this.currentTheme = this.store.select(fromRoot.getPrefTheme);
+  }
+
+  ngAfterContentInit() {
+    console.log('SHIT INIT!');
+  }
+
 }

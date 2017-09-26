@@ -69,8 +69,7 @@ export class PreferencesPage {
     alert.addButton({
       text: 'OK',
       handler: data => {
-        // this.store.dispatch(new PrefActions.ChangeTheme(data));
-        console.log(data);
+        this.store.dispatch(new PrefActions.ChangeTheme(data));
       }
     });
     alert.present();
