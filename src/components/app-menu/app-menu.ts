@@ -39,4 +39,8 @@ export class AppMenuComponent {
   charList() {
     this.store.dispatch(new NavActions.CharacterList());
   }
+
+  prefNav() {
+    this.store.dispatch(new NavActions.Preferences());
+  }
 }

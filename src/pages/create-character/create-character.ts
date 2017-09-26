@@ -24,7 +24,7 @@ import * as NavActions from '../../app/store/actions/nav-actions';
 export class CreateCharacterPage {
   @ViewChild(Navbar) navBar: Navbar;
   
-  private title = "Create A New Character";
+  private title = "Create A Character";
   private addCharForm: FormGroup;
   private name: FormControl;
   

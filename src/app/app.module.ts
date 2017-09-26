@@ -29,6 +29,7 @@ import { CharacterListPageModule } from '../pages/character-list/character-list.
 import { CreateCharacterPageModule } from '../pages/create-character/create-character.module';
 import { CharacterSheetPageModule } from '../pages/character-sheet/character-sheet.module';
 import { CreateStatPageModule } from '../pages/create-stat/create-stat.module';
+import { PreferencesPageModule } from '../pages/preferences/preferences.module';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { CreateStatPageModule } from '../pages/create-stat/create-stat.module';
     CharacterListPageModule,
     CreateCharacterPageModule,
     CharacterSheetPageModule,
-    CreateStatPageModule
+    CreateStatPageModule,
+    PreferencesPageModule
   ],
   providers: [
     StorageService,

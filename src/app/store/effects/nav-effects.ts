@@ -66,6 +66,13 @@ export class NavEffects {
             }
             return null;
         });
+
+    @Effect({dispatch:false})
+    prefNav: Observable<Action> = this.actions$.ofType(NavActions.PREFERENCES)
+        .withLatestFrom(this.store$.select(fromRoot.getNavStackPage), (action, page) => {
+            this.navCtrl().push(page);
+            return null;
+        });
    
     constructor(private actions$: Actions,
                 private store$: Store<fromRoot.State>,
