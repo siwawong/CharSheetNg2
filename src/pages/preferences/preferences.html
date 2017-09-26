@@ -16,18 +16,18 @@
 <ion-content>
     <ion-item-group>
         <ion-item-divider>Appearance</ion-item-divider>
-        <ion-item (click)="themeAlert()">
+        <button ion-item (click)="themeAlert()">
             <span>Theme</span>
             <span item-end>Normal</span>
-        </ion-item>
+        </button>
         <ion-item-divider>Connectivity</ion-item-divider>
-        <ion-item (click)="modeAlert()">
+        <button ion-item (click)="modeAlert()">
             <span>Mode</span>
             <span item-end>{{ modeVal }}</span>
-        </ion-item>
-        <ion-item (click)="intervalAlert()">
+        </button>
+        <button ion-item (click)="intervalAlert()">
             <span>Interval</span>
             <span item-end>{{ intervalVal / 1000 }} mins</span>
-        </ion-item>
+        </button>
     </ion-item-group>
 </ion-content>
