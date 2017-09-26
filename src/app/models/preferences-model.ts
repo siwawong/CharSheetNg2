@@ -1,14 +1,14 @@
 export const THEME = {
-    NORMAL: 'normal-theme'
+    NORMAL: 'Normal'
 };
 
 export const INTERVAL = {
-    ONE_MINUTE: 1000,
     FIVE_MINUTES: 5000,
-    TEN_MINUTES: 10000
+    TEN_MINUTES: 10000,
+    FIFTEEN_MINUTES: 15000
 };
 
 export const MODE = {
-    OFFLINE: 'offline',
-    ONLINE: 'online'
+    OFFLINE: 'Offline',
+    ONLINE: 'Online'
 };
