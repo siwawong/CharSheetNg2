@@ -1,16 +1,23 @@
-//colors
-$primary: #4bb5ab;
-$primaryDark: #00857c;
-$primaryLight: #80e8dd;
-$secondary: #ff6f00;
-$secondaryDark: #c43e00;
-$secondaryLight: #ffa040;
-$lightGrey: #F5F5F6;
-//text colors
+// Primary
+$primary: #ff6f00;
+$primaryDark: #c43e00;
+$primaryLight: #ffa040;
+// Primary Text
 $primaryText: #000000;
 $primaryTextLight: #ffffff;
+// Secondary
+$secondary: #4bb5ab;
+$secondaryDark: #00857c;
+$secondaryLight: #80e8dd;
+// Secondary Text
 $secondaryText: #000000;
 $secondaryTextLight: #ffffff;
+// Others
+$lightGrey: #F5F5F6;
+$background: #303030;
+$content: #424242;
+$dividers: #212121;
+// Others Text. FILL IN
 // variable changes. Should prolly move into class?
 // $toolbar-background: $primary;
 $text-input-md-highlight-color: $secondary;
@@ -34,22 +41,38 @@ $text-input-md-highlight-color: $secondary;
             background-color: lighten($secondary, 5%);
         }
     }
+    .content,
+    .list ion-item-sliding,
+    .item {
+        background-color: $content;
+        color: $primaryTextLight;
+        border-color: $dividers;
+    }
     .input-has-focus .label {
         color: $secondary !important;
     }
     .item-divider {
-        background-color: #f4f4f4;
+        background-color: $background;
+        color: darken($primaryTextLight, 50%);
+        border: none;
+    }
+    .item.item-block .item-inner {
+        border-color: $dividers;
+    }
+    form .item.item-block .item-inner,
+    form .list .item-input:last-child {
+        border-color: #999999;
     }
     // Change buttons: button ion-button
     page-character-list {
         .content {
-            background-color: $lightGrey;
+            background-color: $background;
         }
     }
     page-character-sheet {
         // Change slider refresh and delete icon buttons: ion-item-options button ion-button
         .content {
-            background-color: $lightGrey;
+            background-color: $background;
         }
         .editHeader {
             .toolbar-background {
@@ -61,7 +84,7 @@ $text-input-md-highlight-color: $secondary;
             }
         }
         .stat {
-            border-bottom-color: $primaryLight;
+            border-bottom-color: $dividers;
         }
         .list-header {
             background-color: $secondary;
