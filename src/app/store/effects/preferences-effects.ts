@@ -34,6 +34,7 @@ export class PreferencesEffects {
                 // First Time runnining, assume offline mode, go to CharacterListPage
                 newActions.push(new NavActions.CharacterList());
             } else {
+                newActions.push(new PrefActions.LoadSuccess(state.storage));
                 if (state.storage.mode === PREFERENCES.MODE.OFFLINE) {
                     // App run before, checking if anything was saved
                     newActions.push(new CharacterActions.LoadMany());                    
