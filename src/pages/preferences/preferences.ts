@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { IonicPage, Navbar, AlertController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -20,8 +20,7 @@ import * as PREFERENCES from '../../app/models/preferences-model';
 @IonicPage()
 @Component({
   selector: 'page-preferences',
-  templateUrl: 'preferences.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'preferences.html'
 })
 export class PreferencesPage {
   @ViewChild(Navbar) navBar: Navbar;
