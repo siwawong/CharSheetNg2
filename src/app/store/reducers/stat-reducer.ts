@@ -92,6 +92,9 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
                 selectedStatId: null
             };
         }
+        case StatActions.LOAD_MANY_NONE: {
+            return initialState;
+        }
         case StatActions.ADD_ERROR:
         case StatActions.ADD_NETWORK:
         case StatActions.ADD_NETWORK_ERROR:
@@ -101,7 +104,6 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
         case StatActions.LOAD_MANY:
         case StatActions.LOAD_MANY_ERROR:
         case StatActions.LOAD_MANY_SUCCESS:
-        case StatActions.LOAD_MANY_NONE:
         case StatActions.LOAD_MANY_NETWORK:
         case StatActions.LOAD_MANY_NETWORK_ERROR:
         case StatActions.REMOVE_ERROR:
