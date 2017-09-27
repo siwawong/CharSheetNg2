@@ -75,11 +75,15 @@ export class StatEffects {
         .mergeMap((meta) => {
             let newAction: Action[] =[];
 
-            if (meta.stat === null && meta.pref.mode === PREFERENCES.MODE.ONLINE) {
+            if (meta.pref.mode === PREFERENCES.MODE.ONLINE) {
                 newAction.push(new StatActions.LoadManyNetwork());
-            } else if (meta.stat !== null) {
-                newAction.push(new StatActions.LoadManySuccess(meta.stat));
-            };
+            } else {
+                if (meta.stat !== null) {
+                    newAction.push(new StatActions.LoadManySuccess(meta.stat));                   
+                } else {
+                    newAction.push(new StatActions.LoadManyNone());                    
+                }
+            }
             newAction.push(new NavActions.CharacterSheet());
 
             return newAction;
