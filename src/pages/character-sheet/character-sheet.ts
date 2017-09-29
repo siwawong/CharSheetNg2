@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, Eleme
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { style, state, animate, trigger, transition } from '@angular/animations';
+
 import { IonicPage } from 'ionic-angular';
 
 import { Store } from '@ngrx/store';
@@ -13,14 +15,53 @@ import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
-const RANGETIMEOUT = 1752;
-const EVENTDEBOUNCE = 1752 / 4;
+const RANGETIMEOUT = 1250;
+const EVENTDEBOUNCE = RANGETIMEOUT / 4;
 
 @IonicPage()
 @Component({
   selector: 'page-character-sheet',
   templateUrl: 'character-sheet.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('charTitle', [
+      state('in',
+        style({
+          transform: 'rotateX(0)'
+      })),
+      transition('void => *', [
+        style({
+          transform: 'rotateX(-145deg)'
+        }),
+        animate(150)
+      ])
+    ]),
+    trigger('statTitle', [
+      state('in',
+        style({
+          transform: 'rotateX(0)'
+      })),
+      transition('void => *', [
+        style({
+          transform: 'rotateX(-145deg)'
+        }),
+        animate(150)
+      ])
+    ]),
+    trigger('activeRangeHeight', [
+      state('in', style({
+        height: '*',
+        overflow: 'hidden'
+      })),
+      transition('void => *', [
+        style({
+          height: '0px',
+          overflow: 'hidden'
+        }),
+        animate(250)
+      ])
+    ])
+  ]
 })
 export class CharacterSheetPage {
   @ViewChild('inputFocus') inputFoc: ElementRef;
@@ -69,7 +110,6 @@ export class CharacterSheetPage {
 
   unselectStat() {
     this.store.dispatch(new StatActions.Unselect());
-    // this.rangeValue = 0;
   }
 
   calcRange(stat: CharacterStat) {
@@ -85,8 +125,33 @@ export class CharacterSheetPage {
   }
 
   rangeEnd(stat: CharacterStat) {
-    clearInterval(this.timeoutRef);   
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type}));
+    clearInterval(this.timeoutRef);
+    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
+    console.log(`End ${JSON.stringify(newStat)}`); 
+    this.store.dispatch(new StatActions.Update(newStat));
+  }
+  
+  rangeClick(stat: CharacterStat, type: string) {
+    console.log(`click ${JSON.stringify(stat)}`);
+    if (type === 'PLUS') {
+      this.rangeValue += 1;      
+    } else {
+      this.rangeValue -= 1;      
+    }
+    this.rangeChange(stat);    
+  }
+
+  formChange(stat: CharacterStat, type: string, evt: Event) {
+    evt.preventDefault();
+    let newValue;
+    let subNum = this.editStatForm.get('value').value;
+    if (type === 'PLUS') {
+      newValue = stat.value + subNum;      
+    } else {
+      newValue = stat.value - subNum;
+    }
+    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
+    this.formValue.setValue('');
   }
 
   removeStat(stat: CharacterStat) {
@@ -111,35 +176,14 @@ export class CharacterSheetPage {
   }
 
   refresh(stat: CharacterStat) {
-      this.store.dispatch(new StatActions.Update({
+    console.log(`refresh ${JSON.stringify(stat)}`);    
+    this.store.dispatch(new StatActions.Update({
         id: stat.id,
         name: stat.name,
         value: stat.maximum,
         maximum: stat.maximum,
         type: stat.type
       }));
-  }
-
-  rangeClick(stat: CharacterStat, type: string) {
-    if (type === 'PLUS') {
-      this.rangeValue += 1;      
-    } else {
-      this.rangeValue -= 1;      
-    }
-    this.rangeChange(stat);    
-  }
-
-  formChange(stat: CharacterStat, type: string, evt: Event) {
-    evt.preventDefault();
-    let newValue;
-    let subNum = this.editStatForm.get('value').value;
-    if (type === 'PLUS') {
-      newValue = stat.value + subNum;      
-    } else {
-      newValue = stat.value - subNum;
-    }
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
-    this.formValue.setValue('');
   }
 
   ngOnDestroy() {
