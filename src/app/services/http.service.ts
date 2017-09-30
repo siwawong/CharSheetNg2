@@ -16,6 +16,13 @@ export class HttpService {
   constructor(private http: Http) { }
 
   // Add Check Email Availability
+  checkEmail(email: string): Observable<any> {
+    return this.http.post(`${this.getUrl()}Users/Email`, {email})
+      // .map((response: Response) => {
+      //   return response.json();
+      // });
+  }
+
   createUser(name: string, email: string, password: string): Observable<any> {
     console.log(`${name}, ${email}, ${password}`);
     return this.http.post(`${this.getUrl()}Users`, {name, email, password})

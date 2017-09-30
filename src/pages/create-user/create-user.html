@@ -40,6 +40,6 @@
 
 <ion-footer>
     <ion-toolbar padding-left padding-right>
-        <button ion-button full (click)="create()" [disabled]="createForm.invalid" type="button">Create</button>
+        <button ion-button full (click)="create()" [disabled]="!createForm.valid" type="button">Create</button>
     </ion-toolbar>
 </ion-footer>

@@ -3,20 +3,19 @@
     <ion-header>
         <ion-toolbar class="taller">
             <ion-title>
-                <div *ngIf="mode === templateModeTestVar" ; then onlineTitle else offlineTitle></div>
+                <div *ngIf="mode === templateModeTestVar; then onlineTitle else offlineTitle"></div>
                 <ng-template #onlineTitle>
                     {{ user | async }}
                 </ng-template>
                 <ng-template #offlineTitle>
-                    <div *ngIf "(user | async) === templateNameTestVar; then noUser else login"></div>
+                    <div *ngIf="(user | async) === templateNameTestVar; then noUser else login"></div>
                     <ng-template #noUser>
-                        <button ion-button full (click)="createUser">Create User</button>
+                        <button ion-button full (click)="createUser()" menuClose>Create User</button>
                     </ng-template>
                     <ng-template #login>
-                        <button ion-button full (click)="login">Login</button>
+                        <button ion-button full (click)="login()" menuClose>Login</button>
                     </ng-template>
                 </ng-template>
-                </div>
             </ion-title>
         </ion-toolbar>
     </ion-header>
