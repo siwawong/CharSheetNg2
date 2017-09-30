@@ -20,7 +20,7 @@ $dividers: #212121;
 // Others Text. FILL IN
 // variable changes. Should prolly move into class?
 // $toolbar-background: $primary;
-$text-input-md-highlight-color: $secondary;
+$text-input-md-highlight-color: $primary;
 .dark-theme {
     .header {
         box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
@@ -49,7 +49,7 @@ $text-input-md-highlight-color: $secondary;
         border-color: $dividers;
     }
     .input-has-focus .label {
-        color: $secondary !important;
+        color: $primary !important;
     }
     .item-divider {
         background-color: $background;
