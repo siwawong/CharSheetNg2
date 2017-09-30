@@ -36,6 +36,14 @@ export class AppMenuComponent {
     this.store.dispatch(new UserActions.Logout());
   }
 
+  createUser() {
+    this.store.dispatch(new NavActions.CreateUser());
+  }
+
+  login() {
+    this.store.dispatch(new NavActions.Login());
+  }
+
   charList() {
     this.store.dispatch(new NavActions.CharacterList());
   }
