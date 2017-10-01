@@ -14,7 +14,10 @@ import * as UserActions from '../actions/user-actions';
 import * as NavActions from '../actions/nav-actions';
 import * as CharacterActions from '../actions/character-actions';
 import * as StatActions from '../actions/stat-actions';
+import * as PrefActions from '../actions/preferences-actions';
 import * as fromRoot from '../reducers';
+
+import * as PREFERENCES from '../../models/preferences-model';
 
 @Injectable()
 export class UserEffects {
@@ -33,6 +36,7 @@ export class UserEffects {
         });
 
     @Effect()
+    // Login Can be from anywhere now. Will likely have to change which page should be navigated to after successful login
     login$: Observable<Action> = this.actions$.ofType(UserActions.LOGIN)
         .map(toPayload)
         .switchMap(payload => {
@@ -41,7 +45,8 @@ export class UserEffects {
         .mergeMap((user) => {
             let mergeActions = [
                 new UserActions.LoginSuccess(user),
-                new NavActions.CharacterList(),               
+                new PrefActions.ChangeMode(PREFERENCES.MODE.ONLINE),
+                new NavActions.Back(),               
                 new CharacterActions.LoadManyNetwork()
             ];
             this.storage.setUserState(user);           

@@ -12,7 +12,7 @@ export interface State {
 
 const initialState: State = {
     pages: PAGES,
-    root: 'login',
+    root: 'charList',
     stack: null
 };
 
@@ -21,8 +21,8 @@ export function reducer(state =  initialState, action: NavActions.All): State {
         case NavActions.LOGIN: {
             return {
                 pages: state.pages,
-                root: 'login',
-                stack: null
+                root: state.root,
+                stack: 'login'
             };
         };
         case NavActions.CREATE_USER: {
