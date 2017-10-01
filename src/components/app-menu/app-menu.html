@@ -29,16 +29,16 @@
                 <ion-icon name="settings" item-start></ion-icon>
                 Preferences
             </button>
-            <div *ngIf="mode === templateModeTestVar; then logout else login"></div>
-            <ng-template #logout>
+            <div *ngIf="mode === templateModeTestVar; then logoutButton else loginButton"></div>
+            <ng-template #logoutButton>
                 <button ion-item (click)="logout()" menuClose>
                             <ion-icon name="log-out" item-start></ion-icon>
                             Log Out
                         </button>
             </ng-template>
-            <ng-template #login>
-                <button ion-item [disabled]="(user | async) === templateNameTestVar" (click)="login()" menuClose>
-                            <ion-icon name="log-out" item-start></ion-icon>
+            <ng-template #loginButton>
+                <button ion-item (click)="login()" menuClose>
+                            <ion-icon name="log-in" item-start></ion-icon>
                             Log In
                         </button>
             </ng-template>

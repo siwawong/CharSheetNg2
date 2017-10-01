@@ -41,6 +41,7 @@ export class AppMenuComponent {
   }
 
   login() {
+    console.log('LOGIN!');
     this.store.dispatch(new NavActions.Login());
   }
 
