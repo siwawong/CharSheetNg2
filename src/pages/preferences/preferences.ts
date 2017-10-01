@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { IonicPage, Navbar, AlertController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 
@@ -31,11 +32,17 @@ export class PreferencesPage {
   private modeVal: string;
   private intervalSub: Subscription;
   private intervalVal: number;
+  private user: Observable<string>;
+  private mode: Observable<string>;
+  private templateModeTest = PREFERENCES.MODE.ONLINE;
+  private templateUserTest = '';
 
   constructor(private store: Store<fromRoot.State>, public alertCtrl: AlertController) {
   }
 
   ngOnInit() {
+    this.user = this.store.select(fromRoot.getUsername);
+    this.mode = this.store.select(fromRoot.getPrefMode);
     this.themeSub = this.store.select(fromRoot.getPrefTheme).subscribe((value) => {
       this.themeVal = value;
     });
@@ -94,8 +101,7 @@ export class PreferencesPage {
     alert.addButton({
       text: 'OK',
       handler: data => {
-        //this.store.dispatch(new PrefActions.ChangeMode(data));
-        console.log(data);
+        this.store.dispatch(new PrefActions.ChangeMode(data));
       }
     });
     alert.present();
@@ -116,8 +122,7 @@ export class PreferencesPage {
     alert.addButton({
       text: 'OK',
       handler: data => {
-        // this.store.dispatch(new PrefActions.ChangeTimer(data));
-        console.log(data);
+        this.store.dispatch(new PrefActions.ChangeTimer(data));
       }
     });
     alert.present();

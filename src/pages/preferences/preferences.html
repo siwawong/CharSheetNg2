@@ -21,11 +21,11 @@
             <span item-end>Normal</span>
         </button>
         <ion-item-divider>Connectivity</ion-item-divider>
-        <button ion-item (click)="modeAlert()">
+        <button [disabled]="(user | async) === templateUserTest" ion-item (click)="modeAlert()">
             <span>Mode</span>
             <span item-end>{{ modeVal }}</span>
         </button>
-        <button ion-item (click)="intervalAlert()">
+        <button [disabled]="mode !== templateModeTest" ion-item (click)="intervalAlert()">
             <span>Interval</span>
             <span item-end>{{ intervalVal / 1000 }} mins</span>
         </button>
