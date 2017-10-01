@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, FormControl, Validators, AsyncValidator } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { IonicPage, Navbar } from 'ionic-angular';
@@ -62,7 +62,6 @@ export class CreateUserPage {
     return Observable.timer(500).switchMap(() => {
       return this.http.checkEmail(this.email.value).map((dirtyRes: Response) => {
         let res = dirtyRes.json();
-        console.log(`${res} ${new Date()}`);
         if (!res) {
           return {'emailUsed':true};
         }
