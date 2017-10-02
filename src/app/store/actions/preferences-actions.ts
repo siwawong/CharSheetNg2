@@ -34,7 +34,7 @@ export class LoadError implements Action {
 export class Save implements Action {
     readonly type = SAVE;
 
-    constructor(public payload: PreferenceState) { }
+    constructor() { }
 }
 
 export class SaveSuccess implements Action {

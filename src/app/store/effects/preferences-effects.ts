@@ -4,7 +4,7 @@ import 'rxjs/add/operator/mergeMap';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
-import { Effect, Actions, toPayload } from '@ngrx/effects';
+import { Effect, Actions } from '@ngrx/effects';
 
 import { StorageService } from '../../services/storage.service';
 
@@ -30,7 +30,7 @@ export class PreferencesEffects {
             // console.log(state.store);
             if (state.storage === null) {
                 // Save to skip this next load;
-                newActions.push(new PrefActions.Save(state.store));
+                newActions.push(new PrefActions.Save());
                 // First Time runnining, assume offline mode, go to CharacterListPage
                 newActions.push(new NavActions.CharacterList());
             } else {
@@ -45,13 +45,20 @@ export class PreferencesEffects {
             return newActions;
         });
 
+    @Effect()
+    $changes: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_THEME)
+        .map(() => {
+            return new PrefActions.Save();
+        });
+
     @Effect({dispatch: false})
     $save: Observable<Action> = this.actions$.ofType(PrefActions.SAVE)
-        .map(toPayload)
+        //.map(toPayload)
+        .withLatestFrom(this.store$.select(fromRoot.getPrefState),  (action, state) => state)
         .map((state) => {
             this.storage.setPrefState(state);
             return null;
-        })
+        });
 
     constructor(private store$: Store<fromRoot.State>, private actions$: Actions, private storage: StorageService) { }
 }

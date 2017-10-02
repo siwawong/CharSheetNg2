@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Store, Action } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 import { StorageService } from './services/storage.service';
 
@@ -11,8 +12,6 @@ import { AppMenuComponent } from '../components/app-menu/app-menu';
 import * as fromRoot from './store/reducers';
 import * as UserActions from './store/actions/user-actions';
 import * as PreferencesActions from './store/actions/preferences-actions';
-// import { LoginUserPage } from '../pages/login-user/login-user';
-
 
 @Component({
   templateUrl: 'app.component.html',
@@ -20,6 +19,7 @@ import * as PreferencesActions from './store/actions/preferences-actions';
 export class AppComponent {
   title = 'Ng4 CharSheet Store';
   rootPage:any;
+  private currentTheme: Observable<string>;
 
   constructor(platform: Platform,
               statusBar: StatusBar,
@@ -37,5 +37,9 @@ export class AppComponent {
       statusBar.styleDefault();
       splashScreen.hide();
     });
+  }
+
+  ngOnInit() {
+    this.currentTheme = this.store.select(fromRoot.getPrefTheme);
   }
 }
