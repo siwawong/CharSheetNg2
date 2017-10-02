@@ -46,9 +46,9 @@
             <div *ngIf="(currentStat | async)?.id === stat.id; then editMode else viewMode"></div>
             <ng-template #viewMode>
                 <ion-item-sliding>
-                    <ion-item class="itemFixer">
+                    <button ion-item (click)="selectStat(stat, i)" class="itemFixer">
                         <ion-grid class="statWrapper">
-                            <ion-row col-12 (click)="selectStat(stat, i)" class="stat" [ngClass]="{'visible': getVis(stat.value, stat.maximum)}">
+                            <ion-row col-12 class="stat" [ngClass]="{'visible': getVis(stat.value, stat.maximum)}">
                                 <ion-col col-5 class="name">
                                     {{ stat.name }}
                                 </ion-col>
@@ -65,7 +65,7 @@
                                 </ion-col>
                             </ion-row>
                         </ion-grid>
-                    </ion-item>
+                    </button>
                     <ion-item-options *ngIf="stat.maximum > 0 && stat.value < stat.maximum" side="left">
                         <button ion-button (click)="refresh(stat)">
                             <ion-icon name="refresh-circle">                          
