@@ -1,9 +1,7 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-// import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/withLatestFrom';
-// import 'rxjs/add/operator/flatMap';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -23,11 +21,14 @@ import * as PREFERENCES from '../../models/preferences-model';
 export class CharacterEffects {
     @Effect()
     createChar$: Observable<Action> = this.actions$.ofType(CharacterActions.ADD)
-        .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
-        .map((state) => this.storage.addChar(state.meta.ids, state.meta.selectedId, state.char))
+        .withLatestFrom(this.store$.select(fromRoot.getLatestChar), (action, char) => char)
+        // .map((state) => this.storage.addChar(state.meta.ids, state.meta.selectedId, state.char))
         .withLatestFrom(this.store$.select(fromRoot.getNetPref), (char, prefstate) => {return {char, prefstate}})
         .mergeMap((meta) => {
-            let merge: Action[] = [];
+            let merge: Action[] = [
+                new CharacterActions.Save(meta.char),
+                new CharacterActions.SaveMeta()
+            ];
             // Check for Error and dispatch here?
             // TODO: CHECK TIMER IS UP?
             if (meta.prefstate.mode === PREFERENCES.MODE.ONLINE) {
@@ -40,11 +41,12 @@ export class CharacterEffects {
 
     @Effect()
     createCharNet$: Observable<Action> = this.actions$.ofType(CharacterActions.ADD_NETWORK)
+        // .withLatestFrom(this.store$.select(fromRoot.getLatestChar), (action, char) => char)
         .map(toPayload)
-        .withLatestFrom(this.store$.select(fromRoot.getAuth), (payload, token) => {
+        .withLatestFrom(this.store$.select(fromRoot.getAuth), (char, token) => {
             return {
-                token: token,
-                char: payload
+                token,
+                char
             };
         })
         .switchMap((payload) => this.http.createCharacter(payload.token, payload.char))
@@ -116,19 +118,68 @@ export class CharacterEffects {
 
     @Effect()
     selectChar$: Observable<Action> = this.actions$.ofType(CharacterActions.SELECT)
-        .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
-        .map((state) => {
-            this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
-            return new StatActions.LoadMany();
+        // .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
+        .mergeMap(() => {
+            // this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
+            return [
+                new CharacterActions.SaveMeta(),
+                new StatActions.LoadMany()
+            ];
         });
     
-    @Effect({dispatch: false})
+    @Effect()
     unselectChar$: Observable<Action> = this.actions$.ofType(CharacterActions.UNSELECT)
+        // .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
+        .map(() => {
+            // this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
+            return new CharacterActions.SaveMeta();
+        });
+
+    @Effect()
+    update$: Observable<Action> = this.actions$.ofType(CharacterActions.UPDATE)
+        .map(toPayload)
+        .withLatestFrom(this.store$.select(fromRoot.getNetPref), (char, prefstate) => {return {char, prefstate}})        
+        .mergeMap((meta) => {
+            let merge: Action[] = [
+                new CharacterActions.Save(meta.char)
+            ];
+            if (meta.prefstate.mode === PREFERENCES.MODE.ONLINE) {
+                merge.push(new CharacterActions.UpdateNetwork(meta.char));
+            }
+            return merge;
+        });
+
+    @Effect()
+    updateNet$: Observable<Action> = this.actions$.ofType(CharacterActions.UPDATE_NETWORK)
+        .map(toPayload)
+        .withLatestFrom(this.store$.select(fromRoot.getAuth), (char, auth) => {return {char, auth}})
+        .switchMap((meta) => this.http.patchCharacter(meta.auth, meta.char))
+        .map(() => new CharacterActions.UpdateNetworkSuccess());
+
+    @Effect()
+    updateTime$: Observable<Action> = this.actions$.ofType(CharacterActions.UPDATE_TIME)
+        .map(toPayload)
+        .map((char) => { 
+            return new CharacterActions.Save(char);
+        });
+
+    @Effect({dispatch: false})
+    save$: Observable<Action> = this.actions$.ofType(CharacterActions.SAVE)
+        .map(toPayload)
+        .map((char) => {
+            this.storage.setChar(char);
+            return null;
+        });
+        
+
+    @Effect({dispatch: false})
+    saveMeta$: Observable<Action> = this.actions$.ofType(CharacterActions.SAVE_META)
         .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
         .map((state) => {
             this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
             return null;
         });
+    
 
     constructor(private http: HttpService,
                 private actions$: Actions,

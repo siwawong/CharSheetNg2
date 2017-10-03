@@ -67,9 +67,16 @@ export class HttpService {
   }
 
   createCharacter(authToken: string, char: Character): Observable<Character | any> {
-    return this.http.post(`${this.getUrl()}Users/Characters`, { char }, this.createAuthHeader(authToken))
+    return this.http.post(`${this.getUrl()}Users/Characters`, char , this.createAuthHeader(authToken))
       .map((response: Response) => {
         let toReturn = response.json();
+      });
+  }
+
+  patchCharacter(authToken: string, char: Character) {
+    return this.http.patch(`${this.getUrl()}Users/Characters`, char, this.createAuthHeader(authToken))
+      .map((res: Response) => {
+        return res.json();
       });
   }
 
