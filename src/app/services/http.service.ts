@@ -66,15 +66,10 @@ export class HttpService {
       });
   }
 
-  createCharacter(authToken: string, charId: string, characterName: string): Observable<Character | any> {
-    return this.http.post(`${this.getUrl()}Users/Characters`, { name: characterName, cid: charId }, this.createAuthHeader(authToken))
+  createCharacter(authToken: string, char: Character): Observable<Character | any> {
+    return this.http.post(`${this.getUrl()}Users/Characters`, { char }, this.createAuthHeader(authToken))
       .map((response: Response) => {
         let toReturn = response.json();
-        // return {
-        //   id: toReturn,
-        //   name: characterName,
-        // };
-        console.log(toReturn);
       });
   }
 

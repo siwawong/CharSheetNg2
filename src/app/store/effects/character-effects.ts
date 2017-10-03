@@ -47,7 +47,7 @@ export class CharacterEffects {
                 char: payload
             };
         })
-        .switchMap((payload) => this.http.createCharacter(payload.token, payload.char.id, payload.char.name))
+        .switchMap((payload) => this.http.createCharacter(payload.token, payload.char))
         .map(() => new CharacterActions.AddNetworkSuccess());
 
     @Effect({dispatch: false})

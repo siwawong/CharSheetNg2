@@ -33,17 +33,17 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
     switch (action.type) {
         case CharacterActions.ADD: {
             const newId = shortid.generate();
+            const newUpdated = Date.now();
             const newChar: Character = {
                 id: newId,
                 name: action.payload,
+                updated: newUpdated
             };
-            // console.log('char: ' + JSON.stringify(newChar));
             const newState = {
                 ids: [...state.ids, newId],
                 entities: Object.assign({}, state.entities, {[newId]: newChar}),
                 selectedCharId: state.selectedCharId
             }
-            // console.log('state: ' + JSON.stringify(newState));
             return newState;
         }
         case CharacterActions.LOAD_MANY_SUCCESS: {
@@ -68,6 +68,7 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
         }
         case CharacterActions.UPDATE: {
             const updatedChar = action.payload;
+            updatedChar.updated = Date.now();
 
             return {
                 ids: [...state.ids],
