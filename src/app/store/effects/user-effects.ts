@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-// import 'rxjs/add/operator/flatMap';
+import 'rxjs/add/operator/withLatestFrom';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -28,11 +28,12 @@ export class UserEffects {
         .mergeMap((user) => {
             let mergeActions = [
                 new UserActions.CreateSuccess(user),
+                new UserActions.Save(user),
                 new PrefActions.ChangeMode(PREFERENCES.MODE.ONLINE),
                 new NavActions.CharacterList(),
                 new CharacterActions.LoadManyNetwork()
             ];
-            this.storage.setUserState(user);
+            // this.storage.setUserState(user);
             return mergeActions;
         });
 
@@ -46,11 +47,12 @@ export class UserEffects {
         .mergeMap((user) => {
             let mergeActions = [
                 new UserActions.LoginSuccess(user),
+                new UserActions.Save(user),
                 new PrefActions.ChangeMode(PREFERENCES.MODE.ONLINE),
                 new NavActions.Back(),               
                 new CharacterActions.LoadManyNetwork()
             ];
-            this.storage.setUserState(user);           
+            // this.storage.setUserState(user);           
             return mergeActions;
         });
 
@@ -71,14 +73,7 @@ export class UserEffects {
                 mergeActions.push(new UserActions.LoadError());
             }
             return mergeActions;
-        });
-    
-    // @Effect()
-    // deleteLoc$: Observable<Action> = this.actions$.ofType(UserActions.DELETE_SUCCESS)
-    //     .map(() => {
-
-    //         return null;
-    //     });
+        });  
     
     @Effect()
     load$: Observable<Action> = this.actions$.ofType(UserActions.LOAD)
@@ -94,11 +89,14 @@ export class UserEffects {
             }
             return newAction;
         });
+
     
-                    // let newAction: Action[] = [];
-            // this.storage.getUserState();
-            // // Fit a Catch in here for loaderror?
-            // // LoadNone might be unnecessary
+    @Effect({dispatch: false})
+    save$: Observable<Action> = this.actions$.ofType(UserActions.SAVE)
+        .map(toPayload)
+        .map((userState) => {
+            return null;
+        });  
 
     constructor(private http: HttpService,
                 private actions$: Actions,

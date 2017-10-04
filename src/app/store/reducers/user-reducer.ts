@@ -28,10 +28,12 @@ export function reducer(state = initialState, action: UserActions.All): UserStat
                 name: newUser.name,
                 email: newUser.email
             };
-        }
+        };
         case UserActions.LOGOUT_SUCCESS: {
             return initialState;
-        }
+        };
+        case UserActions.SAVE:
+        case UserActions.SAVE_ERROR:
         case UserActions.LOAD:
         case UserActions.LOAD_ERROR:
         case UserActions.LOAD_NONE:       
