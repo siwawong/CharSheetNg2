@@ -28,6 +28,7 @@ export class UserEffects {
         .mergeMap((user) => {
             let mergeActions = [
                 new UserActions.CreateSuccess(user),
+                new PrefActions.ChangeMode(PREFERENCES.MODE.ONLINE),
                 new NavActions.CharacterList(),
                 new CharacterActions.LoadManyNetwork()
             ];

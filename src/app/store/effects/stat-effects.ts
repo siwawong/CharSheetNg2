@@ -28,6 +28,7 @@ export class StatEffects {
         .withLatestFrom(this.store$.select(fromRoot.getNetPref), (state, pref) => {return {state, pref}})    
         .mergeMap((meta)  => {
             meta.state.char.updated = Date.now();
+            console.log(meta.state.stat);
             let merge: Action[] = [
                 new StatActions.Save(meta.state.stat),
                 new StatActions.SaveMeta(),
@@ -60,8 +61,8 @@ export class StatEffects {
     @Effect({dispatch: false})
     save$: Observable<Action> = this.actions$.ofType(StatActions.SAVE)
         .map(toPayload)
-        .map((meta) => {
-            this.storage.setStat(meta.stat);               
+        .map((stat) => {
+            this.storage.setStat(stat);               
             return null;
         });
 
