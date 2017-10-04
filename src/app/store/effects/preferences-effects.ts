@@ -13,8 +13,6 @@ import * as PREFERENCES from '../../models/preferences-model';
 
 import * as PrefActions from '../actions/preferences-actions';
 import * as UserActions from '../actions/user-actions';
-import * as CharacterActions from '../actions/character-actions';
-import * as NavActions from '../actions/nav-actions';
 import * as fromRoot from '../reducers';
 
 @Injectable()
@@ -27,21 +25,13 @@ export class PreferencesEffects {
         })
         .mergeMap((state) => {
             let newActions: Action[] = [];
-            // console.log(state.store);
             if (state.storage === null) {
                 // Save to skip this next load;
                 newActions.push(new PrefActions.Save());
-                // First Time runnining, assume offline mode, go to CharacterListPage
-                newActions.push(new NavActions.CharacterList());
             } else {
                 newActions.push(new PrefActions.LoadSuccess(state.storage));
-                if (state.storage.mode === PREFERENCES.MODE.OFFLINE) {
-                    // App run before, checking if anything was saved
-                    newActions.push(new CharacterActions.LoadMany());                    
-                } else {
-                    newActions.push(new UserActions.Load());                    
-                }
             }
+            newActions.push(new UserActions.Load());                                                  
             return newActions;
         });
 
@@ -53,7 +43,6 @@ export class PreferencesEffects {
 
     @Effect({dispatch: false})
     $save: Observable<Action> = this.actions$.ofType(PrefActions.SAVE)
-        //.map(toPayload)
         .withLatestFrom(this.store$.select(fromRoot.getPrefState),  (action, state) => state)
         .map((state) => {
             this.storage.setPrefState(state);

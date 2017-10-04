@@ -99,6 +99,7 @@ export class StatEffects {
             let newAction: Action[] =[];
 
             if (meta.pref.mode === PREFERENCES.MODE.ONLINE) {
+                // Check For newer here
                 newAction.push(new StatActions.LoadManyNetwork());
             } else {
                 if (meta.stat !== null) {

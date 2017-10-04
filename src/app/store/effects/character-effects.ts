@@ -75,19 +75,26 @@ export class CharacterEffects {
             let newAction: Action[] = [];
 
             // TODO: Add if null && onlinemode
-            if (meta.charState === null && meta.prefState.mode === PREFERENCES.MODE.ONLINE) {
+            // if (meta.charState === null && meta.prefState.mode === PREFERENCES.MODE.ONLINE) {
+            if (meta.prefState.mode === PREFERENCES.MODE.ONLINE) {                   
+                // ONLINE MODE. CHECK FOR UPDATES HERE?
                 newAction.push(new CharacterActions.LoadManyNetwork());
                 newAction.push(new NavActions.CharacterList());
-            } else if (meta.charState !== null) {
+            // } else if (meta.charState !== null) {
+            } else {              
                 // Potential Error Here with no type checking and unknow DB response
-                newAction.push(new CharacterActions.LoadManySuccess(meta.charState));
-                if (meta.charState.selected !== null) {
-                    newAction.push(new StatActions.LoadMany());                   
+                if (meta.charState !== null) {
+                    newAction.push(new CharacterActions.LoadManySuccess(meta.charState));
+                    if (meta.charState.selected !== null) {
+                        newAction.push(new StatActions.LoadMany());                   
+                    } else {
+                        newAction.push(new NavActions.CharacterList());
+                    }                    
                 } else {
-                    newAction.push(new NavActions.CharacterList());
+                    newAction.push(new CharacterActions.LoadManyNone());
+                    newAction.push(new NavActions.CharacterList());                   
                 }
-            }
-            
+            }          
             return newAction;
         });
 
@@ -118,9 +125,7 @@ export class CharacterEffects {
 
     @Effect()
     selectChar$: Observable<Action> = this.actions$.ofType(CharacterActions.SELECT)
-        // .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
         .mergeMap(() => {
-            // this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
             return [
                 new CharacterActions.SaveMeta(),
                 new StatActions.LoadMany()
@@ -129,9 +134,7 @@ export class CharacterEffects {
     
     @Effect()
     unselectChar$: Observable<Action> = this.actions$.ofType(CharacterActions.UNSELECT)
-        // .withLatestFrom(this.store$.select(fromRoot.getCharLateMeta), (action, state) => state)
         .map(() => {
-            // this.storage.setCharMetaState(state.meta.ids, state.meta.selectedId);
             return new CharacterActions.SaveMeta();
         });
 

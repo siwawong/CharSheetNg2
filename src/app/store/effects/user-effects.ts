@@ -26,14 +26,13 @@ export class UserEffects {
         .map(toPayload)
         .switchMap(payload => this.http.createUser(payload.name, payload.email, payload.password))
         .mergeMap((user) => {
+            // Do we go to loadMany and let it decide for network or do it here?
             let mergeActions = [
                 new UserActions.CreateSuccess(user),
                 new UserActions.Save(user),
                 new PrefActions.ChangeMode(PREFERENCES.MODE.ONLINE),
-                new NavActions.CharacterList(),
-                new CharacterActions.LoadManyNetwork()
+                new NavActions.CharacterList()
             ];
-            // this.storage.setUserState(user);
             return mergeActions;
         });
 
@@ -45,14 +44,14 @@ export class UserEffects {
             return this.http.login(payload.email, payload.password);
         })
         .mergeMap((user) => {
+            // Do we go to loadMany and let it decide for network or do it here?
             let mergeActions = [
                 new UserActions.LoginSuccess(user),
                 new UserActions.Save(user),
                 new PrefActions.ChangeMode(PREFERENCES.MODE.ONLINE),
                 new NavActions.Back(),               
-                new CharacterActions.LoadManyNetwork()
+                new CharacterActions.LoadMany()
             ];
-            // this.storage.setUserState(user);           
             return mergeActions;
         });
 
@@ -63,11 +62,13 @@ export class UserEffects {
         .mergeMap((res) => {
             let mergeActions: Action[] = [];
             if (res) {
+                // Clear DB or clear specific sections?
                 this.storage.clearDB();
+                mergeActions.push(new PrefActions.ChangeMode(PREFERENCES.MODE.OFFLINE));
                 mergeActions.push(new UserActions.LogoutSuccess());
                 mergeActions.push(new CharacterActions.Logout());
                 mergeActions.push(new StatActions.Logout());
-                mergeActions.push(new NavActions.Login());
+                mergeActions.push(new NavActions.CharacterList());
             } else {
                 // Need action for logout error!!!
                 mergeActions.push(new UserActions.LoadError());
@@ -78,15 +79,15 @@ export class UserEffects {
     @Effect()
     load$: Observable<Action> = this.actions$.ofType(UserActions.LOAD)
         .mergeMap(() => this.storage.getUserState())
+        // Is there a case where Preference Mode needs to be checked?
         .mergeMap((userState) => {
             let newAction: Action[] = [];
             if (userState === null) {
                 newAction.push(new UserActions.LoadNone());
-                newAction.push(new NavActions.Login());
             } else {
                 newAction.push(new UserActions.LoadSuccess(userState));
-                newAction.push(new CharacterActions.LoadMany());
             }
+            newAction.push(new CharacterActions.LoadMany());            
             return newAction;
         });
 
@@ -95,6 +96,7 @@ export class UserEffects {
     save$: Observable<Action> = this.actions$.ofType(UserActions.SAVE)
         .map(toPayload)
         .map((userState) => {
+            this.storage.setUserState(userState);
             return null;
         });  
 
