@@ -46,19 +46,7 @@ export class PreferencesEffects {
         });
 
     @Effect()
-    $changeTheme: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_THEME)
-        .map(() => {
-            return new PrefActions.Save();
-        });
-
-    @Effect()
-    $changesMode: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_MODE)
-        .map(() => {
-            return new PrefActions.Save();
-        });
-
-    @Effect()
-    $changeTimer: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_TIMER)
+    $changeTheme: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_THEME, PrefActions.CHANGE_MODE, PrefActions.CHANGE_TIMER)
         .map(() => {
             return new PrefActions.Save();
         });
