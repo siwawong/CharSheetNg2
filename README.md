@@ -26,6 +26,24 @@ If you have not, install [MongoDB community edition](https://docs.mongodb.com/ma
 
 Unnecessary, but helpful, is [Robo 3T](https://robomongo.org/) for easy GUI inspection and editing of the local database
 
+### Set up your ssh keys
+Create a folder for the private and public keys for https
+
+```bash
+cd server
+mkdir .tls
+```
+
+Create the public and private key in this folder (instructions from [here](http://blog.mgechev.com/2014/02/19/create-https-tls-ssl-application-with-express-nodejs/))
+
+```bash
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
+
+# generate the public certificate without a password (otherwise the server crashes...)
+openssl rsa -in key.pem -out newkey.pem && mv newkey.pem key.pem
+```
+
+
 Navigate to the server folder in your terminal than run `npm install` to download all the servers dependencies. After it is finished launch the server with `node server.js`.
 
 ### API
