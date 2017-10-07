@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const fs = require('fs');
+const https = require('https');
 const CONFIG = require('./config/enviornment');
 
 const authenticate = require(CONFIG.DATABASE.AUTH);
@@ -94,9 +95,11 @@ server.delete('/Users/Characters/:cid/Stats/:sid', authenticate, (req, res) => {
 });
 
 // Hey! Listen!
-server.listen(CONFIG.HOST.PORT, CONFIG.HOST.NAME, () => {
+https.createServer({
+    key: fs.readFileSync('.tls/key.pem'), // private key
+    cert: fs.readFileSync('.tls/cert.pem') // public
+}, server).listen(CONFIG.HOST.PORT, CONFIG.HOST.NAME, () => {
     console.log(`Listening on ${CONFIG.HOST.NAME}:${CONFIG.HOST.PORT}`);
 });
 
-// Trying to find what is throwing that error
 process.on('unhandledRejection', r => console.log(r));
