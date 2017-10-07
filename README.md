@@ -37,10 +37,10 @@ mkdir .tls
 Create the public and private key in this folder (instructions from [here](http://blog.mgechev.com/2014/02/19/create-https-tls-ssl-application-with-express-nodejs/))
 
 ```bash
-openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
+openssl req -x509 -newkey rsa:2048 -keyout server.key -out server.cert -days 365
 
 # generate the public certificate without a password (otherwise the server crashes...)
-openssl rsa -in key.pem -out newkey.pem && mv newkey.pem key.pem
+openssl rsa -in server.key -out server.newcert && mv server.newcert server.cert
 ```
 
 

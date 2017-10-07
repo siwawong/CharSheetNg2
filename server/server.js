@@ -96,8 +96,8 @@ server.delete('/Users/Characters/:cid/Stats/:sid', authenticate, (req, res) => {
 
 // Hey! Listen!
 https.createServer({
-    key: fs.readFileSync('.tls/key.pem'), // private key
-    cert: fs.readFileSync('.tls/cert.pem') // public
+    key: fs.readFileSync('.tls/server.key'), // private key
+    cert: fs.readFileSync('.tls/server.crt') // public
 }, server).listen(CONFIG.HOST.PORT, CONFIG.HOST.NAME, () => {
     console.log(`Listening on ${CONFIG.HOST.NAME}:${CONFIG.HOST.PORT}`);
 });

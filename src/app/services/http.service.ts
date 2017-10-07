@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HTTP } from '@ionic-native/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
@@ -13,7 +14,12 @@ import { ENVIRONMENT } from '../../environments/environment.default';
 @Injectable()
 export class HttpService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private ionicHttp: HTTP) {
+      this.ionicHttp.enableSSLPinning(true).then(
+        () => { /* success */ }, 
+        () => { /* fail */} //
+    );
+  }
 
   // Add Check Email Availability
   createUser(name: string, email: string, password: string): Observable<any> {
@@ -127,6 +133,6 @@ export class HttpService {
   }
 
   getUrl = () => {
-    return `http://${ENVIRONMENT.database.host}:${ENVIRONMENT.database.port}/`;
+    return `https://${ENVIRONMENT.database.host}:${ENVIRONMENT.database.port}/`;
   };
 };
