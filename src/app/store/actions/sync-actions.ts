@@ -18,7 +18,9 @@ export const SAVE              = '[Sync] Save';
 export const SAVE_ERROR        = '[Sync] Save Error';
 export const SAVE_SUCCESS      = '[Sync] Save Success';
 
+// Add Syncing, Syncing finish so it can alert player
 export const SYNC              = '[Sync] Sync';
+export const SYNC_DONE         = '[Sync] Sync Done';
 
 export const SYNC_DOWN         = '[Sync] Down';
 export const SYNC_DOWN_SUCCESS = '[Sync] Down Success';
@@ -106,6 +108,12 @@ export class Sync implements Action {
     constructor() { }
 };
 
+export class SyncDone implements Action {
+    readonly type = SYNC_DONE;
+
+    constructor() { }
+};
+
 export class SyncDown implements Action {
     readonly type = SYNC_DOWN;
 
@@ -156,6 +164,7 @@ export type All
     | SaveError
     | SaveSuccess
     | Sync
+    | SyncDone
     | SyncDown
     | SyncDownSuccess
     | SyncDownError

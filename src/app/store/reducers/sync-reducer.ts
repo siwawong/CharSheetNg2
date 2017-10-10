@@ -3,15 +3,18 @@ import * as SyncActions from '../actions/sync-actions';
 
 import { Change } from '../../models/sync-change-model';
 import { CHANGETYPES } from '../../models/sync-type-model';
+import { STATUSTYPES } from '../../models/sync-status-model';
 
 export interface SyncState {
-    lastUpdate: number;
+    lastSynced: number;
+    status: string;
     charChanges: {[id: string]: Change};
     statChanges: {[id: string]: Change};
 };
 
 const initialState: SyncState = {
-    lastUpdate: null,
+    lastSynced: null,
+    status: null,
     charChanges: {},
     statChanges: {}
 };
@@ -30,7 +33,8 @@ export function reducer(state = initialState, action: SyncActions.All): SyncStat
         case SyncActions.ADD_CHARACTER: {
             const id = action.payload
             return {
-                lastUpdate: state.lastUpdate,
+                lastSynced: state.lastSynced,
+                status: state.status,
                 charChanges: Object.assign({}, state.charChanges, {[id]: genChange(id, CHANGETYPES.ADD)}),
                 statChanges: state.statChanges
             };
@@ -38,7 +42,8 @@ export function reducer(state = initialState, action: SyncActions.All): SyncStat
         case SyncActions.ADD_STAT: {
             const id = action.payload            
             return {
-                lastUpdate: state.lastUpdate,
+                lastSynced: state.lastSynced,
+                status: state.status,                
                 charChanges: state.charChanges,
                 statChanges: Object.assign({}, state.statChanges, {[id]: genChange(id, CHANGETYPES.ADD)})
             };
@@ -52,7 +57,8 @@ export function reducer(state = initialState, action: SyncActions.All): SyncStat
                 testChar = genChange(id, CHANGETYPES.UPDATE);
             };
             return {
-                lastUpdate: state.lastUpdate,
+                lastSynced: state.lastSynced,
+                status: state.status,                
                 charChanges: Object.assign({}, state.charChanges, {[id]: testChar}),
                 statChanges: state.statChanges
             };
@@ -66,7 +72,8 @@ export function reducer(state = initialState, action: SyncActions.All): SyncStat
                 testStat = genChange(id, CHANGETYPES.UPDATE);
             };
             return {
-                lastUpdate: state.lastUpdate,
+                lastSynced: state.lastSynced,
+                status: state.status,                
                 charChanges: state.charChanges,
                 statChanges: Object.assign({}, state.statChanges, {[id]: testStat})
             };
@@ -81,7 +88,8 @@ export function reducer(state = initialState, action: SyncActions.All): SyncStat
                 testStat = genChange(id, CHANGETYPES.DELETE);
             };
             return {
-                lastUpdate: state.lastUpdate,
+                lastSynced: state.lastSynced,
+                status: state.status,                
                 charChanges: state.charChanges,
                 statChanges: Object.assign({}, state.statChanges, {[id]: testStat})
             };
@@ -89,16 +97,34 @@ export function reducer(state = initialState, action: SyncActions.All): SyncStat
         case SyncActions.LOAD_SUCCESS: {
             let newState = action.payload;
             return {
-                lastUpdate: newState.lastUpdate,
+                lastSynced: newState.lastSynced,
+                status: state.status,                
                 charChanges: newState.charChanges,
                 statChanges: newState.statChanges
             };
         };
         case SyncActions.SYNC_UP_SUCCESS: {
             return {
-                lastUpdate: Date.now(),
+                lastSynced: Date.now(),
+                status: state.status,                
                 charChanges: {},
                 statChanges: {}
+            };
+        };
+        case SyncActions.SYNC: {
+            return {
+                lastSynced: state.lastSynced,
+                status: STATUSTYPES.SYNC,
+                charChanges: state.charChanges,
+                statChanges: state.statChanges
+            };
+        };
+        case SyncActions.SYNC_DONE: {
+            return {
+                lastSynced: state.lastSynced,
+                status: STATUSTYPES.IDLE,
+                charChanges: state.charChanges,
+                statChanges: state.statChanges
             };
         };        
         case SyncActions.LOAD:
@@ -106,7 +132,6 @@ export function reducer(state = initialState, action: SyncActions.All): SyncStat
         case SyncActions.SAVE:
         case SyncActions.SAVE_ERROR:
         case SyncActions.SAVE_SUCCESS:
-        case SyncActions.SYNC:
         case SyncActions.SYNC_DOWN:
         case SyncActions.SYNC_DOWN_ERROR:
         case SyncActions.SYNC_UP:
@@ -116,6 +141,7 @@ export function reducer(state = initialState, action: SyncActions.All): SyncStat
     };
 };
 
-export const getLastSync = (state: SyncState) => state.lastUpdate;
+export const getLastSync = (state: SyncState) => state.lastSynced;
+export const getSyncStatus = (state: SyncState) => state.status;
 export const getCharSync = (state: SyncState) => state.charChanges;
 export const getStateSync = (state: SyncState) => state.statChanges;
