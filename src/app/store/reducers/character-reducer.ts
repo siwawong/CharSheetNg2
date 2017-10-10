@@ -59,7 +59,7 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
             return {
                 ids: state.ids.filter(id => id !== toRemoveId),
                 entities: Object.assign({}, state.entities, {[toRemoveId]: undefined}),
-                selectedCharId: null
+                selectedCharId: selectedCharId
             };
         }
         case CharacterActions.LOGOUT:
