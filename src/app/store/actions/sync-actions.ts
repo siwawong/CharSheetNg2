@@ -77,7 +77,7 @@ export class LoadSuccess implements Action {
 };
 
 export class LoadError implements Action {
-    readonly type = LOAD;
+    readonly type = LOAD_ERROR;
 
     constructor() { }
 };
