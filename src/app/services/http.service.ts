@@ -81,7 +81,7 @@ export class HttpService {
   }
 
   getCharacterStats(authToken: string, charId: string): Observable<CharacterStat[]> {
-    return this.http.get(`${this.getUrl()}Users/Characters/${charId}`, this.createAuthHeader(authToken))
+    return this.http.get(`${this.getUrl()}Users/Characters/${charId}/Stats`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         // return Character
         let toReturn = response.json();
