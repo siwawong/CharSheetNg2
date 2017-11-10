@@ -82,8 +82,8 @@ export class CreateStatPage {
   createStat() {
     let newStat = {
       name: this.name.value,
-      value: this.value.value,
-      maximum: this.maximum.value,
+      value: +this.value.value,
+      maximum: +this.maximum.value,
       type: this.type.value
     };
     if (this.title === NORMALTITLE) {
