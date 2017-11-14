@@ -126,13 +126,13 @@ export class CharacterSheetPage {
 
   rangeEnd(stat: CharacterStat) {
     clearInterval(this.timeoutRef);
-    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type, updated: stat.updated};
-    console.log(`End ${JSON.stringify(newStat)}`); 
+    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
+    // console.log(`End ${JSON.stringify(newStat)}`); 
     this.store.dispatch(new StatActions.Update(newStat));
   }
   
   rangeClick(stat: CharacterStat, type: string) {
-    console.log(`click ${JSON.stringify(stat)}`);
+    // console.log(`click ${JSON.stringify(stat)}`);
     if (type === 'PLUS') {
       this.rangeValue += 1;      
     } else {
@@ -150,7 +150,7 @@ export class CharacterSheetPage {
     } else {
       newValue = stat.value - subNum;
     }
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type, updated: stat.updated}));    
+    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
     this.formValue.setValue('');
   }
 
@@ -176,14 +176,13 @@ export class CharacterSheetPage {
   }
 
   refresh(stat: CharacterStat) {
-    console.log(`refresh ${JSON.stringify(stat)}`);    
+    // console.log(`refresh ${JSON.stringify(stat)}`);    
     this.store.dispatch(new StatActions.Update({
         id: stat.id,
         name: stat.name,
         value: stat.maximum,
         maximum: stat.maximum,
-        type: stat.type,
-        updated: stat.updated
+        type: stat.type
       }));
   }
 

@@ -228,7 +228,7 @@ export class RemoveAllNetworkError implements Action {
 export class Update implements Action {
     readonly type = UPDATE;
 
-    constructor(public payload: CharacterStat) { }
+    constructor(public payload: {id: string, name: string,  value: number, maximum: number, type: string}) { }
 };
 
 // export class UpdateError implements Action {

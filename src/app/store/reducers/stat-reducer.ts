@@ -33,12 +33,13 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
     switch (action.type) {
         case StatActions.ADD: {
             const statId = shortid.generate();
-            const newStat = {
+            const newStat: CharacterStat = {
                 id: statId,
                 name: action.payload.name,
                 value: action.payload.value,
                 maximum: action.payload.maximum,
-                type: action.payload.type
+                type: action.payload.type,
+                updated: Date.now()
             };
 
             return {
@@ -69,6 +70,7 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
         }
         case StatActions.UPDATE: {
             const updatedStat = action.payload;
+            updatedStat['updated'] = Date.now();
 
             return {
                 ids: [...state.ids],
