@@ -126,7 +126,7 @@ export class CharacterSheetPage {
 
   rangeEnd(stat: CharacterStat) {
     clearInterval(this.timeoutRef);
-    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
+    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type, updated: stat.updated};
     console.log(`End ${JSON.stringify(newStat)}`); 
     this.store.dispatch(new StatActions.Update(newStat));
   }
@@ -150,7 +150,7 @@ export class CharacterSheetPage {
     } else {
       newValue = stat.value - subNum;
     }
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
+    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type, updated: stat.updated}));    
     this.formValue.setValue('');
   }
 
@@ -182,7 +182,8 @@ export class CharacterSheetPage {
         name: stat.name,
         value: stat.maximum,
         maximum: stat.maximum,
-        type: stat.type
+        type: stat.type,
+        updated: stat.updated
       }));
   }
 
