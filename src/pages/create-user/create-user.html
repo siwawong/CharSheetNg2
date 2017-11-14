@@ -10,11 +10,17 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>{{ title }}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="create()" form="createUserForm" type="submit" [disabled]="createForm.invalid">
+                <ion-icon name="create">
+                </ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <form [formGroup]="createForm">
+    <form [formGroup]="createForm" id="createUserForm">
         <ion-list>
             <ion-item>
                 <ion-label floating>Name</ion-label>
@@ -38,8 +44,8 @@
     </form>
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
     <ion-toolbar padding-left padding-right>
         <button ion-button full (click)="create()" [disabled]="!createForm.valid" type="button">Create</button>
     </ion-toolbar>
-</ion-footer>
+</ion-footer> -->

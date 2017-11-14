@@ -11,7 +11,7 @@
         </button>
         <ion-title>{{ title }}</ion-title>
         <ion-buttons end>
-            <button ion-button icon-only (click)="createStat()" [disabled]="addStatForm.invalid">
+            <button ion-button icon-only (click)="createStat()" form="createStatForm" type="submit" [disabled]="addStatForm.invalid">
                 <ion-icon name="create">
                 </ion-icon>
             </button>
@@ -20,7 +20,7 @@
 </ion-header>
 
 <ion-content padding>
-    <form [formGroup]="addStatForm">
+    <form [formGroup]="addStatForm" id="createStatForm">
         <ion-list>
             <ion-item>
                 <ion-label floating>Name</ion-label>
