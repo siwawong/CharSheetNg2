@@ -13,7 +13,8 @@
         "ionic:personal": "cross-env NODE_ENV=personal npm run ionic:serve",
         "ionic:build:personal": "cross-env NODE_ENV=personal npm run ionic:build",
         "cordova:android": "cross-env NODE_ENV=personal ionic cordova run android --device",
-        "cordova:android:build": "cross-env NODE_ENV=personal ionic cordova build android"
+        "cordova:android:build": "cross-env NODE_ENV=personal ionic cordova build android",
+        "ionic:ios:build": "ionic cordova build ios --prod"
     },
     "dependencies": {
         "@angular/animations": "4.1.3",
@@ -54,10 +55,10 @@
     "devDependencies": {
         "@ionic/app-scripts": "2.1.3",
         "@ionic/cli-plugin-ionic-angular": "1.4.1",
-        "ionic": "3.9.2",
+        "cross-env": "^5.0.5",
+        "ionic": "3.18.0",
         "typescript": "2.3.4",
-        "webpack-merge": "^4.1.0",
-        "cross-env": "^5.0.5"
+        "webpack-merge": "^4.1.0"
     },
     "cordova": {
         "plugins": {

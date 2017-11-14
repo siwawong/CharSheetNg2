@@ -12,9 +12,8 @@
         <ion-title>{{ title }}</ion-title>
     </ion-navbar>
 </ion-header>
-
-<ion-content padding>
-    <form [formGroup]="createForm">
+<form [formGroup]="createForm" (ngSubmit)="create()">
+    <ion-content padding>
         <ion-list>
             <ion-item>
                 <ion-label floating>Name</ion-label>
@@ -35,11 +34,11 @@
                 </ion-item>
             </div>
         </ion-list>
-    </form>
-</ion-content>
-
-<ion-footer>
-    <ion-toolbar padding-left padding-right>
-        <button ion-button full (click)="create()" [disabled]="!createForm.valid" type="button">Create</button>
-    </ion-toolbar>
-</ion-footer>
+    </ion-content>
+    
+    <ion-footer>
+        <ion-toolbar padding-left padding-right>
+            <button ion-button full type="submit" [disabled]="!createForm.valid" type="button">Create</button>
+        </ion-toolbar>
+    </ion-footer>
+</form>
