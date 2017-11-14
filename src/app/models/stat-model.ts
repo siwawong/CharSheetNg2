@@ -4,4 +4,5 @@ export class CharacterStat {
     value: number;
     maximum: number;
     type: string;
+    updated: number;
 };

@@ -4,6 +4,7 @@ import { CreateCharacterPage } from '../../pages/create-character/create-charact
 import { CreateStatPage } from '../../pages/create-stat/create-stat';
 import { CreateUserPage } from '../../pages/create-user/create-user';
 import { LoginUserPage } from '../../pages/login-user/login-user';
+import { PreferencesPage } from '../../pages/preferences/preferences';
 
 export const PAGES = {
     'login': LoginUserPage,
@@ -11,5 +12,6 @@ export const PAGES = {
     'charList': CharacterListPage,
     'createChar': CreateCharacterPage,
     'charSheet': CharacterSheetPage,
-    'createStat': CreateStatPage
+    'createStat': CreateStatPage,
+    'preferences': PreferencesPage
 };

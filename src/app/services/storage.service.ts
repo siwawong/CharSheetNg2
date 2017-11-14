@@ -3,7 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import { Storage } from '@ionic/storage';
 
 import { UserState } from '../store/reducers/user-reducer';
-
+import { PreferenceState } from '../store/reducers/preferences-reducer';
+ 
 import { Character } from '../models/character-model';
 import { CharacterStat } from '../models/stat-model';
 
@@ -12,6 +13,7 @@ const STORAGE = {
     USERKEY: 'UserState',
     CHARACTERSKEY: 'CharMetaState',
     STATSKEY: 'StatMetaState',
+    PREFSKEY: 'PrefState'
 };
 
 @Injectable()
@@ -33,6 +35,18 @@ export class StorageService {
 
     remUserState() {
         return this.removeItem(STORAGE.USERKEY);
+    }
+
+    setPrefState(pref: PreferenceState) {
+        return this.setItem(STORAGE.PREFSKEY, pref);
+    }
+
+    getPrefState() {
+        return this.getItem(STORAGE.PREFSKEY);
+    }
+
+    remPrefState() {
+        return this.removeItem(STORAGE.PREFSKEY);
     }
 
     setCharMetaState(ids: string[], selectedId: string) {

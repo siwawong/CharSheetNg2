@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
-// import 'rxjs/add/operator/flatMap';
+import 'rxjs/add/operator/withLatestFrom';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store, Action } from '@ngrx/store';
@@ -14,7 +14,10 @@ import * as UserActions from '../actions/user-actions';
 import * as NavActions from '../actions/nav-actions';
 import * as CharacterActions from '../actions/character-actions';
 import * as StatActions from '../actions/stat-actions';
+import * as PrefActions from '../actions/preferences-actions';
 import * as fromRoot from '../reducers';
+
+import * as PREFERENCES from '../../models/preferences-model';
 
 @Injectable()
 export class UserEffects {
@@ -23,28 +26,32 @@ export class UserEffects {
         .map(toPayload)
         .switchMap(payload => this.http.createUser(payload.name, payload.email, payload.password))
         .mergeMap((user) => {
+            // Do we go to loadMany and let it decide for network or do it here?
             let mergeActions = [
                 new UserActions.CreateSuccess(user),
-                new NavActions.CharacterList(),
-                new CharacterActions.LoadManyNetwork()
+                new UserActions.Save(user),
+                new PrefActions.ChangeMode(PREFERENCES.MODE.ONLINE),
+                new NavActions.CharacterList()
             ];
-            this.storage.setUserState(user);
             return mergeActions;
         });
 
     @Effect()
+    // Login Can be from anywhere now. Will likely have to change which page should be navigated to after successful login
     login$: Observable<Action> = this.actions$.ofType(UserActions.LOGIN)
         .map(toPayload)
         .switchMap(payload => {
             return this.http.login(payload.email, payload.password);
         })
         .mergeMap((user) => {
+            // Do we go to loadMany and let it decide for network or do it here?
             let mergeActions = [
                 new UserActions.LoginSuccess(user),
-                new NavActions.CharacterList(),               
-                new CharacterActions.LoadManyNetwork()
+                new UserActions.Save(user),
+                new PrefActions.ChangeMode(PREFERENCES.MODE.ONLINE),
+                new NavActions.Back(),               
+                new CharacterActions.LoadMany()
             ];
-            this.storage.setUserState(user);           
             return mergeActions;
         });
 
@@ -55,44 +62,43 @@ export class UserEffects {
         .mergeMap((res) => {
             let mergeActions: Action[] = [];
             if (res) {
+                // Clear DB or clear specific sections?
                 this.storage.clearDB();
+                mergeActions.push(new PrefActions.ChangeMode(PREFERENCES.MODE.OFFLINE));
                 mergeActions.push(new UserActions.LogoutSuccess());
                 mergeActions.push(new CharacterActions.Logout());
                 mergeActions.push(new StatActions.Logout());
-                mergeActions.push(new NavActions.Login());
+                mergeActions.push(new NavActions.CharacterList());
             } else {
                 // Need action for logout error!!!
                 mergeActions.push(new UserActions.LoadError());
             }
             return mergeActions;
-        });
-    
-    // @Effect()
-    // deleteLoc$: Observable<Action> = this.actions$.ofType(UserActions.DELETE_SUCCESS)
-    //     .map(() => {
-
-    //         return null;
-    //     });
+        });  
     
     @Effect()
     load$: Observable<Action> = this.actions$.ofType(UserActions.LOAD)
         .mergeMap(() => this.storage.getUserState())
+        // Is there a case where Preference Mode needs to be checked?
         .mergeMap((userState) => {
             let newAction: Action[] = [];
             if (userState === null) {
                 newAction.push(new UserActions.LoadNone());
-                newAction.push(new NavActions.Login());
             } else {
                 newAction.push(new UserActions.LoadSuccess(userState));
-                newAction.push(new CharacterActions.LoadMany());
             }
+            newAction.push(new CharacterActions.LoadMany());            
             return newAction;
         });
+
     
-                    // let newAction: Action[] = [];
-            // this.storage.getUserState();
-            // // Fit a Catch in here for loaderror?
-            // // LoadNone might be unnecessary
+    @Effect({dispatch: false})
+    save$: Observable<Action> = this.actions$.ofType(UserActions.SAVE)
+        .map(toPayload)
+        .map((userState) => {
+            this.storage.setUserState(userState);
+            return null;
+        });  
 
     constructor(private http: HttpService,
                 private actions$: Actions,

@@ -57,6 +57,10 @@ server.delete('/Users/', authenticate, (req, res) => {
     dbCallSimple(db.user.deleteById, 400, req, res);
 });
 
+server.post('/Users/Email', (req, res) => {
+    dbCallSimple(db.user.checkEmailAvail, 400, req, res);
+});
+
 // Character
 server.get('/Users/Characters', authenticate, (req, res) => {
     dbCallSimple(db.character.getAll, 404, req, res);
@@ -74,23 +78,43 @@ server.patch('/Users/Characters/Name', authenticate, (req, res) => {
     dbCallSimple(db.character.patchCharName, 404, req, res);
 });
 
-// Rename a Character??
+server.get('/Users/Characters/:timestamp', authenticate, (req, res) => {
+    dbCallSimple(db.character.getMetaChanged, 404, req, res);
+});
+
+server.patch('/Users/Characters', authenticate, (req, res) => {
+    dbCallSimple(db.character.patchMetaChanges, 404, req, res);
+});
 
 // Character - Stats
-server.get('/Users/Characters/:id', authenticate, (req, res) => {
-    dbCallSimple(db.character.getById, 404, req, res);
+server.get('/Users/Characters/:id/Stats', authenticate, (req, res) => {
+    dbCallSimple(db.stat.getById, 404, req, res);
+});
+
+server.get('/Users/Characters/:cid/Stats/:timestamp', authenticate, (req, res) => {
+    dbCallSimple(db.stat.getStatChanged, 404, req, res);
+});
+
+// Where to put?
+
+server.get('/Users/Characters/Stats/:timestamp', authenticate, (req, res) => {
+    dbCallSimple(db.stat.getChanged, 404, req, res);
 });
 
 server.post('/Users/Characters/Stats', authenticate, (req, res) => {
-    dbCallSimple(db.character.postNewStat, 404, req, res);
+    dbCallSimple(db.stat.postNewStat, 404, req, res);
 });
 
 server.patch('/Users/Characters/Stats', authenticate, (req, res) => {
-    dbCallSimple(db.character.patchStatById, 404, req, res);
+    dbCallSimple(db.stat.patchStatById, 404, req, res);
+});
+
+server.patch('/Users/Characters/Stats/id', authenticate, (req, res) => {
+    dbCallSimple(db.stat.patchMultipleById, 404, req, res);
 });
 
 server.delete('/Users/Characters/:cid/Stats/:sid', authenticate, (req, res) => {
-    dbCallSimple(db.character.deleteStatById, 404, req, res);
+    dbCallSimple(db.stat.deleteStatById, 404, req, res);
 });
 
 // Hey! Listen!

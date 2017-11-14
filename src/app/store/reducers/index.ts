@@ -4,6 +4,8 @@ import * as fromUser from './user-reducer';
 import * as fromChars from './character-reducer';
 import * as fromStats from './stat-reducer';
 import * as fromNav from './nav-reducer';
+import * as fromPref from './preferences-reducer';
+import * as fromSync from './sync-reducer';
 
 // Notes taken from this repo: https://github.com/ngrx/example-app
 
@@ -12,13 +14,17 @@ export interface State {
     characters: fromChars.CharacterState;
     stats: fromStats.StatState;
     nav: fromNav.State;
+    pref: fromPref.PreferenceState;
+    sync: fromSync.SyncState;
 };
 
 export const reducers = {
     user: fromUser.reducer,
     characters: fromChars.reducer,
     stats: fromStats.reducer,
-    nav: fromNav.reducer
+    nav: fromNav.reducer,
+    pref: fromPref.reducer,
+    sync: fromSync.reducer
 };
 
 export const getUserState = (state: State) => state.user;
@@ -47,11 +53,11 @@ export const getLatestStat   = createSelector(getStatState, fromStats.getLastAdd
 export const getStatMeta     = createSelector(getStatState, fromStats.getMeta);
 export const getStatAddedMeta = createSelector(getStatState, fromStats.getAddedMeta);
 
-export const getStatMetaCharId = createSelector(getCharacterId, getStatMeta, (charId, meta) => {
-    return { charId, meta };
+export const getStatMetaChar = createSelector(getCharacter, getStatMeta, (char, meta) => {
+    return { char, meta };
 });
-export const getStatAddedCharId = createSelector(getCharacterId, getStatAddedMeta, (charId, statMeta) => {
-    return { charId, stat: statMeta.stat, meta: statMeta.meta };
+export const getStatAddedChar = createSelector(getCharacter, getStatAddedMeta, (char, statMeta) => {
+    return { char, stat: statMeta.stat, meta: statMeta.meta };
 })
 
 export const getNavState = (state: State) => state.nav;
@@ -60,7 +66,21 @@ export const getNavRootPage    = createSelector(getNavState, fromNav.getRootPage
 export const getNavStackPage   = createSelector(getNavState, fromNav.getStackPage);
 export const getNav            = createSelector(getNavRootPage, getNavStackPage, (root, stack) =>  { return { root, stack }});
 
-export const getCharAuth        = createSelector(getAuth, getCharacterId, (auth, charId) => { return { auth, charId }});
+export const getPrefState = (state: State) => state.pref;
+
+export const getPrefMode = createSelector(getPrefState, fromPref.getMode);
+export const getPrefInterval = createSelector(getPrefState, fromPref.getInterval);
+export const getPrefTheme = createSelector(getPrefState, fromPref.getTheme);
+
+export const getSyncState = (state: State) => state.sync;
+
+export const getLastSync = createSelector(getSyncState, fromSync.getLastSync);
+export const getCharSync = createSelector(getSyncState, fromSync.getCharSync);
+export const getStatSync = createSelector(getSyncState, fromSync.getStateSync);
+
+export const getNetPref         = createSelector(getPrefMode, getPrefInterval, (mode, interval) => { return { mode, interval }});
+export const getStatMetaCharNetPref = createSelector(getCharacter, getStatMeta, getNetPref, (char, meta, pref) => { return { char, meta, pref } });
+export const getCharAuth        = createSelector(getAuth, getCharacter, (auth, char) => { return { auth, char }});
 export const getUsernameAndChar = createSelector(getUsername, getCharacter, (user, char) => { return { user, char }});
 export const getStatToRemove    =
     createSelector(getAuth, getCharacterId, getStat, (auth, char, stat) => { return { auth, char, stat} });

@@ -1,22 +1,27 @@
 // Primary
-$primary: #2196f3;
-$primaryDark: #0069c0;
-$primaryLight: #6ec6ff;
+$primary: #ff6f00;
+$primaryDark: #c43e00;
+$primaryLight: #ffa040;
 // Primary Text
 $primaryText: #000000;
 $primaryTextLight: #ffffff;
 // Secondary
-$secondary: #f27d21;
-$secondaryDark: #b94f00;
-$secondaryLight: #ffae53;
+$secondary: #4bb5ab;
+$secondaryDark: #00857c;
+$secondaryLight: #80e8dd;
 // Secondary Text
 $secondaryText: #000000;
 $secondaryTextLight: #ffffff;
 // Others
 $lightGrey: #F5F5F6;
+$background: #303030;
+$content: #424242;
+$dividers: #212121;
+// Others Text. FILL IN
 // variable changes. Should prolly move into class?
 // $toolbar-background: $primary;
-.normal-theme {
+$text-input-md-highlight-color: $primary;
+.dark-theme {
     .header {
         box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
     }
@@ -36,28 +41,38 @@ $lightGrey: #F5F5F6;
             background-color: lighten($secondary, 5%);
         }
     }
+    .content,
+    .list ion-item-sliding,
+    .item {
+        background-color: $content;
+        color: $primaryTextLight;
+        border-color: $dividers;
+    }
     .input-has-focus .label {
-        color: $secondary !important;
+        color: $primary !important;
     }
     .item-divider {
-        background-color: #f4f4f4;
+        background-color: $background;
+        color: darken($primaryTextLight, 50%);
         border: none;
     }
-    .item.item-input.input-has-focus .item-inner,
-    .list .item-input.input-has-focus:last-child {
-        border-bottom-color: $secondary;
-        box-shadow: inset 0 -1px 0 0 $secondary;
+    .item.item-block .item-inner {
+        border-color: $dividers;
+    }
+    form .item.item-block .item-inner,
+    form .list .item-input:last-child {
+        border-color: #999999;
     }
     // Change buttons: button ion-button
     page-character-list {
         .content {
-            background-color: $lightGrey;
+            background-color: $background;
         }
     }
     page-character-sheet {
         // Change slider refresh and delete icon buttons: ion-item-options button ion-button
         .content {
-            background-color: $lightGrey;
+            background-color: $background;
         }
         .editHeader {
             .toolbar-background {
@@ -69,7 +84,7 @@ $lightGrey: #F5F5F6;
             }
         }
         .stat {
-            border-bottom-color: $lightGrey;
+            border-bottom-color: $dividers;
         }
         .list-header {
             background-color: $secondary;

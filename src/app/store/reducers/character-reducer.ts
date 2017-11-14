@@ -33,17 +33,17 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
     switch (action.type) {
         case CharacterActions.ADD: {
             const newId = shortid.generate();
+            const newUpdated = Date.now();
             const newChar: Character = {
                 id: newId,
                 name: action.payload,
+                updated: newUpdated
             };
-            console.log('char: ' + JSON.stringify(newChar));
             const newState = {
                 ids: [...state.ids, newId],
                 entities: Object.assign({}, state.entities, {[newId]: newChar}),
                 selectedCharId: state.selectedCharId
             }
-            console.log('state: ' + JSON.stringify(newState));
             return newState;
         }
         case CharacterActions.LOAD_MANY_SUCCESS: {
@@ -66,6 +66,7 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
         case CharacterActions.REMOVE_ALL: {
             return initialState;
         }
+        case CharacterActions.UPDATE_TIME:
         case CharacterActions.UPDATE: {
             const updatedChar = action.payload;
 
@@ -91,10 +92,14 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
                 selectedCharId: null
             };
         }
-        case CharacterActions.ADD_ERROR:
+        // case CharacterActions.ADD_ERROR:
         case CharacterActions.ADD_NETWORK:
         case CharacterActions.ADD_NETWORK_SUCCESS:
         case CharacterActions.ADD_NETWORK_ERROR:
+        case CharacterActions.SAVE:
+        case CharacterActions.SAVE_ERROR:
+        case CharacterActions.SAVE_META:
+        case CharacterActions.SAVE_META_ERROR:        
         case CharacterActions.SAVE_MANY:
         case CharacterActions.SAVE_MANY_ERROR:
         case CharacterActions.LOAD_MANY:
@@ -102,15 +107,15 @@ export function reducer(state = initialState, action: CharacterActions.All): Cha
         case CharacterActions.LOAD_MANY_NETWORK:
         case CharacterActions.LOAD_MANY_NETWORK_ERROR:
         case CharacterActions.LOAD_MANY_NONE:
-        case CharacterActions.REMOVE_ERROR:
+        // case CharacterActions.REMOVE_ERROR:
         case CharacterActions.REMOVE_NETWORK:
         case CharacterActions.REMOVE_NETWORK_SUCCESS:
         case CharacterActions.REMOVE_NETWORK_ERROR:
-        case CharacterActions.REMOVE_ALL_ERROR:
+        // case CharacterActions.REMOVE_ALL_ERROR:
         case CharacterActions.REMOVE_ALL_NETWORK:
         case CharacterActions.REMOVE_ALL_NETWORK_SUCCESS:
         case CharacterActions.REMOVE_ALL_NETWORK_ERROR:
-        case CharacterActions.UPDATE_ERROR:
+        // case CharacterActions.UPDATE_ERROR:
         case CharacterActions.UPDATE_NETWORK:
         case CharacterActions.UPDATE_NETWORK_SUCCESS:
         case CharacterActions.UPDATE_NETWORK_ERROR:

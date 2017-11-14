@@ -16,6 +16,13 @@ export class HttpService {
   constructor(private http: Http) { }
 
   // Add Check Email Availability
+  checkEmail(email: string): Observable<any> {
+    return this.http.post(`${this.getUrl()}Users/Email`, {email})
+      // .map((response: Response) => {
+      //   return response.json();
+      // });
+  }
+
   createUser(name: string, email: string, password: string): Observable<any> {
     console.log(`${name}, ${email}, ${password}`);
     return this.http.post(`${this.getUrl()}Users`, {name, email, password})
@@ -59,20 +66,22 @@ export class HttpService {
       });
   }
 
-  createCharacter(authToken: string, charId: string, characterName: string): Observable<Character | any> {
-    return this.http.post(`${this.getUrl()}Users/Characters`, { name: characterName, cid: charId }, this.createAuthHeader(authToken))
+  createCharacter(authToken: string, char: Character): Observable<Character | any> {
+    return this.http.post(`${this.getUrl()}Users/Characters`, char , this.createAuthHeader(authToken))
       .map((response: Response) => {
         let toReturn = response.json();
-        // return {
-        //   id: toReturn,
-        //   name: characterName,
-        // };
-        console.log(toReturn);
+      });
+  }
+
+  patchCharacter(authToken: string, char: Character) {
+    return this.http.patch(`${this.getUrl()}Users/Characters`, char, this.createAuthHeader(authToken))
+      .map((res: Response) => {
+        return res.json();
       });
   }
 
   getCharacterStats(authToken: string, charId: string): Observable<CharacterStat[]> {
-    return this.http.get(`${this.getUrl()}Users/Characters/${charId}`, this.createAuthHeader(authToken))
+    return this.http.get(`${this.getUrl()}Users/Characters/${charId}/Stats`, this.createAuthHeader(authToken))
       .map((response: Response) => {
         // return Character
         let toReturn = response.json();
@@ -80,10 +89,10 @@ export class HttpService {
       });
   }
 
-  createCharacterStat(authToken: string, charId: string, newStat: CharacterStat): Observable<any> {
+  createCharacterStat(authToken: string, char: Character, newStat: CharacterStat): Observable<any> {
     // console.log(`${authToken}, ${characterId}, ${newStat}`);
     return this.http.post(
-      `${this.getUrl()}Users/Characters/Stats/`, { cid: charId, ...newStat }, this.createAuthHeader(authToken))
+      `${this.getUrl()}Users/Characters/Stats/`, { cid: char.id, updated: char.updated, ...newStat }, this.createAuthHeader(authToken))
         .map((response: Response) => {
           // return Character.[stats]
           // console.log(response.json());
@@ -91,10 +100,10 @@ export class HttpService {
         });
   }
 
-  patchCharacterStat(auth: string, charId: string, stat: CharacterStat): Observable<CharacterStat> {
+  patchCharacterStat(auth: string, charId: string, updated: number, stat: CharacterStat): Observable<CharacterStat> {
     return this.http.patch(
       `${this.getUrl()}Users/Characters/Stats/`,
-      { cid: charId, ...stat },
+      { cid: charId, updated, ...stat },
       this.createAuthHeader(auth))
         .map((response: Response) => {
           // return Character.[stats]

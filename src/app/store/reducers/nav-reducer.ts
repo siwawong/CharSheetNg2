@@ -12,7 +12,7 @@ export interface State {
 
 const initialState: State = {
     pages: PAGES,
-    root: 'login',
+    root: 'charList',
     stack: null
 };
 
@@ -21,8 +21,8 @@ export function reducer(state =  initialState, action: NavActions.All): State {
         case NavActions.LOGIN: {
             return {
                 pages: state.pages,
-                root: 'login',
-                stack: null
+                root: state.root,
+                stack: 'login'
             };
         };
         case NavActions.CREATE_USER: {
@@ -67,17 +67,13 @@ export function reducer(state =  initialState, action: NavActions.All): State {
                 stack: null
             };
         }
-        // case NavActions.LOAD_SUCCESS: {
-        //     const newState = action.payload;
-        //     return {
-        //         pages: state.pages,
-        //         root: newState.root,
-        //         stack: newState.stack
-        //     };
-        // }
-        // case NavActions.LOAD:
-        // case NavActions.LOAD_ERROR:
-        // case NavActions.LOAD_NONE:
+        case NavActions.PREFERENCES: {
+            return {
+                pages: state.pages,
+                root: state.root,
+                stack: 'preferences'
+            };
+        }
         default: {
             return state;
         }

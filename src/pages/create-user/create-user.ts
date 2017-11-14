@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import { IonicPage, Navbar } from 'ionic-angular';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/timer';
 
-import { CharacterListPage } from '../character-list/character-list';
+// import { CharacterListPage } from '../character-list/character-list';
 
 import { Store } from '@ngrx/store';
 
@@ -10,6 +14,7 @@ import * as fromRoot from '../../app/store/reducers';
 import * as UserActions from '../../app/store/actions/user-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
+import { HttpService } from '../../app/services/http.service';
 /**
  * Generated class for the CreatePage page.
  *
@@ -35,11 +40,11 @@ export class CreateUserPage {
   private password1: FormControl;
   private password2: FormControl;
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>, private http: HttpService) { }
 
   ngOnInit() {
     this.name = new FormControl('', Validators.required);
-    this.email = new FormControl('', [Validators.required, Validators.email]);
+    this.email = new FormControl('', [Validators.required, Validators.email], this.checkEmail.bind(this));
     this.password1 = new FormControl('', [Validators.required, Validators.minLength(_PW_MIN_LENGTH)]);
     this.password2 = new FormControl('', [Validators.required, Validators.minLength(_PW_MIN_LENGTH)]);
 
@@ -50,6 +55,18 @@ export class CreateUserPage {
         password1: this.password1,
         password2: this.password2
       }, this.areEqual.bind(this))
+    });
+  }
+
+  checkEmail(control: FormControl): Observable<{[s: string]: any}> {
+    return Observable.timer(500).switchMap(() => {
+      return this.http.checkEmail(this.email.value).map((dirtyRes: Response) => {
+        let res = dirtyRes.json();
+        if (!res) {
+          return {'emailUsed':true};
+        }
+        return null;
+      });
     });
   }
 

@@ -84,7 +84,8 @@ export class CreateStatPage {
       name: this.name.value,
       value: +this.value.value,
       maximum: +this.maximum.value,
-      type: this.type.value
+      type: this.type.value,
+      updated: null
     };
     if (this.title === NORMALTITLE) {
       this.store.dispatch(new StatActions.Add(newStat));      
