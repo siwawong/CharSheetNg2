@@ -112,6 +112,16 @@ export class CharacterEffects {
             return merge;
         });
     
+    @Effect()
+    remove$ = this.actions$.ofType(CharacterActions.REMOVE)
+        .map( toPayload )
+        .withLatestFrom(this.store$.select(fromRoot.getCharacters), (char_id, characters) => { return {char_id, characters}; } )
+        .map( result => {
+            const characterIDs = result.characters.map( c => c.id);
+            this.storage.remChar( characterIDs, null, result.char_id);
+            // return new StatActions.RemoveAll(char_id);  
+        });    
+
     @Effect({dispatch: false})
     removeAll$: Observable<Action> = this.actions$.ofType(CharacterActions.REMOVE_ALL)
         .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (action, meta) => meta)
@@ -173,7 +183,6 @@ export class CharacterEffects {
             this.storage.setChar(char);
             return null;
         });
-        
 
     @Effect({dispatch: false})
     saveMeta$: Observable<Action> = this.actions$.ofType(CharacterActions.SAVE_META)
