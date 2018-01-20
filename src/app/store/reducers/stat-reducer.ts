@@ -66,6 +66,7 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
         }
         case StatActions.LOGOUT:
         case StatActions.REMOVE_ALL: {
+            const charID = action.payload;
             return initialState;
         }
         case StatActions.UPDATE: {
