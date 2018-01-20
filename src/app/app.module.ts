@@ -46,7 +46,7 @@ import { PreferencesPageModule } from '../pages/preferences/preferences.module';
     IonicModule.forRoot(AppComponent),
     IonicStorageModule.forRoot({
       name: 'charSheetIonicDB',
-      driverOrder: ['localstorage', 'sqlite', 'indexeddb']
+      // driverOrder: ['localstorage', 'sqlite', 'indexeddb']
     }),
     ReactiveFormsModule,
     BrowserAnimationsModule,
