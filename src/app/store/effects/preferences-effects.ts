@@ -26,6 +26,8 @@ export class PreferencesEffects {
         .mergeMap((state) => {
             let newActions: Action[] = [];
             if (state.storage === null) {
+                // We are going to make sure preference
+                newActions.push(new PrefActions.ChangeMode(PREFERENCES.MODE.OFFLINE));
                 // Save to skip this next load;
                 newActions.push(new PrefActions.Save());
             } else {

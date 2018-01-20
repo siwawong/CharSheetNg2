@@ -10,7 +10,7 @@
                 <ng-template #offlineTitle>
                     <!-- <div *ngIf="(user | async) === templateNameTestVar; then noUser else login"></div>
                     <ng-template #noUser> -->
-                    <button ion-button full (click)="createUser()" menuClose>Create User</button>
+                    <!-- <button ion-button full (click)="createUser()" menuClose>Create User</button> -->
                     <!-- </ng-template>
                     <ng-template #login>
                         <button ion-button full (click)="login()" menuClose>Login</button>
@@ -30,7 +30,7 @@
                 Preferences
             </button>
             <div *ngIf="mode === templateModeTestVar; then logoutButton else loginButton"></div>
-            <ng-template #logoutButton>
+            <!-- <ng-template #logoutButton>
                 <button ion-item (click)="logout()" menuClose>
                             <ion-icon name="log-out" item-start></ion-icon>
                             Log Out
@@ -41,7 +41,7 @@
                             <ion-icon name="log-in" item-start></ion-icon>
                             Log In
                         </button>
-            </ng-template>
+            </ng-template> -->
         </ion-list>
     </ion-content>
 </ion-menu>
