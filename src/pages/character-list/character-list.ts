@@ -48,8 +48,8 @@ export class CharacterListPage {
     this.store.dispatch(new NavActions.CreateCharacter());
   }
 
-  removeCharacter() {
-    
+  removeCharacter(character: Character) {
+    this.store.dispatch(new CharacterActions.Remove(character.id));
   }
 
   ionViewDidLoad() {
