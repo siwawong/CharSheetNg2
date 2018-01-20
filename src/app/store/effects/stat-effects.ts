@@ -128,12 +128,12 @@ export class StatEffects {
             // Save Dispatched Here?
         });
     
-    @Effect()
+    @Effect({dispatch: false})
     removeAll$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE_ALL)
         .withLatestFrom(this.store$.select(fromRoot.getCharacterId), (action, charId) => charId)
         .map((charId) => {
             this.storage.remStats(charId);
-            return new CharacterActions.RemoveAll();
+            return null;
         });
 
     @Effect()
