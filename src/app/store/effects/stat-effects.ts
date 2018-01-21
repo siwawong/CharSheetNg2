@@ -130,7 +130,7 @@ export class StatEffects {
     
     @Effect({dispatch: false})
     removeAll$: Observable<Action> = this.actions$.ofType(StatActions.REMOVE_ALL)
-        .withLatestFrom(this.store$.select(fromRoot.getCharacterId), (action, charId) => charId)
+        .map(toPayload)
         .map((charId) => {
             this.storage.remStats(charId);
             return null;
