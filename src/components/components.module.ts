@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
+import { SplashscreenComponent } from './splashscreen/splashscreen';
 @NgModule({
-	declarations: [],
+	declarations: [SplashscreenComponent],
 	imports: [],
-	exports: []
+	exports: [SplashscreenComponent]
 })
 export class ComponentsModule {}
