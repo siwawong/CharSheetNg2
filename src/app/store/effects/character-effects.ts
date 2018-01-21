@@ -115,11 +115,12 @@ export class CharacterEffects {
     @Effect()
     remove$ = this.actions$.ofType(CharacterActions.REMOVE)
         .map( toPayload )
-        .withLatestFrom(this.store$.select(fromRoot.getCharacters), (char_id, characters) => { return {char_id, characters}; } )
+        .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (char_id, charMeta) => { return {char_id, charMeta}; } )
         .map( result => {
-            const characterIDs = result.characters.map( c => c.id);
-            this.storage.remChar( characterIDs, null, result.char_id);
-            // return new StatActions.RemoveAll(char_id);  
+            // Using getCharMeta selector to get the ids property saves a for-loop and may be more efficient?
+            this.storage.remChar( result.charMeta.ids, null, result.char_id);
+            // The Stats portion of state does not know which character it belongs to and should always represent the most recent character selected.
+            return new StatActions.RemoveAll(result.char_id);  
         });    
 
     @Effect({dispatch: false})
