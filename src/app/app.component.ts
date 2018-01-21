@@ -35,7 +35,7 @@ export class AppComponent {
       // this.store.dispatch(new UserActions.Load());
 
       statusBar.styleDefault();
-      splashScreen.hide();
+      // splashScreen.hide();
     });
   }
 
