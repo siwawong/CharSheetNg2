@@ -193,5 +193,4 @@ export class CharacterSheetPage {
   editStat() {
     this.store.dispatch(new NavActions.CreateStat('EDITMODE'));
   }
-
 }
