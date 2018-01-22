@@ -85,7 +85,7 @@ export function reducer(state =  initialState, action: NavActions.All): State {
             return {
                 pages: state.pages,
                 root: state.root,
-                stack: 'helpSlides'
+                stack: 'helpSlide'
             };
         }
         default: {
