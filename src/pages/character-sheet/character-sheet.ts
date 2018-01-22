@@ -145,11 +145,20 @@ export class CharacterSheetPage {
     evt.preventDefault();
     let newValue;
     let subNum = this.editStatForm.get('value').value;
+
     if (type === 'PLUS') {
       newValue = stat.value + subNum;      
     } else {
       newValue = stat.value - subNum;
     }
+
+    // If a maximum has been set, we also have a minimum of zero. Get the value in bounded
+    if (stat.maximum > 0 ) {
+      newValue = (newValue < stat.maximum) ? newValue : stat.maximum;
+      newValue = (newValue > 0) ? newValue : 0;
+    }
+    
+
     this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
     this.formValue.setValue('');
   }
