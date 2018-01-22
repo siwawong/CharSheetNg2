@@ -53,6 +53,13 @@ export class NavEffects {
             }
             return null;
         });
+
+    @Effect({dispatch: false})
+    helpSlidesNav$: Observable<Action> = this.actions$.ofType(NavActions.HELP_SLIDES)
+        .withLatestFrom(this.store$.select(fromRoot.getNavRootPage), (action, page) => {
+            this.navCtrl().setRoot(page);
+            return null;
+        });
    
     constructor(private actions$: Actions,
                 private store$: Store<fromRoot.State>,

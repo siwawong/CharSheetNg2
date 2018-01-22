@@ -74,6 +74,13 @@ export function reducer(state =  initialState, action: NavActions.All): State {
                 stack: 'preferences'
             };
         }
+        case NavActions.HELP_SLIDES: {
+            return {
+                pages: state.pages,
+                root: 'helpSlide',
+                stack: null
+            };
+        }
         default: {
             return state;
         }
