@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as UserActions from '../../app/store/actions/user-actions';
-import * as PreferencesActions from '../../app/store/actions/preferences-actions';
+import * as PrefActions from '../../app/store/actions/preferences-actions';
 
 /**
  * Generated class for the HelpSlidesPage page.
@@ -31,6 +31,7 @@ export class HelpSlidesPage {
   }
 
   closeHelp() {
-    [new PreferencesActions.ChangeInit(false), new UserActions.Load()].forEach(this.store.dispatch);
+    this.store.dispatch(new PrefActions.ChangeInit(false));
+    this.store.dispatch(new UserActions.Load());
   }
 }
