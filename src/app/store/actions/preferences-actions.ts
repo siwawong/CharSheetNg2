@@ -12,7 +12,7 @@ export const SAVE_SUCCESS = '[Preferences] Save Success'
 export const CHANGE_MODE  = '[Preferences] Change Mode';
 export const CHANGE_THEME = '[Preferences] Change Theme';
 export const CHANGE_TIMER = '[Preferences] Change Timer';
-
+export const CHANGE_INIT  = '[Preferences] Change Init';
 export class Load implements Action {
     readonly type = LOAD;
 
@@ -67,6 +67,12 @@ export class ChangeTimer implements Action {
     constructor(public payload: number) { }
 }
 
+export class ChangeInit implements Action {
+    readonly type = CHANGE_INIT;
+
+    constructor(public payload: boolean) { }
+}
+
 export type All
     = Load
     | LoadSuccess
@@ -74,6 +80,7 @@ export type All
     | Save
     | SaveSuccess
     | SaveError
+    | ChangeInit
     | ChangeMode
     | ChangeTheme
     | ChangeTimer;

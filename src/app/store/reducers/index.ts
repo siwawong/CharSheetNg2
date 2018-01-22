@@ -71,6 +71,7 @@ export const getPrefState = (state: State) => state.pref;
 export const getPrefMode = createSelector(getPrefState, fromPref.getMode);
 export const getPrefInterval = createSelector(getPrefState, fromPref.getInterval);
 export const getPrefTheme = createSelector(getPrefState, fromPref.getTheme);
+export const getPrefInit = createSelector(getPrefState, fromPref.getInit);
 
 export const getSyncState = (state: State) => state.sync;
 
