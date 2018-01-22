@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -20,6 +20,7 @@ import * as PREFERENCES from '../../app/models/preferences-model';
 })
 export class AppMenuComponent {
   @Input() content;
+  @Output() help = new EventEmitter<boolean>();
   private user: Observable<string>;
   private mode: Observable<string>;
   private templateModeTestVar = PREFERENCES.MODE.ONLINE;
@@ -51,5 +52,9 @@ export class AppMenuComponent {
 
   prefNav() {
     this.store.dispatch(new NavActions.Preferences());
+  }
+
+  showHelp() {
+    this.help.emit(true)
   }
 }

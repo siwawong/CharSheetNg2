@@ -42,4 +42,8 @@ export class AppComponent {
   ngOnInit() {
     this.currentTheme = this.store.select(fromRoot.getPrefTheme);
   }
+
+  showHelp(help: boolean) {
+    console.log('showHelp: ' + help);
+  }
 }

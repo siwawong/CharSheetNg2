@@ -1,7 +1,6 @@
 <!-- <div class="normal-theme"> -->
 <div class="{{ currentTheme | async | lowercase }}-theme">
-    <app-menu [content]="mycontent"></app-menu>
-
+    <app-menu [content]="mycontent" (help)="showHelp($event)"></app-menu>
     <ion-nav [root]="rootPage" #mycontent>
     </ion-nav>
 </div>
