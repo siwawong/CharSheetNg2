@@ -198,7 +198,7 @@ export class RemoveNetworkError implements Action {
 export class RemoveAll implements Action {
     readonly type = REMOVE_ALL;
 
-    constructor() { }
+    constructor(public payload: string) { }
 };
 
 export class RemoveAllError implements Action {
