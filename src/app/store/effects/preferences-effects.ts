@@ -30,6 +30,8 @@ export class PreferencesEffects {
                 newActions.push(new PrefActions.ChangeMode(PREFERENCES.MODE.OFFLINE));
                 // Save to skip this next load;
                 newActions.push(new PrefActions.Save());
+                // Set init to true
+                newActions.push(new PrefActions.ChangeInit(true));
             } else {
                 newActions.push(new PrefActions.LoadSuccess(state.storage));
             }
@@ -38,7 +40,7 @@ export class PreferencesEffects {
         });
 
     @Effect()
-    $changeTheme: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_THEME, PrefActions.CHANGE_MODE, PrefActions.CHANGE_TIMER)
+    $changeTheme: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_THEME, PrefActions.CHANGE_MODE, PrefActions.CHANGE_TIMER, PrefActions.CHANGE_INIT)
         .map(() => {
             return new PrefActions.Save();
         });

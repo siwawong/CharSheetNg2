@@ -12,7 +12,7 @@ const initialState: PreferenceState = {
     mode: PREFERENCES.MODE.OFFLINE,
     interval: PREFERENCES.INTERVAL.FIVE_MINUTES,
     theme: PREFERENCES.THEME.NORMAL,
-    init: true,
+    init: false,
 };
 
 export function reducer(state = initialState, action: PreferenceActions.All): PreferenceState {

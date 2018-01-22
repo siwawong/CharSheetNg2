@@ -19,7 +19,9 @@ import * as PreferencesActions from './store/actions/preferences-actions';
 export class AppComponent {
   title = 'Ng4 CharSheet Store';
   rootPage:any;
+  init: Observable<boolean>;
   private currentTheme: Observable<string>;
+  help: boolean = false;
 
   constructor(platform: Platform,
               statusBar: StatusBar,
@@ -33,7 +35,7 @@ export class AppComponent {
       // console.log(this.storage.getDriver());
       this.store.dispatch(new PreferencesActions.Load());
       // this.store.dispatch(new UserActions.Load());
-
+      // get preferences and see if we are in an initial state
       statusBar.styleDefault();
       splashScreen.hide();
     });
@@ -41,9 +43,22 @@ export class AppComponent {
 
   ngOnInit() {
     this.currentTheme = this.store.select(fromRoot.getPrefTheme);
+    this.init = this.store.select(fromRoot.getPrefInit);
+    this.init.subscribe( isInit => {
+      if (isInit) {
+        this.showHelp(true);
+      }
+    });
   }
 
   showHelp(help: boolean) {
-    console.log('showHelp: ' + help);
+    if (help) {
+      this.help = true;
+    }
+  }
+
+  closeHelp() {
+    this.help = false;
+    this.store.dispatch(new PreferencesActions.ChangeInit(false));
   }
 }
