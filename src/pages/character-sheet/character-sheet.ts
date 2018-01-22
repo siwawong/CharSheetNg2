@@ -119,6 +119,7 @@ export class CharacterSheetPage {
 
   rangeChange(stat: CharacterStat) {
     clearInterval(this.timeoutRef);
+    this.formValue.setValue(this.rangeValue);
     this.timeoutRef = setInterval(() => {
       this.rangeEnd(stat);
     }, RANGETIMEOUT);
@@ -129,6 +130,7 @@ export class CharacterSheetPage {
     const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
     // console.log(`End ${JSON.stringify(newStat)}`); 
     this.store.dispatch(new StatActions.Update(newStat));
+    this.formValue.setValue('');
   }
   
   rangeClick(stat: CharacterStat, type: string) {
