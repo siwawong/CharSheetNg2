@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
+
+import { Store } from '@ngrx/store';
+
+import * as fromRoot from '../../app/store/reducers';
+import * as NavActions from '../../app/store/actions/nav-actions';
+import * as PreferencesActions from '../../app/store/actions/preferences-actions';
 
 /**
  * Generated class for the HelpSlidesPage page.
@@ -15,11 +21,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class HelpSlidesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private store: Store<fromRoot.State>) {
+  }
+
+  ngOnInit() {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HelpSlidesPage');
+    // console.log('ionViewDidLoad HelpSlidesPage');
   }
 
+  closeHelp() {
+    this.store.dispatch(new PreferencesActions.ChangeInit(false));
+  }
 }
