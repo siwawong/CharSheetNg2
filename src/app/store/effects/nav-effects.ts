@@ -21,7 +21,7 @@ export class NavEffects {
         });
 
     @Effect({dispatch: false})
-    stacktNav$: Observable<Action> = this.actions$.ofType(NavActions.LOGIN, NavActions.CREATE_USER, NavActions.CREATE_CHARACTER, NavActions.PREFERENCES)
+    stacktNav$: Observable<Action> = this.actions$.ofType(NavActions.LOGIN, NavActions.CREATE_USER, NavActions.CREATE_CHARACTER, NavActions.PREFERENCES, NavActions.HELP_SLIDES_MENU)
         .withLatestFrom(this.store$.select(fromRoot.getNavStackPage), (action, page) => {
             this.navCtrl().push(page);
             return null;

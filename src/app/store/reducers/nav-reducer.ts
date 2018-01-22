@@ -81,6 +81,13 @@ export function reducer(state =  initialState, action: NavActions.All): State {
                 stack: null
             };
         }
+        case NavActions.HELP_SLIDES_MENU: {
+            return {
+                pages: state.pages,
+                root: state.root,
+                stack: 'helpSlides'
+            };
+        }
         default: {
             return state;
         }
