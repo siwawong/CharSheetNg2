@@ -4,7 +4,7 @@ import { IonicPage } from 'ionic-angular';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../app/store/reducers';
-import * as NavActions from '../../app/store/actions/nav-actions';
+import * as UserActions from '../../app/store/actions/user-actions';
 import * as PreferencesActions from '../../app/store/actions/preferences-actions';
 
 /**
@@ -28,10 +28,9 @@ export class HelpSlidesPage {
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad HelpSlidesPage');
   }
 
   closeHelp() {
-    this.store.dispatch(new PreferencesActions.ChangeInit(false));
+    [new PreferencesActions.ChangeInit(false), new UserActions.Load()].forEach(this.store.dispatch);
   }
 }
