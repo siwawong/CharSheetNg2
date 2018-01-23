@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { StorageService } from './services/storage.service';
 
 import { AppMenuComponent } from '../components/app-menu/app-menu';
+import { SplashscreenComponent } from '../components/splashscreen/splashscreen';
 
 import * as fromRoot from './store/reducers';
 import * as UserActions from './store/actions/user-actions';
