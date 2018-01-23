@@ -5,6 +5,8 @@ export const LOAD         = '[Preferences] Load';
 export const LOAD_SUCCESS = '[Preferences] Load Success';
 export const LOAD_ERROR   = '[Preferences] Load Error';
 
+export const CLOSE_SPLASH = '[Preferences] Close Splash';
+
 export const SAVE         = '[Preferences] Save';
 export const SAVE_ERROR   = '[Preferences] Save Error';
 export const SAVE_SUCCESS = '[Preferences] Save Success'
@@ -27,6 +29,12 @@ export class LoadSuccess implements Action {
 
 export class LoadError implements Action {
     readonly type = LOAD_ERROR;
+
+    constructor() { }
+}
+
+export class CloseSplash implements Action {
+    readonly type = CLOSE_SPLASH;
 
     constructor() { }
 }
@@ -71,6 +79,7 @@ export type All
     = Load
     | LoadSuccess
     | LoadError
+    | CloseSplash
     | Save
     | SaveSuccess
     | SaveError
