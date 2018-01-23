@@ -14,6 +14,7 @@ import { Character } from '../../app/models/character-model';
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
+import * as PrefActions from '../../app/store/actions/preferences-actions';
 
 const RANGETIMEOUT = 1250;
 const EVENTDEBOUNCE = RANGETIMEOUT / 4;
@@ -163,7 +164,9 @@ export class CharacterSheetPage {
     this.store.dispatch(new NavActions.CreateStat());
   }
 
-  ionViewDidLoad() { }
+  ionViewDidLoad() {
+    this.store.dispatch(new PrefActions.CloseSplash());
+  }
 
   getVis(value: number, maximum: number) {
     if (maximum < 1) {
