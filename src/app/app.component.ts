@@ -10,7 +10,7 @@ import { StorageService } from './services/storage.service';
 import { AppMenuComponent } from '../components/app-menu/app-menu';
 
 import * as fromRoot from './store/reducers';
-import * as UserActions from './store/actions/user-actions';
+// import * as UserActions from './store/actions/user-actions';
 import * as PreferencesActions from './store/actions/preferences-actions';
 
 @Component({
@@ -33,7 +33,7 @@ export class AppComponent {
       // console.log(this.storage.getDriver());
       this.store.dispatch(new PreferencesActions.Load());
       // this.store.dispatch(new UserActions.Load());
-
+      // get preferences and see if we are in an initial state
       statusBar.styleDefault();
       splashScreen.hide();
     });

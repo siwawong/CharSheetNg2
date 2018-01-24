@@ -12,6 +12,7 @@ import { PreferenceState } from '../reducers/preferences-reducer';
 import * as PREFERENCES from '../../models/preferences-model';
 
 import * as PrefActions from '../actions/preferences-actions';
+import * as NavActions from '../actions/nav-actions';
 import * as UserActions from '../actions/user-actions';
 import * as fromRoot from '../reducers';
 
@@ -28,17 +29,17 @@ export class PreferencesEffects {
             if (state.storage === null) {
                 // We are going to make sure preference
                 newActions.push(new PrefActions.ChangeMode(PREFERENCES.MODE.OFFLINE));
-                // Save to skip this next load;
-                newActions.push(new PrefActions.Save());
+                // The Effect observable $changeTheme will trigger whenever any preference is changed. Save should never need to be called
+                newActions.push(new NavActions.HelpSlides());
             } else {
                 newActions.push(new PrefActions.LoadSuccess(state.storage));
+                newActions.push(new UserActions.Load());                                                  
             }
-            newActions.push(new UserActions.Load());                                                  
             return newActions;
         });
 
     @Effect()
-    $changeTheme: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_THEME, PrefActions.CHANGE_MODE, PrefActions.CHANGE_TIMER)
+    $changeTheme: Observable<Action> = this.actions$.ofType(PrefActions.CHANGE_THEME, PrefActions.CHANGE_MODE, PrefActions.CHANGE_TIMER, PrefActions.CHANGE_INIT)
         .map(() => {
             return new PrefActions.Save();
         });
