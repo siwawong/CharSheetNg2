@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+// import { SplashScreen } from '@ionic-native/splash-screen';
 import { Store, Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -24,7 +24,7 @@ export class AppComponent {
 
   constructor(platform: Platform,
               statusBar: StatusBar,
-              splashScreen: SplashScreen,
+              // splashScreen: SplashScreen,
               private store: Store<fromRoot.State>,
               private storage: StorageService) {
 
