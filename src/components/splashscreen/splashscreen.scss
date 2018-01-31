@@ -1,3 +1,4 @@
+$textColor: #000000;
 splashscreen {
     #splashContainer {
         width: 100%;
@@ -6,7 +7,8 @@ splashscreen {
         left: 0px;
         top: 0px;
         z-index: 500;
-        background-color: skyblue;
+        background-color: #009688;
+        color: $textColor;
     }
     .flexWrap {
         height: 100%;
@@ -27,6 +29,7 @@ splashscreen {
         height: auto;
         animation: animation 1000ms linear both;
         animation-delay: 500ms;
+        fill: $textColor;
     }
     @keyframes animation {
         0% {
