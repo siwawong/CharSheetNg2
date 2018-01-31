@@ -1,9 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Operator } from 'rxjs/Operator';
+import { Observable } from 'rxjs/Observable';
 
-import { Store } from '@ngrx/store';
-import * as fromRoot from '../../app/store/reducers/index';
-// import { setTimeout } from 'timers';
+import { ActionsSubject } from '@ngrx/store';
+
+import 'rxjs/add/operator/filter';
+
+// https://stackoverflow.com/questions/44938803/error-with-actions-observable-in-ngrx-effects-using-typescript-2-4-1
+// Actions Subject was returning R instead of the needed action. Moddified interface to correct this.
+declare module "@ngrx/store/src/actions_subject" {
+  interface ActionsSubject {
+    lift<Action>(operator: Operator<Action, any>): Observable<Action>;
+  }
+}
+
+const SPLASHDELAYTIMER = 2000;
 
 @Component({
   selector: 'splashscreen',
@@ -11,17 +23,18 @@ import * as fromRoot from '../../app/store/reducers/index';
 })
 export class SplashscreenComponent {
   splashToggle = false;
-  loadSubscription: Subscription;
+  actionSub: Subscription;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(private dispatcher: ActionsSubject) {
   }
 
   ngOnInit() {
-    this.loadSubscription = this.store.select(fromRoot.getPrefSplash).subscribe(() => {
-        setTimeout(() => {
-          this.splashToggle = true;
-          this.loadSubscription.unsubscribe();
-        }, 2000);
+    // listen to the dispatcher directly to circumvent using more selectors and members for an event that happens once per application launch
+    this.actionSub = this.dispatcher.filter(action => action.type === '[Preferences] Close Splash').subscribe(() => {
+      setTimeout(() => {
+        this.splashToggle = true;
+        this.actionSub.unsubscribe();
+      }, SPLASHDELAYTIMER);
     });
   }
 }
