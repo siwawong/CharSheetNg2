@@ -49,9 +49,4 @@ export class CharacterListPage {
     this.store.dispatch(new NavActions.CreateCharacter());
   }
 
-  ionViewDidLoad() {
-    // console.log('ionViewDidLoad CharacterListPage');
-    this.store.dispatch(new PrefActions.CloseSplash());
-  }
-
 }

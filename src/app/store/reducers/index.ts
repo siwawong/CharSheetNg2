@@ -68,7 +68,6 @@ export const getNav            = createSelector(getNavRootPage, getNavStackPage,
 
 export const getPrefState = (state: State) => state.pref;
 
-export const getPrefSplash = createSelector(getPrefState, fromPref.getSplash);
 export const getPrefMode = createSelector(getPrefState, fromPref.getMode);
 export const getPrefInterval = createSelector(getPrefState, fromPref.getInterval);
 export const getPrefTheme = createSelector(getPrefState, fromPref.getTheme);

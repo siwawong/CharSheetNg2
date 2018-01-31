@@ -164,10 +164,6 @@ export class CharacterSheetPage {
     this.store.dispatch(new NavActions.CreateStat());
   }
 
-  ionViewDidLoad() {
-    this.store.dispatch(new PrefActions.CloseSplash());
-  }
-
   getVis(value: number, maximum: number) {
     if (maximum < 1) {
       return false;
