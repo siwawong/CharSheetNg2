@@ -13,7 +13,8 @@
         "ionic:personal": "cross-env NODE_ENV=personal npm run ionic:serve",
         "ionic:build:personal": "cross-env NODE_ENV=personal npm run ionic:build",
         "cordova:android": "cross-env NODE_ENV=personal ionic cordova run android --device",
-        "cordova:android:build": "cross-env NODE_ENV=personal ionic cordova build android"
+        "cordova:android:build": "cross-env NODE_ENV=personal ionic cordova build android",
+        "cordova:android:prod": "cross-env NODE_ENV=personal ionic cordova run android --prod"
     },
     "dependencies": {
         "@angular/animations": "4.1.3",

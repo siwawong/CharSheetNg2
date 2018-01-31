@@ -24,6 +24,7 @@ import { HttpService } from './services/http.service';
 
 import { AppComponent } from './app.component';
 import { AppMenuComponent } from '../components/app-menu/app-menu';
+import { SplashscreenComponent } from '../components/splashscreen/splashscreen';
 
 import { LoginUserPageModule } from '../pages/login-user/login-user.module';
 import { CreateUserPageModule } from '../pages/create-user/create-user.module';
@@ -37,7 +38,8 @@ import { HelpSlidesPageModule } from '../pages/help-slides/help-slides.module';
 @NgModule({
   declarations: [
     AppComponent,
-    AppMenuComponent
+    AppMenuComponent,
+    SplashscreenComponent
   ],
   entryComponents: [
     AppComponent

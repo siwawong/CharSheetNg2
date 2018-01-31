@@ -57,8 +57,9 @@ export function reducer(state = initialState, action: PreferenceActions.All): Pr
                 interval: state.interval,
                 theme: state.theme,
                 init: action.payload
-            }
+            };
         }
+        case PreferenceActions.CLOSE_SPLASH:
         case PreferenceActions.SAVE:
         case PreferenceActions.SAVE_ERROR:
         case PreferenceActions.SAVE_SUCCESS:

@@ -11,6 +11,7 @@ import * as fromRoot from '../../app/store/reducers';
 // import * as AuthActions from '../../app/store/actions/auth-actions';
 import * as CharacterActions from '../../app/store/actions/character-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
+import * as PrefActions from '../../app/store/actions/preferences-actions';
 
 import { Character } from '../../app/models/character-model';
 
@@ -51,9 +52,5 @@ export class CharacterListPage {
   removeCharacter(character: Character) {
     this.store.dispatch(new CharacterActions.Remove(character.id));
   }
-
-  ionViewDidLoad() {
-    // console.log('ionViewDidLoad CharacterListPage');
-  }
-
+  
 }
