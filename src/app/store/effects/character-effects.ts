@@ -112,6 +112,17 @@ export class CharacterEffects {
             return merge;
         });
     
+    @Effect()
+    remove$ = this.actions$.ofType(CharacterActions.REMOVE)
+        .map( toPayload )
+        .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (char_id, charMeta) => { return {char_id, charMeta}; } )
+        .map( result => {
+            // Using getCharMeta selector to get the ids property saves a for-loop and may be more efficient?
+            this.storage.remChar( result.charMeta.ids, null, result.char_id);
+            // The Stats portion of state does not know which character it belongs to and should always represent the most recent character selected.
+            return new StatActions.RemoveAll(result.char_id);  
+        });    
+
     @Effect({dispatch: false})
     removeAll$: Observable<Action> = this.actions$.ofType(CharacterActions.REMOVE_ALL)
         .withLatestFrom(this.store$.select(fromRoot.getCharMeta), (action, meta) => meta)
@@ -173,7 +184,6 @@ export class CharacterEffects {
             this.storage.setChar(char);
             return null;
         });
-        
 
     @Effect({dispatch: false})
     saveMeta$: Observable<Action> = this.actions$.ofType(CharacterActions.SAVE_META)

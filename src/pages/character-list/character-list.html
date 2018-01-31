@@ -21,8 +21,19 @@
 
 <ion-content padding>
     <ion-list>
-        <button ion-item *ngFor="let character of (characters | async); let i = index" (click)="selectCharacter(i)">
-          {{ character.name }}
-        </button>
+        <div *ngFor="let character of (characters | async); let i = index">
+            <ion-item-sliding>
+                <button ion-item (click)="selectCharacter(i)">
+                    {{ character.name }}
+                </button>
+                <ion-item-options side="right">
+                    <button ion-button (click)="removeCharacter(character)">
+                        <ion-icon name="trash">
+                        </ion-icon>
+                        Remove
+                    </button>
+                </ion-item-options>
+            </ion-item-sliding>
+        </div>
     </ion-list>
 </ion-content>

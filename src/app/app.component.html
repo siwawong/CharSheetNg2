@@ -1,7 +1,5 @@
-<!-- <div class="normal-theme"> -->
 <div class="{{ currentTheme | async | lowercase }}-theme">
     <app-menu [content]="mycontent"></app-menu>
-
     <ion-nav [root]="rootPage" #mycontent>
     </ion-nav>
     <splashscreen></splashscreen>
