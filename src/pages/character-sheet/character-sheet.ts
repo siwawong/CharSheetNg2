@@ -15,9 +15,6 @@ import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
-const RANGETIMEOUT = 1250;
-const EVENTDEBOUNCE = RANGETIMEOUT / 4;
-
 @IonicPage()
 @Component({
   selector: 'page-character-sheet',
@@ -68,10 +65,6 @@ export class CharacterSheetPage {
   private stats: Observable<CharacterStat[]>;
   private currentStat: Observable<CharacterStat>;
 
-  private timeoutRef;
-  private rangeValue: number;
-  private rangeMax: number;
-
   constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
@@ -82,37 +75,6 @@ export class CharacterSheetPage {
 
   unselectStat() {
     this.store.dispatch(new StatActions.Unselect());
-  }
-
-  calcRange(stat: CharacterStat) {
-    this.rangeMax = stat.maximum;
-    this.rangeValue = stat.value;
-  }
-
-  rangeChange(stat: CharacterStat) {
-    clearInterval(this.timeoutRef);
-    // this.formValue.setValue(this.rangeValue);
-    this.timeoutRef = setInterval(() => {
-      this.rangeEnd(stat);
-    }, RANGETIMEOUT);
-  }
-
-  rangeEnd(stat: CharacterStat) {
-    clearInterval(this.timeoutRef);
-    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
-    // console.log(`End ${JSON.stringify(newStat)}`); 
-    this.store.dispatch(new StatActions.Update(newStat));
-    // this.formValue.setValue('');
-  }
-  
-  rangeClick(stat: CharacterStat, type: string) {
-    // console.log(`click ${JSON.stringify(stat)}`);
-    if (type === 'PLUS') {
-      this.rangeValue += 1;      
-    } else {
-      this.rangeValue -= 1;      
-    }
-    this.rangeChange(stat);    
   }
 
   createStat() {
