@@ -17,6 +17,7 @@ import { StatSliderChangeComponent } from '../../components/stat-slider-change/s
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
+import * as PrefActions from '../../app/store/actions/preferences-actions';
 
 @IonicPage()
 @Component({

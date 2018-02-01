@@ -24,6 +24,7 @@ import { HttpService } from './services/http.service';
 
 import { AppComponent } from './app.component';
 import { AppMenuComponent } from '../components/app-menu/app-menu';
+import { SplashscreenComponent } from '../components/splashscreen/splashscreen';
 
 import { LoginUserPageModule } from '../pages/login-user/login-user.module';
 import { CreateUserPageModule } from '../pages/create-user/create-user.module';
@@ -32,11 +33,13 @@ import { CreateCharacterPageModule } from '../pages/create-character/create-char
 import { CharacterSheetPageModule } from '../pages/character-sheet/character-sheet.module';
 import { CreateStatPageModule } from '../pages/create-stat/create-stat.module';
 import { PreferencesPageModule } from '../pages/preferences/preferences.module';
+import { HelpSlidesPageModule } from '../pages/help-slides/help-slides.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppMenuComponent
+    AppMenuComponent,
+    SplashscreenComponent
   ],
   entryComponents: [
     AppComponent
@@ -62,7 +65,8 @@ import { PreferencesPageModule } from '../pages/preferences/preferences.module';
     CreateCharacterPageModule,
     CharacterSheetPageModule,
     CreateStatPageModule,
-    PreferencesPageModule
+    PreferencesPageModule,
+    HelpSlidesPageModule
   ],
   providers: [
     StorageService,

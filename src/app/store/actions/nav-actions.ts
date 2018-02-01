@@ -8,6 +8,8 @@ export const CHARACTER_SHEET  = '[Nav] Character Sheet';
 export const CREATE_STAT      = '[Nav] Create Stat';
 export const BACK             = '[Nav] Back';
 export const PREFERENCES      = '[Nav] Preferences';
+export const HELP_SLIDES      = '[Nav] Help Slides';
+export const HELP_SLIDES_MENU = '[Nav] Help Slides Menu';
 
 export class CreateUser implements Action {
     readonly type = CREATE_USER;
@@ -49,6 +51,17 @@ export class Preferences implements Action {
     constructor() { }
 }
 
+export class HelpSlides implements Action {
+    readonly type = HELP_SLIDES;
+    constructor() { }
+}
+
+export class HelpSlidesMenu implements Action {
+    readonly type = HELP_SLIDES_MENU;
+    constructor() { }
+}
+
+
 export type All
     = CreateUser
     | Login
@@ -57,4 +70,6 @@ export type All
     | CharacterSheet
     | CreateStat
     | Back
-    | Preferences;
+    | Preferences
+    | HelpSlides
+    | HelpSlidesMenu;
