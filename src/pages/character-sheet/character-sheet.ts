@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, OnDestroy, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { style, state, animate, trigger, transition } from '@angular/animations';
@@ -9,7 +9,10 @@ import { Store } from '@ngrx/store';
 
 import { CharacterStat } from '../../app/models/stat-model';
 import { Character } from '../../app/models/character-model';
+
 import { StatComponent } from '../../components/stat/stat';
+import { StatFormChangeComponent } from '../../components/stat-form-change/stat-form-change';
+import { StatSliderChangeComponent } from '../../components/stat-slider-change/stat-slider-change';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
@@ -19,7 +22,7 @@ import * as NavActions from '../../app/store/actions/nav-actions';
 @Component({
   selector: 'page-character-sheet',
   templateUrl: 'character-sheet.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('charTitle', [
       state('in',
@@ -44,34 +47,54 @@ import * as NavActions from '../../app/store/actions/nav-actions';
         }),
         animate(150)
       ])
-    ]),
-    trigger('activeRangeHeight', [
-      state('in', style({
-        height: '*',
-        overflow: 'hidden'
-      })),
-      transition('void => *', [
-        style({
-          height: '0px',
-          overflow: 'hidden'
-        }),
-        animate(250)
-      ])
     ])
+    // trigger('activeRangeHeight', [
+    //   state('in', style({
+    //     height: '*',
+    //     overflow: 'hidden'
+    //   })),
+    //   transition('void => *', [
+    //     style({
+    //       height: '0px',
+    //       overflow: 'hidden'
+    //     }),
+    //     animate(250)
+    //   ])
+    // ])
   ]
 })
 export class CharacterSheetPage {
+  @ViewChild('statsContainer', { read: ViewContainerRef }) container: ViewContainerRef;
+  // private statsComponents = [];
   private character: Observable<Character>;
-  private stats: Observable<CharacterStat[]>;
+  // private stats: Observable<CharacterStat[]>;
+  private currId: string | null;
+  private currSub: Subscription;
+  private statsSub: Subscription;
   private currentStat: Observable<CharacterStat>;
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>, private compFactRes: ComponentFactoryResolver) { }
 
   ngOnInit() {
     this.character = this.store.select(fromRoot.getCharacter);
-    this.stats = this.store.select(fromRoot.getStats);
     this.currentStat = this.store.select(fromRoot.getStat);
+
+    this.currSub = this.store.select(fromRoot.getStatId).subscribe((id) => {
+      this.currId = id;
+    });
+
+    this.statsSub = this.store.select(fromRoot.getStats).subscribe((stats) => {
+      this.buildComponentList(stats);
+    });
   }
+
+  // ngAfterViewInit() {
+    // this.stats = this.store.select(fromRoot.getStats);
+
+    // this.store.select(fromRoot.getStats), (action, stats) => {
+    //   this.buildComponentList(stats);
+    // };
+  // }
 
   unselectStat() {
     this.store.dispatch(new StatActions.Unselect());
@@ -84,4 +107,33 @@ export class CharacterSheetPage {
   editStat() {
     this.store.dispatch(new NavActions.CreateStat('EDITMODE'));
   }
+
+  buildComponentList(statsList: CharacterStat[]) {
+    this.container.clear();
+    // console.log('BUILD COMPONENT');
+    statsList.forEach((stat, index) => {
+      if (stat.id !== this.currId) {
+        const componentFactory = this.compFactRes.resolveComponentFactory(StatComponent);
+        const component = this.container.createComponent(componentFactory);
+        (<StatComponent>component.instance).stat = stat;
+        (<StatComponent>component.instance).index = index;
+      } else {
+        if (stat.maximum > 0) {
+          const componentFactory = this.compFactRes.resolveComponentFactory(StatSliderChangeComponent);
+          const component = this.container.createComponent(componentFactory);
+          (<StatSliderChangeComponent>component.instance).stat = stat;
+        } else {
+          const componentFactory = this.compFactRes.resolveComponentFactory(StatFormChangeComponent);
+          const component = this.container.createComponent(componentFactory);
+          (<StatFormChangeComponent>component.instance).stat = stat;
+        }
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.currSub.unsubscribe();
+    this.statsSub.unsubscribe();
+  }
+
 }

@@ -1,23 +1,23 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 
 import { CharacterStat } from '../../app/models/stat-model';
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
-import { CharacterSheet } from '../../app/store/actions/nav-actions';
+// import { CharacterSheet } from '../../app/store/actions/nav-actions';
 
 @Component({
   selector: 'stat-form-change',
   templateUrl: 'stat-form-change.html'
 })
 export class StatFormChangeComponent {
-  // @Input() stat: CharacterStat;
+  @Input() stat: CharacterStat;
   // @Input() index: number;
   @ViewChild('inputFocus') inputFoc: ElementRef;
-  private stat: Observable<CharacterStat>;
+  // private stat: Observable<CharacterStat>;
 
   private editStatForm: FormGroup;
   private formValue: FormControl; 
@@ -26,13 +26,15 @@ export class StatFormChangeComponent {
   }
 
   ngOnInit() {
-    this.stat = this.store.select(fromRoot.getStat);
-
+    // this.stat = this.store.select(fromRoot.getStat);
     this.formValue = new FormControl('', Validators.required);
 
     this.editStatForm = new FormGroup({
       value: this.formValue
     });
+  }
+
+  ngAfterViewInit() {
     this.inputFoc.nativeElement.focus();
   }
 

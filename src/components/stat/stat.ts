@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -8,7 +8,8 @@ import { CharacterStat } from '../../app/models/stat-model';
 
 @Component({
   selector: 'stat',
-  templateUrl: 'stat.html'
+  templateUrl: 'stat.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatComponent {
   @Input() stat: CharacterStat;

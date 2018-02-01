@@ -15,7 +15,7 @@ const EVENTDEBOUNCE = RANGETIMEOUT / 4;
 })
 export class StatSliderChangeComponent {
   @Input() stat: CharacterStat;
-  @Input() index: number;
+  // @Input() index: number;
 
   private timeoutRef;
   private rangeValue: number;

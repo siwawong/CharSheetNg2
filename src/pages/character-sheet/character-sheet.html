@@ -33,9 +33,7 @@
 
 <ion-content>
     <ion-list class="listFixer">
-        <stat *ngFor="let stat of (stats | async); let i = index" [stat]="stat" [index]="i"></stat>
-        <!-- <div *ngFor="let stat of (stats | async); let i = index">
-            <div *ngIf="(currentStat | async)?.id === stat.id; then editMode else viewMode"></div>
-        </div> -->
+        <!-- <stat *ngFor="let stat of (stats | async); let i = index" [stat]="stat" [index]="i"></stat> -->
+        <ng-template #statsContainer></ng-template>
     </ion-list>
 </ion-content>
