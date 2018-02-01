@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 
 import { CharacterStat } from '../../app/models/stat-model';
 import { Character } from '../../app/models/character-model';
+import { StatComponent } from '../../components/stat/stat';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
