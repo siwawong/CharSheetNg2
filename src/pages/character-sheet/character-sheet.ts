@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { style, state, animate, trigger, transition } from '@angular/animations';
@@ -65,40 +64,17 @@ const EVENTDEBOUNCE = RANGETIMEOUT / 4;
   ]
 })
 export class CharacterSheetPage {
-  @ViewChild('inputFocus') inputFoc: ElementRef;
   private character: Observable<Character>;
   private stats: Observable<CharacterStat[]>;
   private currentStat: Observable<CharacterStat>;
-  private statSub: Subscription;
 
   private timeoutRef;
   private rangeValue: number;
   private rangeMax: number;
 
-  private editStatForm: FormGroup;
-  private formValue: FormControl; 
-
   constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
-    this.formValue = new FormControl('', Validators.required);
-
-    this.editStatForm = new FormGroup({
-      value: this.formValue
-    });
-
-    this.statSub = this.store.select(fromRoot.getStat).subscribe((stat) => {
-      if (stat) {
-        this.calcRange(stat);
-        if (stat.maximum < 1) {
-          // Seems Jank
-          setTimeout(() => {
-            this.inputFoc.nativeElement.focus();
-          },150);
-        }
-      }
-    });
-
     this.character = this.store.select(fromRoot.getCharacter);
     this.stats = this.store.select(fromRoot.getStats);
     this.currentStat = this.store.select(fromRoot.getStat);
@@ -115,7 +91,7 @@ export class CharacterSheetPage {
 
   rangeChange(stat: CharacterStat) {
     clearInterval(this.timeoutRef);
-    this.formValue.setValue(this.rangeValue);
+    // this.formValue.setValue(this.rangeValue);
     this.timeoutRef = setInterval(() => {
       this.rangeEnd(stat);
     }, RANGETIMEOUT);
@@ -126,7 +102,7 @@ export class CharacterSheetPage {
     const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
     // console.log(`End ${JSON.stringify(newStat)}`); 
     this.store.dispatch(new StatActions.Update(newStat));
-    this.formValue.setValue('');
+    // this.formValue.setValue('');
   }
   
   rangeClick(stat: CharacterStat, type: string) {
@@ -139,34 +115,8 @@ export class CharacterSheetPage {
     this.rangeChange(stat);    
   }
 
-  formChange(stat: CharacterStat, type: string, evt: Event) {
-    evt.preventDefault();
-    let newValue;
-    let subNum = this.editStatForm.get('value').value;
-
-    if (type === 'PLUS') {
-      newValue = stat.value + subNum;      
-    } else {
-      newValue = stat.value - subNum;
-    }
-
-    // If a maximum has been set, we also have a minimum of zero. Get the value in bounded
-    if (stat.maximum > 0 ) {
-      newValue = (newValue < stat.maximum) ? newValue : stat.maximum;
-      newValue = (newValue > 0) ? newValue : 0;
-    }
-    
-
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
-    this.formValue.setValue('');
-  }
-
   createStat() {
     this.store.dispatch(new NavActions.CreateStat());
-  }
-
-  ngOnDestroy() {
-    this.statSub.unsubscribe();
   }
 
   editStat() {

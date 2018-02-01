@@ -1,4 +1,21 @@
-<!-- Generated template for the StatFormChangeComponent component -->
-<div>
-  {{text}}
-</div>
+<ion-item class="formEdit">
+    <form [formGroup]="editStatForm">
+        <div>
+            <ion-row>
+                <ion-col col-2>
+                    <button (click)="formChange(stat, 'MINUS', $event)" ion-button icon-only clear>
+              <ion-icon name="remove"></ion-icon>
+          </button>
+                </ion-col>
+                <ion-col col-8 class="formEditInput">
+                    <input type="number" placeholder="Change {{stat.value}} by" formControlName="value" #inputFocus/>
+                </ion-col>
+                <ion-col col-2>
+                    <button (click)="formChange(stat, 'PLUS', $event)" ion-button icon-only clear>
+              <ion-icon name="add" ></ion-icon>
+          </button>
+                </ion-col>
+            </ion-row>
+        </div>
+    </form>
+</ion-item>
