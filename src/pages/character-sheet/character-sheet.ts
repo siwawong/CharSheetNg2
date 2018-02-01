@@ -104,11 +104,6 @@ export class CharacterSheetPage {
     this.currentStat = this.store.select(fromRoot.getStat);
   }
 
-  selectStat(stat: CharacterStat, index: number) {
-    this.store.dispatch(new StatActions.Select(index));
-    this.calcRange(stat);    
-  }
-
   unselectStat() {
     this.store.dispatch(new StatActions.Unselect());
   }
@@ -166,36 +161,8 @@ export class CharacterSheetPage {
     this.formValue.setValue('');
   }
 
-  removeStat(stat: CharacterStat) {
-    const toRemove = stat.id;
-    this.store.dispatch(new StatActions.Remove(toRemove));
-  }
-
   createStat() {
     this.store.dispatch(new NavActions.CreateStat());
-  }
-
-  ionViewDidLoad() { }
-
-  getVis(value: number, maximum: number) {
-    if (maximum < 1) {
-      return false;
-    } else if (value >= maximum) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  refresh(stat: CharacterStat) {
-    // console.log(`refresh ${JSON.stringify(stat)}`);    
-    this.store.dispatch(new StatActions.Update({
-        id: stat.id,
-        name: stat.name,
-        value: stat.maximum,
-        maximum: stat.maximum,
-        type: stat.type
-      }));
   }
 
   ngOnDestroy() {

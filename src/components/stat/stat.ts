@@ -1,21 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-/**
- * Generated class for the StatComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
+import { Store } from '@ngrx/store';
+
+import * as fromRoot from '../../app/store/reducers';
+import * as StatActions from '../../app/store/actions/stat-actions';
+import { CharacterStat } from '../../app/models/stat-model';
+
 @Component({
   selector: 'stat',
   templateUrl: 'stat.html'
 })
 export class StatComponent {
+  @Input() stat: CharacterStat;
+  @Input() index: number;
 
-  text: string;
-
-  constructor() {
-    this.text = 'Hello World';
+  constructor(private store: Store<fromRoot.State>) {
   }
 
+  selectStat() {
+    this.store.dispatch(new StatActions.Select(this.index));
+  }
+
+  removeStat() {
+    this.store.dispatch(new StatActions.Remove(this.stat.id));
+  }
+
+  refresh() {
+    this.store.dispatch(new StatActions.Update({
+        id: this.stat.id,
+        name: this.stat.name,
+        value: this.stat.maximum,
+        maximum: this.stat.maximum,
+        type: this.stat.type
+      }));
+  }
+
+  getVis(value: number, maximum: number) {
+    if (maximum < 1) {
+      return false;
+    } else if (value >= maximum) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
