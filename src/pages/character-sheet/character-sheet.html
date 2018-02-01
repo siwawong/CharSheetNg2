@@ -1,9 +1,3 @@
-<!--
-  Generated template for the CharacterSheetPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header [ngStyle]="{'background-color': (currentStat | async) ? 'red' : '#488aff' }">
     <div *ngIf="(currentStat | async); then titleEdit else titleAdd"></div>
     <ng-template #titleAdd>
@@ -39,7 +33,8 @@
 
 <ion-content>
     <ion-list class="listFixer">
-        <div *ngFor="let stat of (stats | async); let i = index">
+        <stat *ngFor="let stat of (stats | async); let i = index" [stat]="stat" [index]="i"></stat>
+        <!-- <div *ngFor="let stat of (stats | async); let i = index">
             <div *ngIf="(currentStat | async)?.id === stat.id; then editMode else viewMode"></div>
             <ng-template #viewMode>
                 <ion-item-sliding>
@@ -114,6 +109,6 @@
                     </form>
                 </ion-item>
             </ng-template>
-        </div>
+        </div> -->
     </ion-list>
 </ion-content>
