@@ -7,18 +7,102 @@
 </ion-header> -->
 
 <ion-content padding>
-    <ion-slides pager>
-        <ion-slide style="background-color: green">
-            <h2>Slide 1</h2>
+    <ion-slides pager paginationType="progress">
+        <ion-slide>
+            <h3>Catchphrase</h3>
+            <p>Stop wasting countless notepads on your life total.</p>
         </ion-slide>
 
-        <ion-slide style="background-color: blue">
-            <h2>Slide 2</h2>
+        <ion-slide>
+            <h3>Welcome</h3>
+            <p>{{appTitle}} allows you to easily track frequently-changing information about your characters.</p>
         </ion-slide>
 
-        <ion-slide style="background-color: red">
-            <h2>Slide 3</h2>
-            <div (click)="closeHelp()">TEMP CLOSE...</div>
+        <ion-slide>
+            <h3>Character Creation Is Easy</h3>
+            <p>Just click the
+                <ion-icon name="add" isActive="false"></ion-icon>
+                at the top and give them a name.</p>
+        </ion-slide>
+
+        <ion-slide>
+            <h3>Death Is Merely A Hinderance</h3>
+            <p>Characters are easily deleted by sliding them left and clicking
+                <ion-icon name="trash" isActive="false"></ion-icon> .</p>
+        </ion-slide>
+
+        <ion-slide>
+            <h3>Character Sheet</h3>
+            <p>Characters are a collection of stats representing dynamic attributes.</p>
+        </ion-slide>
+
+        <!-- 
+           Should try to give an example using every type of interaction component. 
+        -->
+        <ion-slide>
+            <!-- SVG Image of crossed weapons? -->
+            <h3>{{statDemoTitle}}</h3>
+            <h4>A Reoccuring Scuffle</h4>
+            <p>{{demoChar}} vs {{demoMob}}</p>
+        </ion-slide>
+
+        <ion-slide>
+            <!-- The Action stat should be one above minimum and use the + / - component -->
+            <h3>{{statDemoTitle}}</h3>
+            <h4>Recording Change</h4>
+            <p>{{demoChar}} shoot at {{demoMob}} and misses! Select Actions and click
+                <ion-icon name="remove" isActive="false"></ion-icon> to document {{demoChar}}'s failure.</p>
+        </ion-slide>
+
+        <ion-slide>
+            <h3>{{statDemoTitle}}</h3>
+            <h4>Removing Stats</h4>
+            <p>{{demoMob}} hits {{demoChar}} for {{demoMobDMG}}! Slide {{destroyedItem}} left and click
+                <ion-icon name="trash" isActive="false"></ion-icon> to destroy {{demoChar}}'s armor.</p>
+        </ion-slide>
+
+        <ion-slide>
+            <h3>{{statDemoTitle}}</h3>
+            <h4>Resetting Stats</h4>
+            <p>Slide Actions to the right and click
+                <ion-icon name="refresh" isActive="false"></ion-icon> to start a new round.</p>
+        </ion-slide>
+
+        <ion-slide>
+            <!-- The Mana stat should be the slider component-->
+            <h3>{{statDemoTitle}}</h3>
+            <h4>Sliders Can Work</h4>
+            <p>{{demoChar}} spends {{demoSpellCost}} to kill {{demoMob}} with {{demoSpell}}! Select {{manaName}} and drag the slider to {{newManaValue}}.</p>
+        </ion-slide>
+
+        <ion-slide>
+            <!-- TheExperience stat should be the input component-->
+            <h3>{{statDemoTitle}}</h3>
+            <h4>Typing Is Cool Too</h4>
+            <p>{{demoMob}} was worth {{demoMobExp}} experience. Select Experience, type {{demoMobExp}} and click
+                <ion-icon name="add" isActive="false"></ion-icon> .</p>
+        </ion-slide>
+
+        <ion-slide>
+            <h3>{{statDemoTitle}}</h3>
+            <h4>Stat Creation</h4>
+            <p>{{demoMob}} was wearing a {{demoMobArmor}}. Click
+                <ion-icon name="add" isActive="false"></ion-icon> at the top to add it.</p>
+        </ion-slide>
+
+        <ion-slide>
+            <h3>Stat Creation</h3>
+            <!-- <h4>Stat Creation</h4> -->
+            <p></p>
         </ion-slide>
     </ion-slides>
+    <ion-footer>
+        <ion-toolbar>
+            <ion-buttons end>
+                <button ion-button (click)="jumpToWalk()">How To</button>
+                <button ion-button (click)="jumpToAdd()">Add Stats</button>
+                <button ion-button (click)="closeHelp()">{{skipText}}</button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-footer>
 </ion-content>

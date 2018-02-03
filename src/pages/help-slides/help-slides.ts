@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { IonicPage, Slides } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
@@ -16,6 +16,23 @@ import * as PrefActions from '../../app/store/actions/preferences-actions';
   templateUrl: 'help-slides.html',
 })
 export class HelpSlidesPage {
+  @ViewChild(Slides) slides: Slides;
+  skipText = 'Skip';
+  appTitle = 'Simple Character Sheet';
+  statDemoTitle = 'The Contrived Example';
+  demoChar = 'Itzal';
+  demoMob = 'Goblin';
+  demoMobArmor = 'Worn Jerkin';
+  demoMobExp = 500;
+  demoMobDMG = 40;
+  demoMobDMGType = 'SDC';
+  destroyedItem = 'Worn Duster';
+  demoSpell = 'Fireball';
+  demoSpellCost = 15;
+  demoSpellType = 'PPE';
+  manaName = 'Mana';
+  newManaValue = 10;
+
   fromMenu = false;
   changeInitSub: Subscription;
   changeInitObj: Observable<boolean>;
@@ -26,6 +43,7 @@ export class HelpSlidesPage {
   ngOnInit() {
     this.changeInitSub = this.store.subscribe((state) => {
       this.fromMenu = state.pref.init;
+      this.skipText = this.fromMenu ? 'Close' : 'Skip';
     });
     this.changeInitObj = this.store.select(fromRoot.getPrefInit);
   }
@@ -37,6 +55,14 @@ export class HelpSlidesPage {
       this.store.dispatch(new PrefActions.ChangeInit(true));
       this.store.dispatch(new UserActions.Load()); 
     }
+  }
+
+  jumpToWalk() {
+    this.slides.slideTo(5);
+  }
+
+  jumpToAdd() {
+    this.slides.slideTo(12);
   }
 
   ngOnDestroy() {
