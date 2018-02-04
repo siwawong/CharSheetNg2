@@ -29,7 +29,11 @@
                 <ion-icon name="settings" item-start></ion-icon>
                 Preferences
             </button>
-            <div *ngIf="mode === templateModeTestVar; then logoutButton else loginButton"></div>
+            <button ion-item (click)="showHelp()" menuClose>
+                <ion-icon name="help" item-start></ion-icon>
+                Help
+            </button>
+            <!-- <div *ngIf="mode === templateModeTestVar; then logoutButton else loginButton"></div> -->
             <!-- <ng-template #logoutButton>
                 <button ion-item (click)="logout()" menuClose>
                             <ion-icon name="log-out" item-start></ion-icon>

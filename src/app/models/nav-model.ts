@@ -5,6 +5,7 @@ import { CreateStatPage } from '../../pages/create-stat/create-stat';
 import { CreateUserPage } from '../../pages/create-user/create-user';
 import { LoginUserPage } from '../../pages/login-user/login-user';
 import { PreferencesPage } from '../../pages/preferences/preferences';
+import { HelpSlidesPage } from '../../pages/help-slides/help-slides';
 
 export const PAGES = {
     'login': LoginUserPage,
@@ -13,5 +14,6 @@ export const PAGES = {
     'createChar': CreateCharacterPage,
     'charSheet': CharacterSheetPage,
     'createStat': CreateStatPage,
-    'preferences': PreferencesPage
+    'preferences': PreferencesPage,
+    'helpSlide' : HelpSlidesPage
 };

@@ -7,12 +7,7 @@ import * as UserActions from '../../app/store/actions/user-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 
 import * as PREFERENCES from '../../app/models/preferences-model';
-/**
- * Generated class for the AppDrawComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
+
 @Component({
   selector: 'app-menu',
   templateUrl: 'app-menu.html',
@@ -41,7 +36,6 @@ export class AppMenuComponent {
   }
 
   login() {
-    console.log('LOGIN!');
     this.store.dispatch(new NavActions.Login());
   }
 
@@ -51,5 +45,9 @@ export class AppMenuComponent {
 
   prefNav() {
     this.store.dispatch(new NavActions.Preferences());
+  }
+
+  showHelp() {
+    this.store.dispatch(new NavActions.HelpSlidesMenu());
   }
 }
