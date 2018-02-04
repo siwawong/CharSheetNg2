@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 
 import { CharacterStat } from '../../app/models/stat-model';
 import { Character } from '../../app/models/character-model';
+import { STATCOMPONENTS } from '../../app/models/statComponents-model';
 
 import { StatComponent } from '../../components/stat/stat';
 import { StatFormChangeComponent } from '../../components/stat-form-change/stat-form-change';
@@ -118,14 +119,16 @@ export class CharacterSheetPage {
         (<StatComponent>component.instance).stat = stat;
         (<StatComponent>component.instance).index = index;
       } else {
-        if (stat.maximum > 0) {
-          const componentFactory = this.compFactRes.resolveComponentFactory(StatSliderChangeComponent);
-          const component = this.container.createComponent(componentFactory);
-          (<StatSliderChangeComponent>component.instance).stat = stat;
-        } else {
-          const componentFactory = this.compFactRes.resolveComponentFactory(StatFormChangeComponent);
-          const component = this.container.createComponent(componentFactory);
-          (<StatFormChangeComponent>component.instance).stat = stat;
+        const componentFactory = this.compFactRes.resolveComponentFactory(STATCOMPONENTS[stat.component]);
+        const component = this.container.createComponent(componentFactory);
+        // Component Ref requires explicitly calling the component
+        switch (stat.component) {
+          case 'form': {
+            (<StatFormChangeComponent>component.instance).stat = stat;
+          }
+          case 'slidePlus': {
+            (<StatSliderChangeComponent>component.instance).stat = stat;
+          };
         }
       }
     });
