@@ -1,6 +1,5 @@
 stat-form-change {
     .formEdit {
-        padding: 0px;
         .item-inner {
             position: relative;
             z-index: 1;
@@ -13,5 +12,11 @@ stat-form-change {
             border: 0px;
             border-bottom: 1px solid;
         }
+        .row {
+            padding: .15em .25em .25em .25em;
+        }
+    }
+    .formEdit.item {
+        padding-left: 0px;
     }
 }

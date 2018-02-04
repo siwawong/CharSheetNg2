@@ -15,11 +15,11 @@ const EVENTDEBOUNCE = RANGETIMEOUT / 4;
 export class EditStatComponent {
   @Input() stat: CharacterStat;
 
-  private timeoutRef;
-  private rangeValue: number;
-  private rangeMax: number;
+  protected timeoutRef;
+  protected rangeValue: number;
+  protected rangeMax: number;
 
-  constructor(private store: Store<fromRoot.State>) {
+  constructor(protected store: Store<fromRoot.State>) {
   }
   
   ngOnInit() {
@@ -42,15 +42,6 @@ export class EditStatComponent {
     clearInterval(this.timeoutRef);
     const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type, component: stat.component};
     this.store.dispatch(new StatActions.Update(newStat));
-  }
-  
-  rangeClick(stat: CharacterStat, type: string) {
-    if (type === 'PLUS') {
-      this.rangeValue += 1;      
-    } else {
-      this.rangeValue -= 1;      
-    }
-    this.rangeChange(stat);    
   }
 
 }
