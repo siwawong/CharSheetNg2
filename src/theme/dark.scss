@@ -92,10 +92,10 @@ $text-input-md-highlight-color: $primary;
             border-bottom-color: $dividers;
         }
         .list-header {
-            background-color: $secondary;
-            color: $secondaryText;
+            background-color: $secondaryDark;
+            color: $secondaryTextLight;
             .button.button-clear {
-                color: $secondaryText;
+                color: $secondaryTextLight;
             }
         }
         .item.item-block.item-input {
