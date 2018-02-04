@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IonicPage, Navbar, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 
 import { CharacterStat } from '../../app/models/stat-model';
+// import { STATCOMPONENTS } from '../../app/models/statComponents-model';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
@@ -26,7 +27,6 @@ import * as NavActions from '../../app/store/actions/nav-actions';
 @Component({
   selector: 'page-create-stat',
   templateUrl: 'create-stat.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateStatPage {
   @ViewChild(Navbar) navBar: Navbar;
@@ -41,6 +41,7 @@ export class CreateStatPage {
   private value: FormControl;
   private maximum: FormControl;
   private type: FormControl;
+  private component: FormControl;
 
   private addStatForm: FormGroup;
 
@@ -57,12 +58,14 @@ export class CreateStatPage {
     this.value = new FormControl('', Validators.required);
     this.maximum = new FormControl('', Validators.required);
     this.type = new FormControl('', Validators.required);
+    this.component = new FormControl('', Validators.required);
     
     this.addStatForm = new FormGroup({
       name: this.name,
       value: this.value,
       maximum: this.maximum,
-      type: this.type
+      type: this.type,
+      component: this.component
     });
 
     this.statSub = this.store.select(fromRoot.getStat).subscribe((stat) => {
@@ -73,6 +76,7 @@ export class CreateStatPage {
         group.get('value').setValue(stat.value);
         group.get('maximum').setValue(stat.maximum);
         group.get('type').setValue(stat.type); 
+        group.get('component').setValue(stat.component);
       }     
     });
 
@@ -84,7 +88,8 @@ export class CreateStatPage {
       name: this.name.value,
       value: +this.value.value,
       maximum: +this.maximum.value,
-      type: this.type.value
+      type: this.type.value,
+      component: this.component.value
     };
     if (this.title === NORMALTITLE) {
       this.store.dispatch(new StatActions.Add(newStat));      
