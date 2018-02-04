@@ -55,7 +55,7 @@ export class StatFormChangeComponent {
       newValue = (newValue > 0) ? newValue : 0;
     }    
 
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
+    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type, component: stat.component}));    
     this.formValue.setValue('');
   }
 

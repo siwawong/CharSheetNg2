@@ -42,7 +42,7 @@ export class StatSliderChangeComponent {
 
   rangeEnd(stat: CharacterStat) {
     clearInterval(this.timeoutRef);
-    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
+    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type, component: stat.component};
     this.store.dispatch(new StatActions.Update(newStat));
   }
   

@@ -32,7 +32,8 @@ export class StatComponent {
         name: this.stat.name,
         value: this.stat.maximum,
         maximum: this.stat.maximum,
-        type: this.stat.type
+        type: this.stat.type,
+        component: this.stat.component
       }));
   }
 
