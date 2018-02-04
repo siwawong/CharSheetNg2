@@ -14,6 +14,7 @@ import { STATCOMPONENTS } from '../../app/models/statComponents-model';
 import { StatComponent } from '../../components/stat/stat';
 import { StatFormChangeComponent } from '../../components/stat-form-change/stat-form-change';
 import { StatSliderChangeComponent } from '../../components/stat-slider-change/stat-slider-change';
+import { StatButtonChangeComponent } from '../../components/stat-button-change/stat-button-change';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
@@ -127,9 +128,12 @@ export class CharacterSheetPage {
           case 'form': {
             (<StatFormChangeComponent>component.instance).stat = stat;
           }
-          case 'slidePlus': {
+          case 'slide': {
             (<StatSliderChangeComponent>component.instance).stat = stat;
           };
+          case 'button': {
+            (<StatButtonChangeComponent>component.instance).stat = stat;          
+          }
         }
       }
     });
