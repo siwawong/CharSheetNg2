@@ -39,7 +39,8 @@ export function reducer(state = initialState, action: StatActions.All): StatStat
                 value: action.payload.value,
                 maximum: action.payload.maximum,
                 type: action.payload.type,
-                updated: Date.now()
+                updated: Date.now(),
+                component: action.payload.component
             };
 
             return {
