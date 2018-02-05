@@ -23,6 +23,8 @@ export class HelpSlidesPage {
   demoChar = 'Itzal';
   demoMob = 'Goblin';
   demoMobArmor = 'Worn Jerkin';
+  demoMobArmorVal = 5;
+  demoMobArmorValMax = 20;
   demoMobExp = 500;
   demoMobDMG = 40;
   demoMobDMGType = 'SDC';
