@@ -19,4 +19,14 @@ page-character-sheet {
         display: flex;
         flex-direction: column;
     }
+    .editHeader {
+        .slideFlexWrap {
+            display: flex;
+            width: 100%;
+            .value {
+                flex-grow: 1;
+                text-align: center;
+            }
+        }
+    }
 }

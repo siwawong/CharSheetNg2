@@ -2,7 +2,7 @@
     <div>
         <!-- [@activeRangeHeight] -->
         <ion-item>
-            <ion-range class="rangeSlider" pin="true" min="0" max="{{rangeMax}}" [(ngModel)]="rangeValue" debounce="{{EVENTDEBOUNCE}}" (ionChange)="rangeChange(stat)">
+            <ion-range class="rangeSlider" min="0" max="{{rangeMax}}" [(ngModel)]="rangeValue" debounce="{{EVENTDEBOUNCE}}" (ionChange)="rangeChange(stat)">
                 <ion-label range-left class="rangeLeft">
                     0
                 </ion-label>

@@ -72,8 +72,12 @@ export class CharacterSheetPage {
   private character: Observable<Character>;
   // private stats: Observable<CharacterStat[]>;
   private currId: string | null;
+  private currRngVal  = 0;
+
   private currSub: Subscription;
   private statsSub: Subscription;
+  private rngValSub: Subscription;
+
   private currentStat: Observable<CharacterStat>;
 
   constructor(private store: Store<fromRoot.State>, private compFactRes: ComponentFactoryResolver) { }
@@ -112,6 +116,10 @@ export class CharacterSheetPage {
   }
 
   buildComponentList(statsList: CharacterStat[]) {
+    if (this.rngValSub !== undefined) {
+      this.currRngVal = 0;
+      this.rngValSub.unsubscribe();
+    }
     this.container.clear();
     // console.log('BUILD COMPONENT');
     statsList.forEach((stat, index) => {
@@ -127,13 +135,19 @@ export class CharacterSheetPage {
         switch (stat.component) {
           case 'form': {
             (<StatFormChangeComponent>component.instance).stat = stat;
-          }
+            break;
+          };
           case 'slide': {
             (<StatSliderChangeComponent>component.instance).stat = stat;
+            this.rngValSub = (<StatSliderChangeComponent>component.instance).rngValue.subscribe((compRngVal) => {
+              this.currRngVal = compRngVal;
+            });
+            break;
           };
           case 'button': {
-            (<StatButtonChangeComponent>component.instance).stat = stat;          
-          }
+            (<StatButtonChangeComponent>component.instance).stat = stat;
+            break;          
+          };
         }
       }
     });

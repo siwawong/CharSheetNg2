@@ -16,7 +16,12 @@
     </ng-template>
     <ng-template #titleEdit>
         <ion-navbar class="editHeader" [@statTitle]>
-            <ion-title>{{ ( currentStat | async )?.name }}</ion-title>
+            <ion-title>
+                <div class="slideFlexWrap">
+                    <span>{{ ( currentStat | async )?.name }}</span>
+                    <span class="value" *ngIf="currRngVal != 0">{{ currRngVal }}</span>
+                </div>
+            </ion-title>
             <ion-buttons end>
                 <button ion-button icon-only (click)="editStat()">
                      <ion-icon name="open">
