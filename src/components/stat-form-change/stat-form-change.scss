@@ -17,4 +17,12 @@ stat-form-change {
     .formEdit.item {
         padding-left: 0px;
     }
+    .item.item-block.item-input {
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
 }

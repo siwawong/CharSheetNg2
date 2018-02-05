@@ -19,23 +19,4 @@ page-character-sheet {
         display: flex;
         flex-direction: column;
     }
-    .list-header {
-        border: none;
-        margin: 0em;
-        font-size: 1.2em;
-        padding: .55em;
-        display: flex;
-        flex: 1;
-        .button.button-clear {
-            margin: 0;
-        }
-    }
-    .item.item-block.item-input {
-        border: none;
-        margin: 0px;
-        padding: 0px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-    }
 }
