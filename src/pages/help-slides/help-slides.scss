@@ -1,3 +1,32 @@
 page-help-slides {
-
+    .bar-button-default {
+        border: 1px solid white;
+    }
+    .slide-zoom {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding-top: 4em;
+        padding-bottom: 2em;
+        h3 {
+            // background-color: blue;
+        }
+        img {
+            height: 55%;
+            // background-color: yellow;
+        }
+        section {
+            height: 35%;
+            // background-color: green;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            h4 {
+                min-height: 1em;
+            }
+            p {
+                flex-grow: 1;
+            }
+        }
+    }
 }
