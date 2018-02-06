@@ -77,10 +77,10 @@ $lightGrey: #F5F5F6;
             border-bottom-color: $lightGrey;
         }
         .list-header {
-            background-color: $secondary;
-            color: $secondaryText;
+            background-color: $secondaryDark;
+            color: $secondaryTextLight;
             .button.button-clear {
-                color: $secondaryText;
+                color: $secondaryTextLight;
             }
         }
         .item.item-block.item-input {

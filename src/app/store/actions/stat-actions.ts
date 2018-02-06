@@ -54,7 +54,7 @@ export const UNSELECT                   = '[Character-Stat] Unselect';
 export class Add implements Action {
     readonly type = ADD;
 
-    constructor(public payload: {name: string,  value: number, maximum: number, type: string}) { }
+    constructor(public payload: {name: string,  value: number, maximum: number, type: string, component: string}) { }
 };
 
 // export class AddError implements Action {
@@ -228,7 +228,7 @@ export class RemoveAllNetworkError implements Action {
 export class Update implements Action {
     readonly type = UPDATE;
 
-    constructor(public payload: {id: string, name: string,  value: number, maximum: number, type: string}) { }
+    constructor(public payload: {id: string, name: string,  value: number, maximum: number, type: string, component: string}) { }
 };
 
 // export class UpdateError implements Action {

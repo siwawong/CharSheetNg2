@@ -5,4 +5,5 @@ export class CharacterStat {
     maximum: number;
     type: string;
     updated: number;
+    component: string;
 };

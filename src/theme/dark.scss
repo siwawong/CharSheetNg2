@@ -21,6 +21,7 @@ $dividers: #212121;
 // variable changes. Should prolly move into class?
 // $toolbar-background: $primary;
 $text-input-md-highlight-color: $primary;
+// $range-md-pin-background-color: $primary;
 .dark-theme {
     // splashscreen {
     //     #splashContainer {
@@ -92,10 +93,10 @@ $text-input-md-highlight-color: $primary;
             border-bottom-color: $dividers;
         }
         .list-header {
-            background-color: $secondary;
-            color: $secondaryText;
+            background-color: $secondaryDark;
+            color: $secondaryTextLight;
             .button.button-clear {
-                color: $secondaryText;
+                color: $secondaryTextLight;
             }
         }
         .item.item-block.item-input {
@@ -112,6 +113,10 @@ $text-input-md-highlight-color: $primary;
             .range-bar.range-bar-active,
             .range-knob {
                 background: $primary;
+            }
+            .range-pin,
+            .range-pin::before {
+                background-color: $primary;
             }
         }
         .item-range {

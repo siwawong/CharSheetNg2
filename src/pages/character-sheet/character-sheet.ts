@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, ComponentFactoryResolver, OnInit, OnDestroy, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { style, state, animate, trigger, transition } from '@angular/animations';
@@ -10,20 +9,23 @@ import { Store } from '@ngrx/store';
 
 import { CharacterStat } from '../../app/models/stat-model';
 import { Character } from '../../app/models/character-model';
+import { STATCOMPONENTS } from '../../app/models/statComponents-model';
+
+import { StatComponent } from '../../components/stat/stat';
+import { StatFormChangeComponent } from '../../components/stat-form-change/stat-form-change';
+import { StatSliderChangeComponent } from '../../components/stat-slider-change/stat-slider-change';
+import { StatButtonChangeComponent } from '../../components/stat-button-change/stat-button-change';
 
 import * as fromRoot from '../../app/store/reducers';
 import * as StatActions from '../../app/store/actions/stat-actions';
 import * as NavActions from '../../app/store/actions/nav-actions';
 import * as PrefActions from '../../app/store/actions/preferences-actions';
 
-const RANGETIMEOUT = 1250;
-const EVENTDEBOUNCE = RANGETIMEOUT / 4;
-
 @IonicPage()
 @Component({
   selector: 'page-character-sheet',
   templateUrl: 'character-sheet.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('charTitle', [
       state('in',
@@ -48,149 +50,112 @@ const EVENTDEBOUNCE = RANGETIMEOUT / 4;
         }),
         animate(150)
       ])
-    ]),
-    trigger('activeRangeHeight', [
-      state('in', style({
-        height: '*',
-        overflow: 'hidden'
-      })),
-      transition('void => *', [
-        style({
-          height: '0px',
-          overflow: 'hidden'
-        }),
-        animate(250)
-      ])
     ])
+    // trigger('activeRangeHeight', [
+    //   state('in', style({
+    //     height: '*',
+    //     overflow: 'hidden'
+    //   })),
+    //   transition('void => *', [
+    //     style({
+    //       height: '0px',
+    //       overflow: 'hidden'
+    //     }),
+    //     animate(250)
+    //   ])
+    // ])
   ]
 })
 export class CharacterSheetPage {
-  @ViewChild('inputFocus') inputFoc: ElementRef;
+  @ViewChild('statsContainer', { read: ViewContainerRef }) container: ViewContainerRef;
+  // private statsComponents = [];
   private character: Observable<Character>;
-  private stats: Observable<CharacterStat[]>;
+  // private stats: Observable<CharacterStat[]>;
+  private currId: string | null;
+  private currRngVal  = 0;
+
+  private currSub: Subscription;
+  private statsSub: Subscription;
+  private rngValSub: Subscription;
+
   private currentStat: Observable<CharacterStat>;
-  private statSub: Subscription;
 
-  private timeoutRef;
-  private rangeValue: number;
-  private rangeMax: number;
-
-  private editStatForm: FormGroup;
-  private formValue: FormControl; 
-
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>, private compFactRes: ComponentFactoryResolver) { }
 
   ngOnInit() {
-    this.formValue = new FormControl('', Validators.required);
-
-    this.editStatForm = new FormGroup({
-      value: this.formValue
-    });
-
-    this.statSub = this.store.select(fromRoot.getStat).subscribe((stat) => {
-      if (stat) {
-        this.calcRange(stat);
-        if (stat.maximum < 1) {
-          // Seems Jank
-          setTimeout(() => {
-            this.inputFoc.nativeElement.focus();
-          },150);
-        }
-      }
-    });
-
     this.character = this.store.select(fromRoot.getCharacter);
-    this.stats = this.store.select(fromRoot.getStats);
     this.currentStat = this.store.select(fromRoot.getStat);
+
+    this.currSub = this.store.select(fromRoot.getStatId).subscribe((id) => {
+      this.currId = id;
+    });
+
+    this.statsSub = this.store.select(fromRoot.getStats).subscribe((stats) => {
+      this.buildComponentList(stats);
+    });
   }
 
-  selectStat(stat: CharacterStat, index: number) {
-    this.store.dispatch(new StatActions.Select(index));
-    this.calcRange(stat);    
-  }
+  // ngAfterViewInit() {
+    // this.stats = this.store.select(fromRoot.getStats);
+
+    // this.store.select(fromRoot.getStats), (action, stats) => {
+    //   this.buildComponentList(stats);
+    // };
+  // }
 
   unselectStat() {
     this.store.dispatch(new StatActions.Unselect());
-  }
-
-  calcRange(stat: CharacterStat) {
-    this.rangeMax = stat.maximum;
-    this.rangeValue = stat.value;
-  }
-
-  rangeChange(stat: CharacterStat) {
-    clearInterval(this.timeoutRef);
-    this.timeoutRef = setInterval(() => {
-      this.rangeEnd(stat);
-    }, RANGETIMEOUT);
-  }
-
-  rangeEnd(stat: CharacterStat) {
-    clearInterval(this.timeoutRef);
-    const newStat =  {id: stat.id, name: stat.name, value: this.rangeValue, maximum: stat.maximum, type: stat.type};
-    // console.log(`End ${JSON.stringify(newStat)}`); 
-    this.store.dispatch(new StatActions.Update(newStat));
-  }
-  
-  rangeClick(stat: CharacterStat, type: string) {
-    // console.log(`click ${JSON.stringify(stat)}`);
-    if (type === 'PLUS') {
-      this.rangeValue += 1;      
-    } else {
-      this.rangeValue -= 1;      
-    }
-    this.rangeChange(stat);    
-  }
-
-  formChange(stat: CharacterStat, type: string, evt: Event) {
-    evt.preventDefault();
-    let newValue;
-    let subNum = this.editStatForm.get('value').value;
-    if (type === 'PLUS') {
-      newValue = stat.value + subNum;      
-    } else {
-      newValue = stat.value - subNum;
-    }
-    this.store.dispatch(new StatActions.Update({id: stat.id, name: stat.name, value: newValue, maximum: stat.maximum, type: stat.type}));    
-    this.formValue.setValue('');
-  }
-
-  removeStat(stat: CharacterStat) {
-    const toRemove = stat.id;
-    this.store.dispatch(new StatActions.Remove(toRemove));
   }
 
   createStat() {
     this.store.dispatch(new NavActions.CreateStat());
   }
 
-  getVis(value: number, maximum: number) {
-    if (maximum < 1) {
-      return false;
-    } else if (value >= maximum) {
-      return false;
-    } else {
-      return true;
-    }
+  editStat() {
+    this.store.dispatch(new NavActions.CreateStat('EDITMODE'));
   }
 
-  refresh(stat: CharacterStat) {
-    // console.log(`refresh ${JSON.stringify(stat)}`);    
-    this.store.dispatch(new StatActions.Update({
-        id: stat.id,
-        name: stat.name,
-        value: stat.maximum,
-        maximum: stat.maximum,
-        type: stat.type
-      }));
+  buildComponentList(statsList: CharacterStat[]) {
+    if (this.rngValSub !== undefined) {
+      this.currRngVal = 0;
+      this.rngValSub.unsubscribe();
+    }
+    this.container.clear();
+    // console.log('BUILD COMPONENT');
+    statsList.forEach((stat, index) => {
+      if (stat.id !== this.currId) {
+        const componentFactory = this.compFactRes.resolveComponentFactory(StatComponent);
+        const component = this.container.createComponent(componentFactory);
+        (<StatComponent>component.instance).stat = stat;
+        (<StatComponent>component.instance).index = index;
+      } else {
+        const componentFactory = this.compFactRes.resolveComponentFactory(STATCOMPONENTS[stat.component]);
+        const component = this.container.createComponent(componentFactory);
+        // Component Ref requires explicitly calling the component
+        switch (stat.component) {
+          case 'form': {
+            (<StatFormChangeComponent>component.instance).stat = stat;
+            break;
+          };
+          case 'slide': {
+            (<StatSliderChangeComponent>component.instance).stat = stat;
+            this.rngValSub = (<StatSliderChangeComponent>component.instance).rngValue.subscribe((compRngVal) => {
+              this.currRngVal = compRngVal;
+            });
+            break;
+          };
+          case 'button': {
+            (<StatButtonChangeComponent>component.instance).stat = stat;
+            break;          
+          };
+        }
+      }
+    });
   }
 
   ngOnDestroy() {
-    this.statSub.unsubscribe();
-  }
-
-  editStat() {
-    this.store.dispatch(new NavActions.CreateStat('EDITMODE'));
+    this.currSub.unsubscribe();
+    this.statsSub.unsubscribe();
   }
 
 }
